@@ -78,6 +78,23 @@
 .medal.m1 { background: linear-gradient(180deg, #fbe7a1 0%, #e2b33c 38%, #b8861b 62%, #f0cf6a 100%); }
 .medal.m2 { background: linear-gradient(180deg, #ffffff 0%, #d5d8dc 38%, #9aa0a6 62%, #e6e8ea 100%); }
 .medal.m3 { background: linear-gradient(180deg, #f6c79d 0%, #cd8a4f 38%, #96572a 62%, #e2a774 100%); }
+/* medal styles (league.json → brand.medal_style: any of tab, disc, bar, podium, badge) */
+.bar .disc { position: absolute; left: -8.4vw; top: 50%; width: 6.6vw; height: 6.6vw; margin-top: -3.3vw; border-radius: 50%; display: grid; place-items: center;
+  font-weight: 800; font-size: 4.2vw; color: #3a2a10; opacity: 0; will-change: transform, opacity;
+  box-shadow: 0 .3vw .8vw rgba(23,20,18,.3), inset 0 0 0 .35vw rgba(255,255,255,.45), inset 0 -.5vw .8vw rgba(0,0,0,.18); }
+.disc.m1 { background: radial-gradient(circle at 35% 30%, #fff3c4, #e6b83e 45%, #a87814 100%); }
+.disc.m2 { background: radial-gradient(circle at 35% 30%, #ffffff, #cfd3d8 45%, #868c93 100%); color: #2c3036; }
+.disc.m3 { background: radial-gradient(circle at 35% 30%, #ffd9b3, #cf8a4c 45%, #85461c 100%); color: #3b1d08; }
+.bar .metal { position: absolute; inset: 0; border-radius: .4vw; opacity: 0; will-change: clip-path, opacity; }
+.metal.m1 { background: linear-gradient(180deg, #f3d77a, #d9a92e 45%, #b0811a 55%, #e9c55c); }
+.metal.m2 { background: linear-gradient(180deg, #f2f3f5, #c4c8cd 45%, #9ba1a7 55%, #dde0e3); }
+.metal.m3 { background: linear-gradient(180deg, #ecb98c, #c9844a 45%, #9b5a2a 55%, #dda070); }
+.metal ~ .val { }
+.bar .glow3 { position: absolute; left: -9vw; right: -2vw; top: -.6vw; bottom: -.6vw; border-radius: 1.2vw; opacity: 0; will-change: opacity; }
+.glow3.m1 { background: radial-gradient(ellipse at 22% 50%, rgba(230,184,62,.26), transparent 62%); }
+.glow3.m2 { background: radial-gradient(ellipse at 22% 50%, rgba(160,166,173,.26), transparent 62%); }
+.glow3.m3 { background: radial-gradient(ellipse at 22% 50%, rgba(205,138,76,.26), transparent 62%); }
+.bar .who b .icon { display: inline-block; width: 4.6vw; height: 4.6vw; vertical-align: -.7vw; margin-left: 1.2vw; opacity: 0; will-change: transform, opacity; }
 .bar .gold { position: absolute; inset: 0; background: var(--crimson); border-radius: .4vw; opacity: 0; will-change: clip-path, opacity; }
 .empty-note { text-align: center; color: var(--ink2); font-size: 4.6vw; }
 
@@ -286,7 +303,18 @@ function buildTable() {
   } };
 }
 
+// gold icons for the leader in 'badge' style: a boot for goals, boot and ball for assists
+const ICONS = (() => {
+  const g = '<defs><linearGradient id="gi" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbe7a1"/><stop offset=".5" stop-color="#d9a92e"/><stop offset="1" stop-color="#a87814"/></linearGradient></defs>';
+  const boot = '<path fill="url(#gi)" stroke="#6b4a0a" stroke-width=".6" d="M3 4.5h5.2l.9 4.6c3.4.6 7.7 1.9 10.6 3.2 1.4.6 2.3 1.7 2.3 3V17H3z"/><path fill="#6b4a0a" d="M4.5 17h2v2h-2zM9 17h2v2H9zM13.5 17h2v2h-2zM18 17h2v2h-2z"/>';
+  return {
+    scorers: `<svg class="icon" viewBox="0 0 24 24">${g}${boot}</svg>`,
+    assists: `<svg class="icon" viewBox="0 0 24 24">${g}<g transform="translate(-1 0) scale(.82)">${boot}</g><circle cx="20" cy="17" r="3.4" fill="url(#gi)" stroke="#6b4a0a" stroke-width=".6"/></svg>`,
+  };
+})();
 function buildRace(key, field, kicker, title) {
+  const STYLE = new Set(String(OPTS.medal_style ?? D.brand?.medal_style ?? 'tab').split(/[\s,+]+/));
+  const TIES = OPTS.medal_ties ?? D.brand?.medal_ties ?? 'shared';
   const list = D[key];
   if (key === 'assists' && !D.stats.assists_recorded) return null;
   const n = el('section', 'scene');
@@ -301,14 +329,22 @@ function buildRace(key, field, kicker, title) {
   race.append(...ranks);
   const items = top.map((r, i) => {
     // medal by standing, ties share it (two players level on 2nd are both silver, and there's no bronze)
-    const place = 1 + top.filter((x) => x[field] > r[field]).length;
+    const place = TIES === 'strict' ? i + 1 : 1 + top.filter((x) => x[field] > r[field]).length;
+    const m = place <= 3 ? `m${place}` : null;
     const b = el('div', 'bar num'), who = el('div', 'who'), track = el('div', 'track'), fill = el('div', 'fill'), gold = el('div', 'gold'), cap = el('div', 'cap');
-    const medal = place <= 3 ? el('div', `medal m${place}`) : null;
+    const medal = m && STYLE.has('tab') ? el('div', `medal ${m}`) : null;
+    const disc = m && (STYLE.has('disc') || STYLE.has('podium')) ? el('div', `disc ${m}`, String(place)) : null;
+    const metal = m && STYLE.has('bar') ? el('div', `metal ${m}`) : null;
+    const glow3 = m && STYLE.has('podium') ? el('div', `glow3 ${m}`) : null;
     const val = roller(r.prev, r[field]); val.node.classList.add('val');
-    who.append(el('b', null, r.player), el('small', null, r.team.toUpperCase()));
-    track.append(...[fill, gold, cap, medal, val.node].filter(Boolean)); b.append(who, track); race.append(b);
+    const name = el('b', null, r.player);
+    let icon = null;
+    if (place === 1 && STYLE.has('badge')) { const w = document.createElement('span'); w.innerHTML = ICONS[key]; icon = w.firstElementChild; name.append(icon); }
+    who.append(name, el('small', null, r.team.toUpperCase()));
+    track.append(...[fill, STYLE.has('bar') ? null : gold, metal, cap, medal, val.node].filter(Boolean));
+    b.append(...[glow3, disc, who, track].filter(Boolean)); race.append(b);
     const pi = prevOrder.findIndex((x) => x.player === r.player);
-    return { b, fill, gold, cap, medal, place, val, r, from: pi >= 0 && pi < N ? pi : N, to: i };
+    return { b, fill, gold, cap, medal, disc, metal, glow3, icon, place, val, r, from: pi >= 0 && pi < N ? pi : N, to: i };
   });
   n.append(race);
   let trackW = 0;
@@ -331,12 +367,24 @@ function buildRace(key, field, kicker, title) {
       it.fill.style.clipPath = clip; it.gold.style.clipPath = clip;
       it.gold.style.opacity = (it.to === 0 ? smooth((t - START - DUR + .2) / .8) : 0).toFixed(3);
       it.cap.style.transform = tf(w - 1, 0);
+      // medals arrive once the race has settled: gold first, then silver, then bronze
+      const m = clamp((t - START - DUR + .3 - (it.place - 1) * .18) / .7);
       if (it.medal) {
-        // the medal arrives once the race has settled: gold first, then silver, then bronze
-        const m = clamp((t - START - DUR + .3 - (it.place - 1) * .18) / .7);
         it.medal.style.opacity = smooth(m * 1.4).toFixed(3);
         it.medal.style.transform = `${tf(w - 1.4, 0)} scaleY(${(.5 + .5 * settle(m)).toFixed(4)})`;
       }
+      if (it.disc) {
+        const drop = STYLE.has('podium') ? (1 - settle(m)) * -5 : 0;
+        it.disc.style.opacity = smooth(m * 1.6).toFixed(3);
+        it.disc.style.transform = `${tf(0, drop, .4 + .6 * settle(m))} rotate(${((1 - smooth(m)) * -90).toFixed(2)}deg)`;
+        ranks[it.to].style.opacity = (1 - smooth(m * 1.6)).toFixed(3);
+      }
+      if (it.metal) { it.metal.style.clipPath = clip; it.metal.style.opacity = smooth(m).toFixed(3); }
+      if (it.glow3) {
+        it.glow3.style.opacity = smooth(m).toFixed(3);
+        it.b.style.transform = tf(o.x, y * BAR - 0.6 * smooth(m), o.s * (1 + .025 * smooth(m)));
+      }
+      if (it.icon) { it.icon.style.opacity = smooth(m * 1.4).toFixed(3); it.icon.style.transform = `scale(${(.3 + .7 * settle(m)).toFixed(4)}) rotate(${((1 - smooth(m)) * -25).toFixed(2)}deg)`; }
       it.val.node.style.transform = tf(w + 2.4, 0);
       it.val.set(v);
     }
