@@ -73,6 +73,11 @@
 .bar .fill { position: absolute; inset: 0; background: var(--ink); border-radius: .4vw; will-change: clip-path; }
 .bar .cap { position: absolute; left: 0; top: 0; bottom: 0; width: 1vw; background: var(--crimson); will-change: transform; }
 .bar .val { position: absolute; left: 0; top: 50%; margin-top: -3.5vw; height: 7vw; font-weight: 800; font-size: 7vw; color: var(--ink); will-change: transform; }
+.bar .medal { position: absolute; left: 0; top: -.3vw; bottom: -.3vw; width: 1.8vw; border-radius: .3vw; opacity: 0; will-change: transform, opacity;
+  box-shadow: 0 .2vw .6vw rgba(23,20,18,.25), inset 0 0 0 .12vw rgba(255,255,255,.35); }
+.medal.m1 { background: linear-gradient(180deg, #fbe7a1 0%, #e2b33c 38%, #b8861b 62%, #f0cf6a 100%); }
+.medal.m2 { background: linear-gradient(180deg, #ffffff 0%, #d5d8dc 38%, #9aa0a6 62%, #e6e8ea 100%); }
+.medal.m3 { background: linear-gradient(180deg, #f6c79d 0%, #cd8a4f 38%, #96572a 62%, #e2a774 100%); }
 .bar .gold { position: absolute; inset: 0; background: var(--crimson); border-radius: .4vw; opacity: 0; will-change: clip-path, opacity; }
 .empty-note { text-align: center; color: var(--ink2); font-size: 4.6vw; }
 
@@ -295,12 +300,15 @@ function buildRace(key, field, kicker, title) {
   const ranks = top.map((_, i) => { const r = el('div', 'slotrank num', String(i + 1)); r.style.transform = tf(0, i * BAR); return r; });
   race.append(...ranks);
   const items = top.map((r, i) => {
+    // medal by standing, ties share it (two players level on 2nd are both silver, and there's no bronze)
+    const place = 1 + top.filter((x) => x[field] > r[field]).length;
     const b = el('div', 'bar num'), who = el('div', 'who'), track = el('div', 'track'), fill = el('div', 'fill'), gold = el('div', 'gold'), cap = el('div', 'cap');
+    const medal = place <= 3 ? el('div', `medal m${place}`) : null;
     const val = roller(r.prev, r[field]); val.node.classList.add('val');
     who.append(el('b', null, r.player), el('small', null, r.team.toUpperCase()));
-    track.append(fill, gold, cap, val.node); b.append(who, track); race.append(b);
+    track.append(...[fill, gold, cap, medal, val.node].filter(Boolean)); b.append(who, track); race.append(b);
     const pi = prevOrder.findIndex((x) => x.player === r.player);
-    return { b, fill, gold, cap, val, r, from: pi >= 0 && pi < N ? pi : N, to: i };
+    return { b, fill, gold, cap, medal, place, val, r, from: pi >= 0 && pi < N ? pi : N, to: i };
   });
   n.append(race);
   let trackW = 0;
@@ -323,7 +331,13 @@ function buildRace(key, field, kicker, title) {
       it.fill.style.clipPath = clip; it.gold.style.clipPath = clip;
       it.gold.style.opacity = (it.to === 0 ? smooth((t - START - DUR + .2) / .8) : 0).toFixed(3);
       it.cap.style.transform = tf(w - 1, 0);
-      it.val.node.style.transform = tf(w + 2, 0);
+      if (it.medal) {
+        // the medal arrives once the race has settled: gold first, then silver, then bronze
+        const m = clamp((t - START - DUR + .3 - (it.place - 1) * .18) / .7);
+        it.medal.style.opacity = smooth(m * 1.4).toFixed(3);
+        it.medal.style.transform = `${tf(w - 1.4, 0)} scaleY(${(.5 + .5 * settle(m)).toFixed(4)})`;
+      }
+      it.val.node.style.transform = tf(w + 2.4, 0);
       it.val.set(v);
     }
   } };
