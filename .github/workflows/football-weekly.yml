@@ -1,0 +1,68 @@
+name: Football weekly render
+
+# Whenever new results land in league/data/, render that week's recap video and
+# graphics and commit them back, so everything is saved in the repo automatically.
+on:
+  push:
+    paths:
+      - "league/data/**"
+      - "league/league.json"
+  workflow_dispatch:
+    inputs:
+      week:
+        description: "Week to render (blank = latest)"
+        required: false
+      force:
+        description: "Re-render even if already rendered"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: football-weekly-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip render]')"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install ffmpeg and Playwright Chromium
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          npm i -g playwright@1
+          npx playwright install --with-deps chromium
+
+      - name: Check the data
+        run: node higgsfield-football-league/scripts/league.mjs check
+
+      - name: Render video and graphics
+        run: |
+          S=higgsfield-football-league/scripts
+          if node $S/league.mjs status | grep -q "weeks: none"; then echo "no results yet"; exit 0; fi
+          WEEK="${{ github.event.inputs.week }}"
+          ARGS=""
+          [ -n "$WEEK" ] && ARGS="--week $WEEK"
+          [ "${{ github.event.inputs.force }}" = "true" ] || ARGS="$ARGS --if-changed"
+          out=$(node $S/render.mjs $ARGS | tee /dev/stderr)
+          if ! echo "$out" | grep -q "skipping"; then
+            node $S/graphic.mjs fulltime ${WEEK:+--week $WEEK}
+            node $S/graphic.mjs potw ${WEEK:+--week $WEEK} || true
+          fi
+
+      - name: Commit outputs
+        run: |
+          git config user.name "football-weekly[bot]"
+          git config user.email "football-weekly[bot]@users.noreply.github.com"
+          git add league
+          if git diff --cached --quiet; then echo "nothing new"; exit 0; fi
+          git commit -m "League: render week outputs [skip render]"
+          git push

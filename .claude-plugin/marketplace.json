@@ -8,7 +8,7 @@
     {
       "name": "higgsfield",
       "source": "./",
-      "description": "Image/video generation, complete brand systems, narrated explainers, YouTube thumbnails, browser games, Marketing Studio, video engagement analysis, and Soul Character training via the Higgsfield CLI.",
+      "description": "Image/video generation, complete brand systems, narrated explainers, YouTube thumbnails, browser games, Marketing Studio, video engagement analysis, and Soul Character training, plus a weekly football league recap (table, scorers, animated video, matchday graphics) via the Higgsfield CLI.",
       "version": "0.13.0",
       "skills": [
         "./higgsfield-generate",
@@ -18,7 +18,8 @@
         "./higgsfield-marketplace-cards",
         "./higgsfield-websites",
         "./higgsfield-video-explainer",
-        "./higgsfield-youtube-thumbnail"
+        "./higgsfield-youtube-thumbnail",
+        "./higgsfield-football-league"
       ]
     }
   ]

@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Darul Uloom Football League — weekly</title>
+<link rel="stylesheet" href="common.css">
+<style>
+/* Everything that moves is driven through transform/opacity/clip-path (composited, sub-pixel),
+   never top/left/width, so motion is smooth rather than snapping to whole pixels. */
+#stage { position: absolute; inset: 0; overflow: hidden; }
+.glow { position: absolute; z-index: 1; left: -30vw; right: -30vw; top: -20vw; height: 120vw; will-change: transform;
+  background: radial-gradient(ellipse at center, rgba(250,246,238,.95), rgba(250,246,238,0) 60%); }
+
+.chrome-top { position: absolute; left: 0; right: 0; top: 0; height: 9vw; background: var(--ink); color: var(--cream); border-bottom: .8vw solid var(--crimson);
+  display: flex; align-items: center; justify-content: space-between; padding: 0 5vw; font-weight: 700; letter-spacing: .3vw; text-transform: uppercase; font-size: 3.2vw; z-index: 50; }
+.chrome-top b { color: var(--crimson-lt); font-weight: 800; }
+.progress { position: absolute; left: 0; right: 0; bottom: 0; height: .9vw; background: rgba(23,20,18,.08); z-index: 50; }
+.progress i { position: absolute; inset: 0; background: var(--crimson); transform-origin: 0 50%; will-change: transform; }
+.still .progress { display: none; }
+
+.scene { position: absolute; left: 0; right: 0; top: 9vw; bottom: 3vw; z-index: 2; display: flex; flex-direction: column; justify-content: center; padding: 0 6vw;
+  opacity: 0; will-change: transform, opacity; }
+.mask { overflow: hidden; display: block; }
+.mask > * { display: block; will-change: transform; }
+
+/* intro */
+.intro .bism { text-align: center; font-size: 6.2vw; color: var(--crimson); line-height: 2.1; }
+.intro .arname { text-align: center; font-size: 9vw; line-height: 1.6; color: var(--ink); font-weight: 700; }
+.intro .line1 { text-align: center; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2vw; font-size: 8vw; color: var(--crimson); line-height: 1.05; }
+.intro .line2 { text-align: center; font-weight: 800; text-transform: uppercase; letter-spacing: .3vw; font-size: 15.5vw; line-height: .95; }
+.intro .week { text-align: center; font-weight: 800; font-size: 8.5vw; letter-spacing: .4vw; text-transform: uppercase; }
+.intro .date { text-align: center; color: var(--ink2); font-size: 4.4vw; margin-top: .6vw; letter-spacing: .2vw; }
+.intro .crests { margin-top: 7vw; }
+.rule span { transform-origin: center; }
+
+/* results */
+.match { background: var(--ink); color: var(--cream); border-bottom: .8vw solid var(--crimson); border-radius: .6vw; padding: 3.6vw 3.6vw 3vw; margin-bottom: 3.6vw; will-change: transform, opacity; }
+.match-row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 2vw; }
+.side { display: flex; flex-direction: column; align-items: center; gap: 1.2vw; min-width: 0; text-align: center; }
+.side svg { width: 14vw; flex: none; }
+.side .nm { font-weight: 700; font-size: 5.2vw; line-height: 1; white-space: nowrap; }
+.side .nm small { display: block; font-family: 'Amiri', serif; font-weight: 700; color: var(--crimson-lt); font-size: 4.4vw; line-height: 1.7; }
+.score { font-weight: 800; font-size: 15vw; line-height: 1; letter-spacing: .4vw; white-space: nowrap; display: flex; align-items: center; }
+.score em { font-style: normal; color: var(--crimson-lt); margin: 0 1.4vw; }
+.scorers-line { display: grid; grid-template-columns: 1fr 1fr; gap: 3vw; margin-top: 2.4vw; padding-top: 2.2vw; border-top: .2vw solid rgba(242,235,221,.18); font-size: 3.6vw; line-height: 1.35; color: #e6dccb; }
+.scorers-line > div:last-child { text-align: right; }
+.scorers-line .as { color: #a89d8c; font-size: 3vw; margin-left: 1.4vw; white-space: nowrap; }
+.scorers-line > div > div { will-change: transform, opacity; }
+
+/* table */
+.tbl-head, .trow { display: grid; grid-template-columns: 6vw 9vw 1fr 5vw 11vw 8vw 9vw 8vw; align-items: center; column-gap: .6vw; }
+.tbl-head { color: var(--crimson); font-weight: 700; font-size: 3.4vw; letter-spacing: .2vw; padding: 0 2vw 1.6vw; border-bottom: .35vw solid var(--ink); text-align: right; }
+.tbl-head span:nth-child(3) { text-align: left; }
+.tbl-body { position: relative; }
+.trow { position: absolute; left: 0; right: 0; top: 0; height: 13vw; padding: 0 2vw; border-bottom: .2vw solid var(--line); font-size: 4.6vw; text-align: right; will-change: transform; }
+.trow .pos { visibility: hidden; }
+.slotnum { position: absolute; left: 2vw; width: 6vw; height: 13vw; display: flex; align-items: center; font-weight: 800; font-size: 6vw; z-index: 60; pointer-events: none; }
+.trow svg { width: 7.6vw; }
+.trow .tm { text-align: left; font-weight: 700; font-size: 5vw; white-space: nowrap; overflow: hidden; }
+.trow .pts { font-weight: 800; font-size: 6.4vw; }
+.trow .wdl { opacity: .62; font-size: 4vw; }
+.trow .mv { font-weight: 800; font-size: 4vw; text-align: center; will-change: transform, opacity; }
+.mv.up { color: var(--up); } .mv.down { color: var(--down); } .mv.same { opacity: .55; }
+
+/* race */
+.race { position: relative; }
+.slotrank { position: absolute; left: 0; width: 6vw; height: 11vw; display: flex; align-items: center; font-weight: 800; font-size: 5.4vw; color: var(--ink2); }
+.bar { position: absolute; left: 7vw; right: 0; top: 0; height: 11vw; display: grid; grid-template-columns: 30vw 1fr; align-items: center; column-gap: 2vw; will-change: transform, opacity; }
+.bar .who { line-height: 1.05; min-width: 0; }
+.bar .who b { display: block; font-weight: 700; font-size: 4.6vw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bar .who small { display: block; font-size: 3vw; color: var(--ink2); letter-spacing: .15vw; white-space: nowrap; }
+.bar .track { position: relative; height: 8vw; }
+.bar .fill { position: absolute; inset: 0; background: var(--ink); border-radius: .4vw; will-change: clip-path; }
+.bar .cap { position: absolute; left: 0; top: 0; bottom: 0; width: 1vw; background: var(--crimson); will-change: transform; }
+.bar .val { position: absolute; left: 0; top: 50%; margin-top: -3.5vw; height: 7vw; font-weight: 800; font-size: 7vw; color: var(--ink); will-change: transform; }
+.bar .medal { position: absolute; left: 0; top: -.3vw; bottom: -.3vw; width: 1.8vw; border-radius: .3vw; opacity: 0; will-change: transform, opacity;
+  box-shadow: 0 .2vw .6vw rgba(23,20,18,.25), inset 0 0 0 .12vw rgba(255,255,255,.35); }
+.medal.m1 { background: linear-gradient(180deg, #fbe7a1 0%, #e2b33c 38%, #b8861b 62%, #f0cf6a 100%); }
+.medal.m2 { background: linear-gradient(180deg, #ffffff 0%, #d5d8dc 38%, #9aa0a6 62%, #e6e8ea 100%); }
+.medal.m3 { background: linear-gradient(180deg, #f6c79d 0%, #cd8a4f 38%, #96572a 62%, #e2a774 100%); }
+/* medal styles (league.json → brand.medal_style: any of tab, disc, bar, podium, badge) */
+.bar .disc { position: absolute; left: -8.4vw; top: 50%; width: 6.6vw; height: 6.6vw; margin-top: -3.3vw; border-radius: 50%; display: grid; place-items: center;
+  font-weight: 800; font-size: 4.2vw; color: #3a2a10; opacity: 0; will-change: transform, opacity;
+  box-shadow: 0 .3vw .8vw rgba(23,20,18,.3), inset 0 0 0 .35vw rgba(255,255,255,.45), inset 0 -.5vw .8vw rgba(0,0,0,.18); }
+.disc.m1 { background: radial-gradient(circle at 35% 30%, #fff3c4, #e6b83e 45%, #a87814 100%); }
+.disc.m2 { background: radial-gradient(circle at 35% 30%, #ffffff, #cfd3d8 45%, #868c93 100%); color: #2c3036; }
+.disc.m3 { background: radial-gradient(circle at 35% 30%, #ffd9b3, #cf8a4c 45%, #85461c 100%); color: #3b1d08; }
+.bar .metal { position: absolute; inset: 0; border-radius: .4vw; opacity: 0; will-change: clip-path, opacity; }
+.metal.m1 { background: linear-gradient(180deg, #f3d77a, #d9a92e 45%, #b0811a 55%, #e9c55c); }
+.metal.m2 { background: linear-gradient(180deg, #f2f3f5, #c4c8cd 45%, #9ba1a7 55%, #dde0e3); }
+.metal.m3 { background: linear-gradient(180deg, #ecb98c, #c9844a 45%, #9b5a2a 55%, #dda070); }
+.metal ~ .val { }
+.bar .glow3 { position: absolute; left: -9vw; right: -2vw; top: -.6vw; bottom: -.6vw; border-radius: 1.2vw; opacity: 0; will-change: opacity; }
+.glow3.m1 { background: radial-gradient(ellipse at 22% 50%, rgba(230,184,62,.26), transparent 62%); }
+.glow3.m2 { background: radial-gradient(ellipse at 22% 50%, rgba(160,166,173,.26), transparent 62%); }
+.glow3.m3 { background: radial-gradient(ellipse at 22% 50%, rgba(205,138,76,.26), transparent 62%); }
+.bar .who b .icon { display: inline-block; width: 4.6vw; height: 4.6vw; vertical-align: -.7vw; margin-left: 1.2vw; opacity: 0; will-change: transform, opacity; }
+.bar .gold { position: absolute; inset: 0; background: var(--crimson); border-radius: .4vw; opacity: 0; will-change: clip-path, opacity; }
+.empty-note { text-align: center; color: var(--ink2); font-size: 4.6vw; }
+
+/* talking points */
+.tp { display: grid; gap: 3vw; }
+.tp-card { background: var(--paper); border: .2vw solid var(--line); border-left: 1.4vw solid var(--crimson); border-radius: .6vw; padding: 3vw 3.6vw; display: flex; align-items: center; gap: 3vw; will-change: transform, opacity; }
+.tp-card svg { width: 11vw; flex: none; }
+.tp-card .k { color: var(--crimson); font-weight: 700; text-transform: uppercase; letter-spacing: .3vw; font-size: 3.2vw; }
+.tp-card .v { font-weight: 800; font-size: 6.6vw; line-height: 1.05; }
+.tp-card .s { color: var(--ink2); font-size: 3.6vw; margin-top: .4vw; }
+
+/* outro */
+.outro .line1 { text-align: center; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2vw; font-size: 7vw; color: var(--crimson); line-height: 1.05; }
+.outro .line2 { text-align: center; font-weight: 800; text-transform: uppercase; letter-spacing: .3vw; font-size: 13vw; line-height: .95; margin-bottom: 1.6vw; }
+.outro .sub { text-align: center; color: var(--ink2); font-size: 4.6vw; letter-spacing: .2vw; }
+.outro .crests { margin: 0 0 6vw; }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script src="common.js"></script>
+<script>
+let D, OPTS, SCENES = [], TOTAL = 0, team, bar, wm, glow;
+const TRANS = 0.9;          // scenes crossfade into each other over this long
+const vw = () => window.innerWidth / 100;
+const tf = (x = 0, y = 0, s = 1) => `translate3d(${x.toFixed(3)}vw, ${y.toFixed(3)}vw, 0) scale(${s.toFixed(4)})`;
+// split a phrase into masked lines that slide up into view
+function reveal(text, cls) { const m = el('div', `mask ${cls}`), inner = el('span', null, text); m.append(inner); return { node: m, inner }; }
+const lines = () => D.title_lines?.length ? D.title_lines : [D.league];
+
+window.init = (data, opts = {}) => {
+  D = data; OPTS = opts;
+  team = (name) => teamOf(D.teams, name);
+  const root = document.getElementById('stage');
+  root.replaceChildren();
+  document.body.classList.toggle('still', !!opts.still);
+  applyBrand(D.brand);
+
+  glow = el('div', 'glow');
+  wm = logoField(D.logo, D.brand?.watermark_opacity ?? .07);
+  root.append(...[wm, glow].filter(Boolean));
+  const top = el('div', 'chrome-top');
+  top.append(el('span', null, D.league), (() => { const s = el('span'); s.append('Matchweek '); s.append(el('b', null, String(D.week))); return s; })());
+  root.append(top);
+
+  const all = [buildIntro(), buildResults(), buildTable(), buildRace('scorers', 'goals', 'Golden boot', 'Top goalscorers'),
+    buildRace('assists', 'assists', 'Playmakers', 'Top assists'), buildTalkingPoints(), buildOutro()].filter(Boolean);
+  SCENES = opts.only ? all.filter((s) => s.id === opts.only) : all;
+  if (!SCENES.length) throw new Error(`no scene "${opts.only}"`);
+  let t = 0;
+  for (const [i, s] of SCENES.entries()) { s.start = i === 0 ? 0 : t - TRANS; t = s.start + s.dur; root.append(s.node); s.node.style.zIndex = String(10 + i); }
+  TOTAL = t;
+
+  const pg = el('div', 'progress'); bar = el('i'); pg.append(bar); root.append(pg);
+  return { duration: TOTAL, scenes: SCENES.map((s) => ({ id: s.id, start: s.start, dur: s.dur, still: s.still })) };
+};
+
+window.renderAt = (t) => {
+  // the logo field drifts slowly up and to the left, so the frame is never fully static
+  if (wm) wm.style.transform = tf(-((t * .9) % (LOGO_TILE * 2)), -((t * 1.5) % (LOGO_TILE * 2)));
+  glow.style.transform = tf(Math.sin(t * .35) * 8, Math.cos(t * .27) * 5);
+  bar.style.transform = `scaleX(${clamp(t / TOTAL).toFixed(5)})`;
+  for (const s of SCENES) {
+    const lt = t - s.start, on = lt >= 0 && lt < s.dur;
+    s.node.style.visibility = on ? 'visible' : 'hidden';
+    if (!on) continue;
+    // shrink a scene whose content is taller than the frame (e.g. two result cards in a 4:5 post)
+    if (s.fit == null) {
+      s.node.style.transform = ''; s.node.style.justifyContent = 'flex-start';
+      const kids = [...s.node.children], a = kids[0].getBoundingClientRect().top, z = Math.max(...kids.map((k) => k.getBoundingClientRect().bottom));
+      s.node.style.justifyContent = '';
+      s.fit = Math.min(1, (s.node.clientHeight - 3 * vw()) / Math.max(1, z - a));
+    }
+    if (OPTS.still) { s.node.style.opacity = 1; s.node.style.transform = `scale(${s.fit.toFixed(4)})`; }
+    else {
+      const first = s === SCENES[0], last = s === SCENES[SCENES.length - 1];
+      // staggered handover: the old scene lifts away in the first ~60% of the window,
+      // the new one rises in over the last ~65%, so text never sits on text
+      const qin = lt / TRANS, qout = (lt - (s.dur - TRANS)) / TRANS;
+      const pin = first ? 1 : smooth((qin - .35) / .65), mvin = first ? 1 : smooth(qin);
+      const pout = last ? 0 : smooth(qout / .6), mvout = last ? 0 : smooth(qout);
+      s.node.style.opacity = (pin * (1 - pout)).toFixed(4);
+      s.node.style.transform = tf(0, (1 - mvin) * 8 - mvout * 7, s.fit * (1 - mvout * .03 + (1 - mvin) * .02));
+    }
+    s.draw(lt);
+  }
+};
+// a moment in each scene where everything has settled, for still cards
+window.stillTime = (id) => { const s = SCENES.find((x) => x.id === id); return s.start + (s.still ?? s.dur - TRANS - .1); };
+
+// ---------- scenes ----------
+function buildIntro() {
+  const n = el('section', 'scene intro');
+  const bism = el('div', 'ar bism', D.brand?.bismillah || '');
+  const arname = D.arabic_name ? el('div', 'ar arname', plainAr(D.arabic_name)) : null;
+  const ls = lines(), l1 = ls.length > 1 ? reveal(ls[0], 'line1') : null, l2 = reveal(ls[ls.length - 1], 'line2');
+  const rule = starRule();
+  const week = reveal(`Matchweek ${D.week}`, 'week');
+  const date = el('div', 'date', fmtDate(D.date));
+  const crests = el('div', 'crests'); const cs = D.teams.map((t) => crest(t)); crests.append(...cs);
+  n.append(...[bism, arname, l1?.node, l2.node, rule, week.node, date, crests].filter(Boolean));
+  const ruleBits = [...rule.children];
+  return { id: 'intro', node: n, dur: 4.6, still: 3.6, draw(t) {
+    bism.style.opacity = smooth((t - .1) / .9).toFixed(3);
+    bism.style.transform = tf(0, (1 - smooth((t - .1) / 1.1)) * 3);
+    if (arname) { arname.style.opacity = smooth((t - .35) / .8).toFixed(3); arname.style.transform = tf(0, (1 - smooth((t - .35) / 1)) * 3); }
+    if (l1) l1.inner.style.transform = tf(0, (1 - expoOut(clamp((t - .55) / .9))) * 11);
+    l2.inner.style.transform = tf(0, (1 - expoOut(clamp((t - .7) / 1))) * 18);
+    ruleBits.forEach((b, i) => { const p = smooth((t - 1.1) / .8); b.style.transform = i === 1 ? `rotate(${(1 - p) * 180}deg) scale(${p.toFixed(3)})` : `scaleX(${p.toFixed(3)})`; });
+    week.inner.style.transform = tf(0, (1 - expoOut(clamp((t - 1.25) / .9))) * 10);
+    date.style.opacity = smooth((t - 1.5) / .6).toFixed(3);
+    cs.forEach((c, i) => { const p = clamp((t - 1.7 - i * .14) / .9); c.style.opacity = smooth(p * 1.6).toFixed(3); c.style.transform = tf(0, (1 - settle(p)) * 6, .6 + .4 * settle(p)); });
+  } };
+}
+
+function goalLines(goals, side) {
+  const by = new Map();
+  for (const g of goals.filter((x) => x.team === side)) {
+    const k = g.own_goal ? `${g.scorer || 'Own goal'} (og)` : (g.scorer || 'Unknown');
+    const r = by.get(k) || { n: 0, assists: [] }; r.n++; if (g.assist) r.assists.push(g.assist); by.set(k, r);
+  }
+  const box = el('div'), rows = [];
+  for (const [k, r] of by) {
+    const line = el('div', null, `${k}${r.n > 1 ? ` ×${r.n}` : ''}`);
+    if (r.assists.length) line.append(assistLine(r.assists));
+    box.append(line); rows.push(line);
+  }
+  return { box, rows };
+}
+function buildResults() {
+  if (!D.results.length) return null;
+  const n = el('section', 'scene');
+  n.append(header(`Matchweek ${D.week}`, D.results.length === 1 ? 'Result' : 'Results'));
+  const per = 1.25;
+  const cards = D.results.map((m, i) => {
+    const c = el('div', 'match'), row = el('div', 'match-row');
+    const side = (name, cls) => { const s = el('div', `side ${cls}`); const nm = el('div', 'nm', name); nm.append(el('small', 'ar', plainAr(team(name).arabic))); s.append(crest(team(name)), nm); return s; };
+    const hg = roller(0, m.home_goals), ag = roller(0, m.away_goals);
+    const score = el('div', 'score num'); score.append(hg.node, el('em', null, '–'), ag.node);
+    row.append(side(m.home, 'home'), score, side(m.away, 'away'));
+    c.append(row);
+    let gl = [];
+    if (m.goals.length) { const sl = el('div', 'scorers-line'), a = goalLines(m.goals, m.home), b = goalLines(m.goals, m.away); sl.append(a.box, b.box); c.append(sl); gl = [...a.rows, ...b.rows]; }
+    return { c, hg, ag, m, gl, at: .45 + i * per, dir: i % 2 ? 1 : -1 };
+  });
+  n.append(...cards.map((x) => x.c));
+  const end = .45 + per * cards.length + 1.2;
+  return { id: 'results', node: n, dur: end + 1.6, still: end + .4, draw(t) {
+    for (const x of cards) {
+      const p = clamp((t - x.at) / 1.0);
+      x.c.style.opacity = smooth(p * 1.4).toFixed(3);
+      x.c.style.transform = tf((1 - expoOut(p)) * 34 * x.dir, 0, 1);
+      const q = smooth((t - x.at - .45) / 1.1);
+      x.hg.set(q * x.m.home_goals); x.ag.set(q * x.m.away_goals);
+      x.gl.forEach((g, j) => { const r = clamp((t - x.at - .9 - j * .12) / .6); g.style.opacity = smooth(r).toFixed(3); g.style.transform = tf(0, (1 - expoOut(r)) * 2); });
+    }
+  } };
+}
+
+function buildTable() {
+  const n = el('section', 'scene');
+  n.append(header(D.first_week ? 'After the opening week' : `After matchweek ${D.week}`, 'League table'));
+  const wrap = el('div', 'tbl'), head = el('div', 'tbl-head'), body = el('div', 'tbl-body');
+  for (const h of ['#', '', 'Team', 'P', 'W-D-L', 'GD', 'Pts', '']) head.append(el('span', null, h));
+  const ROW = 13, rows = D.table.length;
+  body.style.height = `${ROW * rows}vw`;
+  const startOrder = D.first_week ? [...D.table].sort((a, b) => a.team.localeCompare(b.team)) : [...D.table].sort((a, b) => a.prev_pos - b.prev_pos);
+  // fixed position numbers: the rows slide past them, so the numbers never flicker
+  const slots = D.table.map((_, i) => { const s = el('div', 'slotnum num', String(i + 1)); s.style.transform = tf(0, i * ROW); return s; });
+  const items = D.table.map((r) => {
+    const tr = el('div', 'trow num');
+    const mv = el('span', 'mv');
+    if (r.prev_pos == null) { mv.textContent = 'NEW'; mv.classList.add('same'); }
+    else if (r.move > 0) { mv.textContent = `▲${r.move}`; mv.classList.add('up'); }
+    else if (r.move < 0) { mv.textContent = `▼${-r.move}`; mv.classList.add('down'); }
+    else { mv.textContent = '–'; mv.classList.add('same'); }
+    const pts = roller(r.prev_points, r.points);
+    const ptsCell = el('span', 'pts'); ptsCell.append(pts.node);
+    tr.append(el('span', 'pos', String(r.pos)), crest(team(r.team)), el('span', 'tm', r.team), el('span', null, r.played), el('span', 'wdl', `${r.won}-${r.drawn}-${r.lost}`),
+      el('span', null, r.gd > 0 ? `+${r.gd}` : r.gd), ptsCell, mv);
+    body.append(tr);
+    const from = startOrder.findIndex((x) => x.team === r.team), to = r.pos - 1;
+    return { tr, mv, pts, r, from, to, delay: Math.abs(to - from) ? .08 * to : 0 };
+  });
+  body.append(...slots);
+  wrap.append(head, body);
+  n.append(wrap);
+  const MOVE = 1.15, DUR = 2.6;
+  return { id: 'table', node: n, dur: 7.4, still: 5.9, draw(t) {
+    // the leader band follows whoever is physically in the top slot
+    for (const it of items) {
+      const p = clamp((t - MOVE - it.delay) / DUR), e = smooth(p);
+      const y = lerp(it.from, it.to, e);
+      const o = overtake(it.from - it.to, p);
+      it.tr.style.transform = tf(o.x, y * ROW, o.s);
+      it.tr.style.zIndex = String(o.z);
+      it.tr.style.opacity = o.o.toFixed(3);
+      it.tr.style.boxShadow = o.shadow;
+      const k = smooth(1 - clamp(y)) ; // 1 in the top slot, 0 from one row down
+      it.tr.style.background = `color-mix(in srgb, var(--ink) ${(k * 100).toFixed(1)}%, var(--paper))`;
+      it.tr.style.color = `color-mix(in srgb, var(--cream) ${(k * 100).toFixed(1)}%, var(--ink))`;
+      it.tr.style.borderBottom = `${(.2 + .4 * k).toFixed(3)}vw solid color-mix(in srgb, var(--crimson) ${(k * 100).toFixed(1)}%, rgba(23,20,18,.14))`;
+      it.pts.set(lerp(it.r.prev_points, it.r.points, smooth((t - MOVE - .2) / (DUR + .2))));
+      const pop = clamp((t - MOVE - DUR - .1 - it.to * .1) / .7);
+      it.mv.style.opacity = smooth(pop * 1.5).toFixed(3); it.mv.style.transform = `scale(${(.4 + .6 * settle(pop)).toFixed(4)})`;
+    }
+    // each slot number takes the colour of whatever row is passing under it
+    slots.forEach((sl, i) => {
+      let k = 0;
+      for (const it of items) { const y = lerp(it.from, it.to, smooth(clamp((t - MOVE - it.delay) / DUR))); const c = 1 - Math.abs(y - i); if (c > 0) k = Math.max(k, c * smooth(1 - clamp(y))); }
+      sl.style.color = `color-mix(in srgb, var(--cream) ${(k * 100).toFixed(1)}%, var(--ink))`;
+    });
+  } };
+}
+
+// gold icons for the leader in 'badge' style: a boot for goals, boot and ball for assists
+const ICONS = (() => {
+  const g = '<defs><linearGradient id="gi" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbe7a1"/><stop offset=".5" stop-color="#d9a92e"/><stop offset="1" stop-color="#a87814"/></linearGradient></defs>';
+  const boot = '<path fill="url(#gi)" stroke="#6b4a0a" stroke-width=".6" d="M3 4.5h5.2l.9 4.6c3.4.6 7.7 1.9 10.6 3.2 1.4.6 2.3 1.7 2.3 3V17H3z"/><path fill="#6b4a0a" d="M4.5 17h2v2h-2zM9 17h2v2H9zM13.5 17h2v2h-2zM18 17h2v2h-2z"/>';
+  return {
+    scorers: `<svg class="icon" viewBox="0 0 24 24">${g}${boot}</svg>`,
+    assists: `<svg class="icon" viewBox="0 0 24 24">${g}<g transform="translate(-1 0) scale(.82)">${boot}</g><circle cx="20" cy="17" r="3.4" fill="url(#gi)" stroke="#6b4a0a" stroke-width=".6"/></svg>`,
+  };
+})();
+function buildRace(key, field, kicker, title) {
+  const STYLE = new Set(String(OPTS.medal_style ?? D.brand?.medal_style ?? 'tab').split(/[\s,+]+/));
+  const TIES = OPTS.medal_ties ?? D.brand?.medal_ties ?? 'dense';
+  const list = D[key];
+  if (key === 'assists' && !D.stats.assists_recorded) return null;
+  const n = el('section', 'scene');
+  n.append(header(kicker, title));
+  if (!list.length) { n.append(el('div', 'empty-note', key === 'scorers' ? 'No goals recorded yet.' : 'No assists recorded yet.')); return { id: key, node: n, dur: 3.2, draw() {} }; }
+  const N = Math.min(6, list.length), BAR = 12.4;
+  const top = list.slice(0, N);
+  const prevOrder = [...list].filter((r) => r.prev > 0).sort((a, b) => b.prev - a.prev || a.player.localeCompare(b.player));
+  const max = Math.max(...top.map((r) => r[field]), 1);
+  const race = el('div', 'race'); race.style.height = `${BAR * N}vw`;
+  const ranks = top.map((_, i) => { const r = el('div', 'slotrank num', String(i + 1)); r.style.transform = tf(0, i * BAR); return r; });
+  race.append(...ranks);
+  const items = top.map((r, i) => {
+    // medal by standing, ties share it (two players level on 2nd are both silver, and there's no bronze)
+    // medal tiers: 'dense' (default) = by total, ties share, and the next total down still gets the next medal
+    // (4, 2, 2, 2, 1 -> gold, silver x3, bronze); 'shared' = Olympic (no bronze after a 3-way tie); 'strict' = by position
+    const place = TIES === 'strict' ? i + 1
+      : TIES === 'shared' ? 1 + top.filter((x) => x[field] > r[field]).length
+      : 1 + new Set(top.filter((x) => x[field] > r[field]).map((x) => x[field])).size;
+    const m = place <= 3 ? `m${place}` : null;
+    const b = el('div', 'bar num'), who = el('div', 'who'), track = el('div', 'track'), fill = el('div', 'fill'), gold = el('div', 'gold'), cap = el('div', 'cap');
+    const medal = m && STYLE.has('tab') ? el('div', `medal ${m}`) : null;
+    const disc = m && (STYLE.has('disc') || STYLE.has('podium')) ? el('div', `disc ${m}`, String(place)) : null;
+    const metal = m && STYLE.has('bar') ? el('div', `metal ${m}`) : null;
+    const glow3 = m && STYLE.has('podium') ? el('div', `glow3 ${m}`) : null;
+    const val = roller(r.prev, r[field]); val.node.classList.add('val');
+    const name = el('b', null, r.player);
+    let icon = null;
+    if (place === 1 && STYLE.has('badge')) { const w = document.createElement('span'); w.innerHTML = ICONS[key]; icon = w.firstElementChild; name.append(icon); }
+    who.append(name, el('small', null, r.team.toUpperCase()));
+    track.append(...[fill, STYLE.has('bar') ? null : gold, metal, cap, medal, val.node].filter(Boolean));
+    b.append(...[glow3, disc, who, track].filter(Boolean)); race.append(b);
+    const pi = prevOrder.findIndex((x) => x.player === r.player);
+    return { b, fill, gold, cap, medal, disc, metal, glow3, icon, place, val, r, from: pi >= 0 && pi < N ? pi : N, to: i };
+  });
+  n.append(race);
+  let trackW = 0;
+  const START = 1.0, DUR = 2.9;
+  return { id: key, node: n, dur: 7.0, still: 5.6, draw(t) {
+    trackW ||= items[0].b.querySelector('.track').getBoundingClientRect().width / vw();
+    const usable = trackW - 10; // leave room for the number
+    for (const it of items) {
+      const p = clamp((t - START) / DUR), e = smooth(p);
+      const v = lerp(it.r.prev, it.r[field], e), y = lerp(it.from, it.to, e);
+      const o = overtake(it.from - it.to, p);
+      const enter = it.from === N ? smooth(clamp((t - START) / 1.2)) : 1;
+      const grow = smooth((t - .35) / 1.1); // bars sweep in from zero as the scene opens
+      const w = Math.max(.8, (v / max) * usable * grow);
+      it.b.style.transform = tf(o.x, y * BAR, o.s);
+      it.b.style.zIndex = String(o.z);
+      it.b.style.opacity = (o.o * enter).toFixed(3);
+      it.fill.style.boxShadow = o.shadow;
+      const clip = `inset(0 ${(trackW - w).toFixed(3)}vw 0 0 round .4vw)`;
+      it.fill.style.clipPath = clip; it.gold.style.clipPath = clip;
+      it.gold.style.opacity = (it.to === 0 ? smooth((t - START - DUR + .2) / .8) : 0).toFixed(3);
+      it.cap.style.transform = tf(w - 1, 0);
+      // medals arrive once the race has settled: gold first, then silver, then bronze
+      const m = clamp((t - START - DUR + .3 - (it.place - 1) * .18) / .7);
+      if (it.medal) {
+        it.medal.style.opacity = smooth(m * 1.4).toFixed(3);
+        it.medal.style.transform = `${tf(w - 1.4, 0)} scaleY(${(.5 + .5 * settle(m)).toFixed(4)})`;
+      }
+      if (it.disc) {
+        const drop = STYLE.has('podium') ? (1 - settle(m)) * -5 : 0;
+        it.disc.style.opacity = smooth(m * 1.6).toFixed(3);
+        it.disc.style.transform = `${tf(0, drop, .4 + .6 * settle(m))} rotate(${((1 - smooth(m)) * -90).toFixed(2)}deg)`;
+        ranks[it.to].style.opacity = (1 - smooth(m * 1.6)).toFixed(3);
+      }
+      if (it.metal) { it.metal.style.clipPath = clip; it.metal.style.opacity = smooth(m).toFixed(3); }
+      if (it.glow3) {
+        it.glow3.style.opacity = smooth(m).toFixed(3);
+        it.b.style.transform = tf(o.x, y * BAR - 0.6 * smooth(m), o.s * (1 + .025 * smooth(m)));
+      }
+      if (it.icon) { it.icon.style.opacity = smooth(m * 1.4).toFixed(3); it.icon.style.transform = `scale(${(.3 + .7 * settle(m)).toFixed(4)}) rotate(${((1 - smooth(m)) * -25).toFixed(2)}deg)`; }
+      it.val.node.style.transform = tf(w + 2.4, 0);
+      it.val.set(v);
+    }
+  } };
+}
+
+function buildTalkingPoints() {
+  const H = D.highlights, cards = [];
+  const card = (k, v, s, crestOf) => { const c = el('div', 'tp-card'); if (crestOf) c.append(crest(team(crestOf))); const d = el('div'); d.append(el('div', 'k', k), el('div', 'v', v)); if (s) d.append(el('div', 's', s)); c.append(d); cards.push(c); };
+  const lead = D.table[0];
+  card(H.leader_changed ? 'New leaders' : 'Top of the table', H.leader, `${lead.points} pts · ${lead.won}W ${lead.drawn}D ${lead.lost}L${H.leader_changed && H.previous_leader ? ` · took over from ${H.previous_leader}` : ''}`, H.leader);
+  if (H.top_scorer) card('Golden boot', H.top_scorer.player, `${H.top_scorer.goals} goal${H.top_scorer.goals === 1 ? '' : 's'} · ${H.top_scorer.team}`, H.top_scorer.team);
+  for (const h of H.hat_tricks) card('Hat-trick', h.player, `${h.goals} goals this week for ${h.team}`, h.team);
+  if (!H.hat_tricks.length && H.week_top_scorer && H.week_top_scorer.goals > 1) card('Star of the week', H.week_top_scorer.player, `${H.week_top_scorer.goals} goals this week`, H.week_top_scorer.team);
+  if (H.top_assist && D.stats.assists_recorded) card('Most assists', H.top_assist.player, `${H.top_assist.assists} assist${H.top_assist.assists === 1 ? '' : 's'} · ${H.top_assist.team}`, H.top_assist.team);
+  if (H.biggest_win) { const w = H.biggest_win, winner = w.home_goals > w.away_goals ? w.home : w.away; card('Biggest win', `${w.home} ${w.home_goals}–${w.away_goals} ${w.away}`, `${winner} by ${w.margin}`, winner); }
+  const shown = cards.slice(0, 5);
+  const n = el('section', 'scene'), box = el('div', 'tp');
+  n.append(header(`Matchweek ${D.week}`, 'Talking points'));
+  box.append(...shown); n.append(box);
+  const STEP = .32, end = .5 + shown.length * STEP + .9;
+  return { id: 'talking', node: n, dur: end + 2.4, still: end + .3, draw(t) {
+    shown.forEach((c, i) => { const p = clamp((t - .5 - i * STEP) / .9); c.style.opacity = smooth(p * 1.5).toFixed(3); c.style.transform = tf((1 - expoOut(p)) * 16, 0); });
+  } };
+}
+
+function buildOutro() {
+  const n = el('section', 'scene outro');
+  const crests = el('div', 'crests'); const cs = D.teams.map((t) => crest(t)); crests.append(...cs);
+  const ls = lines(), l1 = ls.length > 1 ? reveal(ls[0], 'line1') : null, l2 = reveal(ls[ls.length - 1], 'line2');
+  const subs = [el('div', 'sub', `${D.stats.matches_played} matches · ${D.stats.total_goals} goals so far`), el('div', 'sub', 'See you next matchweek')];
+  n.append(...[crests, l1?.node, l2.node, starRule(), ...subs].filter(Boolean));
+  return { id: 'outro', node: n, dur: 3.8, still: 2.6, draw(t) {
+    cs.forEach((c, i) => { const p = clamp((t - .15 - i * .12) / .9); c.style.opacity = smooth(p * 1.6).toFixed(3); c.style.transform = tf(0, (1 - settle(p)) * 7); });
+    if (l1) l1.inner.style.transform = tf(0, (1 - expoOut(clamp((t - .5) / .9))) * 10);
+    l2.inner.style.transform = tf(0, (1 - expoOut(clamp((t - .62) / 1))) * 16);
+    subs.forEach((s, i) => { s.style.opacity = smooth((t - 1.1 - i * .2) / .7).toFixed(3); });
+  } };
+}
+</script>
+</body>
+</html>
