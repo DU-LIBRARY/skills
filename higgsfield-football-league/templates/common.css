@@ -27,3 +27,7 @@ body { background: var(--cream); color: var(--ink); font-family: 'Barlow Condens
 .roller { display: inline-block; height: 1em; line-height: 1; overflow: hidden; vertical-align: top; }
 .roller-col { display: flex; flex-direction: column; will-change: transform; }
 .roller-col span { height: 1em; display: block; }
+
+/* tiny league logos, very faint, behind everything. multiply drops their white background into the cream */
+.logofield { position: absolute; left: -48vw; top: -48vw; right: -48vw; bottom: -48vw; background-size: 24vw 24vw; background-repeat: repeat;
+  mix-blend-mode: multiply; pointer-events: none; z-index: 0; will-change: transform; }

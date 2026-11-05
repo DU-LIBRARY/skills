@@ -198,3 +198,14 @@ export function loadChromium() {
 }
 export const launchChromium = () => loadChromium().launch(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {});
 export const hasFfmpeg = () => spawnSync('ffmpeg', ['-version']).status === 0;
+
+// The league logo as a data URL, for the faint background watermark. Added at render
+// time only (never into snapshot.json) so snapshots stay small and comparable.
+export function logoDataURL(L) {
+  const rel = L.config.brand?.logo;
+  if (!rel) return null;
+  const p = path.resolve(L.root, rel);
+  if (!fs.existsSync(p)) return null;
+  const ext = path.extname(p).slice(1).toLowerCase().replace('jpg', 'jpeg');
+  return `data:image/${ext};base64,${fs.readFileSync(p).toString('base64')}`;
+}

@@ -9,7 +9,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { loadLeague, weeksOf, snapshot, readJSON, resolveTeam, resolvePlayer, weekDir, fold, launchChromium } from './lib.mjs';
+import { loadLeague, weeksOf, snapshot, readJSON, resolveTeam, resolvePlayer, weekDir, fold, launchChromium, logoDataURL } from './lib.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const argv = process.argv.slice(2);
@@ -22,7 +22,7 @@ if (!FORMATS[format]) die(`format must be one of ${Object.keys(FORMATS).join(', 
 
 const root = path.resolve(opt('root', 'league'));
 const L = loadLeague(root);
-const base = { league: L.config.name, teams: L.config.teams, brand: L.config.brand };
+const base = { league: L.config.name, teams: L.config.teams, brand: L.config.brand, logo: logoDataURL(L) };
 const weeks = weeksOf(L);
 const week = () => { if (!weeks.length) die('no matches recorded yet'); return Number(opt('week', weeks[weeks.length - 1])); };
 const slug = (s) => fold(s).slice(0, 40) || 'graphic';
@@ -86,7 +86,7 @@ try {
     const page = await browser.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: 1 });
     page.on('pageerror', (e) => console.error('page error:', e.message));
     await page.goto(pathToFileURL(path.join(here, '..', 'templates', 'graphic.html')).href);
-    await page.evaluate(async (d) => { await document.fonts.ready; window.init(d); await document.fonts.ready; }, data);
+    await page.evaluate(async (d) => { await document.fonts.ready; window.init(d); await document.fonts.ready; await window.assetsReady(); }, data);
     fs.mkdirSync(path.dirname(out), { recursive: true });
     await page.screenshot({ path: out });
     await page.close();

@@ -6,6 +6,7 @@ This folder is the league's archive. It's maintained by the
 | Path | What |
 |---|---|
 | `league.json` | Teams (with Arabic names and crest shapes), points rules, brand colours, the dashboard artifact link |
+| `assets/logo.jpg` | The Darul Uloom logo, used as a faint background pattern in every video and graphic |
 | `data/squads.json` | One row per player: `{player, team}` |
 | `data/matches.json` | One row per match: `{match, week, date, home, away, home_goals, away_goals}` |
 | `data/goals.json` | One row per goal: `{match, team, scorer, assist, own_goal}` |

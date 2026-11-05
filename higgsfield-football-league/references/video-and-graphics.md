@@ -16,7 +16,7 @@ node higgsfield-football-league/scripts/render.mjs [flags]
 | `--format story\|feed\|square` | `story` | 1080×1920 (Reels, Shorts, Status), 1080×1350 (feed), 1080×1080. |
 | `--fps N` | 60 | Frame rate. 60 is what makes the moves look fluid on phones. |
 | `--blur N` | 2 | Motion blur: sub-frames averaged per frame over a 180° shutter. `1` = off and twice as fast to render (good for drafts). |
-| `--workers N` | min(4, CPUs) | Parallel browsers, each rendering a slice of the frames. |
+| `--workers N` | min(4, CPUs) | Parallel browsers rendering frames, all feeding one encoder in order (no joins in the video). |
 | `--only video\|cards` | both | Skip one half. |
 | `--preview` | off | One JPEG per scene (`preview-<scene>.jpg`, git-ignored), no encoding. Use it to check layout in a few seconds. |
 | `--intro clip.mp4` | — | Put a clip in front (scaled and cropped to fit). For AI intros, see ai-extras.md. |
@@ -42,6 +42,8 @@ With the defaults on 4 CPUs, a 36s video takes about 3½ minutes (`--blur 1`: ab
 | assists | 7.0s | Same. Skipped until any assist is recorded |
 | talking | ~5s | Leader (or "New leaders"), golden boot, hat-tricks or star of the week, most assists, biggest win |
 | outro | 3.8s | Crests, title, totals so far |
+
+Behind everything, a field of tiny Darul Uloom logos (`league/assets/logo.jpg`, set in `league.json → brand.logo`) drifts slowly; its strength is `brand.watermark_opacity` (0.07, very faint). The same field sits behind every graphic. Keep it faint: it's texture, not content.
 
 Scenes hand over with a 0.9s overlap: the old scene lifts away, then the new one rises in, so the frame is never blank and text never sits on text.
 How it's built, so it stays smooth when edited:
@@ -79,7 +81,7 @@ provides of that player. Without one, the team crest is used.
 ## Style
 
 `templates/common.css` + `common.js` hold the shared style: colours from
-`league.json → brand`, Barlow Condensed for type, Amiri for Arabic, the
+`league.json → brand`, the faint logo field (`logoField()`), Barlow Condensed for type, Amiri for Arabic, the
 bismillah, the star rule and the four crest shapes (`shield`, `roundel`,
 `octagon`, `arch`) with each team's Arabic name on the band. Arabic is always shown without harakat (`plainAr()`), because vowel marks collide with lines above and below at display sizes. A new team needs
 an entry in `league.json → teams` with `crest` set to one of those shapes.

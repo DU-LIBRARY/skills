@@ -159,6 +159,6 @@ available. Mention anything you assumed (e.g. "no assists given for the 2nd goal
   Arabic names are written **without harakat** everywhere: vowel marks spill
   onto neighbouring text.
 - The house style (cream, ink, crimson, Barlow Condensed, Amiri, the bismillah, the four crest
-  shapes) comes from the user's dashboard. Keep new graphics in it. Colours live in
+  shapes, a very faint field of tiny Darul Uloom logos behind everything) comes from the user's dashboard and logo. Keep new graphics in it. Colours live in
   `league.json → brand`.
 - Commit outputs every week; this repo is the archive.

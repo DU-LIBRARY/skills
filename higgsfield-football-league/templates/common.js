@@ -75,3 +75,29 @@ function applyBrand(brand = {}) {
   for (const [k, v] of Object.entries(brand)) if (VARS[k]) document.documentElement.style.setProperty(VARS[k], v);
 }
 const teamOf = (teams, name) => teams.find((t) => t.name === name) || { name, crest: 'shield', crest_text: '' };
+
+// A field of tiny, faint league logos (staggered like brickwork) for the background.
+// Returns null when the league has no logo. The layer is oversized so it can drift;
+// shifting it by a whole tile is invisible, so drift can loop forever without a jump.
+const LOGO_TILE = 24; // vw between logos
+function logoField(src, opacity = .07) {
+  if (!src) return null;
+  const T = 240, w = 66, h = 77; // tile and logo size in tile units
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${T}" height="${T}" viewBox="0 0 ${T} ${T}">`
+    + `<image xlink:href="${src}" href="${src}" x="${(T / 2 - w) / 2}" y="${(T / 2 - h) / 2}" width="${w}" height="${h}"/>`
+    + `<image xlink:href="${src}" href="${src}" x="${T / 2 + (T / 2 - w) / 2}" y="${T / 2 + (T / 2 - h) / 2}" width="${w}" height="${h}"/></svg>`;
+  const d = document.createElement('div'); d.className = 'logofield';
+  d.style.backgroundImage = `url("data:image/svg+xml;base64,${btoa(svg)}")`;
+  d.style.opacity = String(opacity);
+  return d;
+}
+
+// Resolves once fonts, <img>s and the logo field's background are decoded, so the
+// first captured frame is never missing them.
+window.assetsReady = async () => {
+  await document.fonts.ready;
+  const urls = [...document.querySelectorAll('.logofield')].map((e) => getComputedStyle(e).backgroundImage.replace(/^url\("?|"?\)$/g, ''));
+  await Promise.all([...[...document.images].map((i) => i.decode().catch(() => {})),
+    ...urls.map((u) => { const i = new Image(); i.src = u; return i.decode().catch(() => {}); })]);
+  await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+};

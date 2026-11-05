@@ -11,7 +11,7 @@ import path from 'node:path';
 import { spawn, spawnSync } from 'node:child_process';
 import os from 'node:os';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { loadLeague, weeksOf, snapshot, writeJSON, weekDir, pad2, launchChromium, hasFfmpeg } from './lib.mjs';
+import { loadLeague, weeksOf, snapshot, writeJSON, weekDir, pad2, launchChromium, hasFfmpeg, logoDataURL } from './lib.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const argv = process.argv.slice(2);
@@ -45,6 +45,7 @@ if (flag('if-changed') && fs.existsSync(path.join(outDir, `week-${pad2(week)}-${
 fs.mkdirSync(path.join(outDir, 'cards'), { recursive: true });
 writeJSON(snapPath, snap);
 
+const pageData = { ...snap, logo: logoDataURL(L) };
 if (!hasFfmpeg()) die('ffmpeg not found — install it (brew install ffmpeg / apt-get install ffmpeg)');
 
 const template = pathToFileURL(path.join(here, '..', 'templates', 'weekly.html')).href;
@@ -53,7 +54,8 @@ async function openPage(browser, [w, h], opts) {
   const page = await browser.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: 1 });
   page.on('pageerror', (e) => { console.error('page error:', e.message); });
   await page.goto(template);
-  const info = await page.evaluate(async ([d, o]) => { await document.fonts.ready; const r = window.init(d, o); await document.fonts.ready; return r; }, [snap, opts]);
+  const info = await page.evaluate(async ([d, o]) => { await document.fonts.ready; const r = window.init(d, o); await document.fonts.ready;
+    await window.assetsReady(); return r; }, [pageData, opts]);
   return { page, info };
 }
 
@@ -80,51 +82,55 @@ async function renderVideo(browser) {
   const W = Math.min(workers, Math.ceil(frames / 60));
   console.log(`rendering ${frames} frames (${duration.toFixed(1)}s @ ${fps}fps, ${size.join('×')}, motion blur ×${blur}, ${W} workers)…`);
   const t0 = Date.now();
-  let doneFrames = 0;
-  const tick = () => { doneFrames++; if (doneFrames % (fps * 5) === 0) process.stdout.write(`  ${Math.round((100 * doneFrames) / frames)}%\r`); };
 
-  // each worker renders a contiguous slice of frames into its own segment
-  const segs = [];
-  const jobs = Array.from({ length: W }, (_, k) => {
-    const a = Math.floor((frames * k) / W), b = Math.floor((frames * (k + 1)) / W);
-    const seg = `${base}.seg${k}.mp4`; segs.push(seg);
-    return renderSlice(browser, size, a, b, seg, tick);
-  });
-  await Promise.all(jobs);
-  console.log(`  frames done in ${((Date.now() - t0) / 1000).toFixed(0)}s`);
-
-  const list = `${base}.segs.txt`;
-  fs.writeFileSync(list, segs.map((f) => `file '${path.basename(f)}'`).join('\n') + '\n');
-  run(['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', list, '-c', 'copy', '-movflags', '+faststart', silent]);
-  for (const f of [...segs, list]) fs.rmSync(f, { force: true });
-  finish(silent, final, duration, size);
-  console.log(`✓ ${path.relative(process.cwd(), final)}`);
-}
-
-async function renderSlice(_shared, size, a, b, seg, tick) {
-  // one browser per worker: screenshots in a shared browser queue behind each other
-  const own = await launchChromium();
-  const ctx = await own.newContext({ viewport: { width: size[0], height: size[1] }, deviceScaleFactor: 1 });
-  const page = await ctx.newPage();
-  page.on('pageerror', (e) => { console.error('page error:', e.message); });
-  await page.goto(template);
-  await page.evaluate(async (d) => { await document.fonts.ready; window.init(d, {}); await document.fonts.ready; }, snap);
+  // One encoder for the whole video. Workers render frames in parallel and hand them
+  // over; they're written strictly in order, so there are no joins to stutter at.
   const vf = blur > 1 ? ['-vf', `tmix=frames=${blur},select=eq(mod(n\\,${blur})\\,${blur - 1}),setpts=N/(${fps}*TB)`] : [];
   const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(fps * blur), '-c:v', 'mjpeg', '-i', '-', ...vf,
-    '-r', String(fps), '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-preset', 'medium', '-crf', '19', '-g', String(fps * 2), seg], { stdio: ['pipe', 'inherit', 'inherit'] });
+    '-r', String(fps), '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-preset', 'medium', '-crf', '19', '-g', String(fps * 2), '-movflags', '+faststart', silent],
+    { stdio: ['pipe', 'inherit', 'inherit'] });
   const done = new Promise((res, rej) => ff.on('close', (c) => (c === 0 ? res() : rej(new Error(`ffmpeg exited ${c}`)))));
-  for (let i = a; i < b; i++) {
-    for (let k = 0; k < blur; k++) {
-      const t = (i + (blur > 1 ? (k / (blur - 1) - .5) * .5 : 0)) / fps;
-      await page.evaluate((x) => window.renderAt(Math.max(0, x)), t);
-      const buf = await page.screenshot({ type: 'jpeg', quality: 95 });
-      if (!ff.stdin.write(buf)) await new Promise((r) => ff.stdin.once('drain', r));
+
+  const ready = new Map();          // frame index -> [jpeg buffers for its sub-frames]
+  let next = 0, claim = 0, wake = null;
+  const AHEAD = W * 6;              // how far workers may run ahead of the writer
+  const writer = (async () => {
+    while (next < frames) {
+      if (!ready.has(next)) { await new Promise((r) => (wake = r)); continue; }
+      for (const buf of ready.get(next)) if (!ff.stdin.write(buf)) await new Promise((r) => ff.stdin.once('drain', r));
+      ready.delete(next); next++;
+      if (next % (fps * 5) === 0) process.stdout.write(`  ${Math.round((100 * next) / frames)}%\r`);
     }
-    tick();
-  }
-  ff.stdin.end();
+    ff.stdin.end();
+  })();
+  const worker = async () => {
+    const own = await launchChromium();
+    const page = await own.newPage({ viewport: { width: size[0], height: size[1] }, deviceScaleFactor: 1 });
+    page.on('pageerror', (e) => { console.error('page error:', e.message); });
+    await page.goto(template);
+    await page.evaluate(async (d) => { await document.fonts.ready; window.init(d, {}); await document.fonts.ready;
+      await window.assetsReady(); }, pageData);
+    while (claim < frames) {
+      const i = claim++;
+      while (i - next > AHEAD) await new Promise((r) => setTimeout(r, 5));
+      const bufs = [];
+      for (let k = 0; k < blur; k++) {
+        const t = (i + (blur > 1 ? (k / (blur - 1) - .5) * .5 : 0)) / fps;
+        await page.evaluate((x) => window.renderAt(Math.max(0, x)), t);
+        bufs.push(await page.screenshot({ type: 'jpeg', quality: 95 }));
+      }
+      ready.set(i, bufs);
+      if (i === next && wake) { const w = wake; wake = null; w(); }
+    }
+    await own.close();
+  };
+  await Promise.all(Array.from({ length: W }, worker));
+  if (wake) { const w = wake; wake = null; w(); }
+  await writer;
   await done;
-  await own.close();
+  console.log(`  frames done in ${((Date.now() - t0) / 1000).toFixed(0)}s`);
+  finish(silent, final, duration, size);
+  console.log(`✓ ${path.relative(process.cwd(), final)}`);
 }
 
 // Optional: put an AI-generated intro clip (e.g. from `higgsfield generate`) in front,

@@ -5,7 +5,7 @@
 <title>Darul Uloom Football League — matchday graphic</title>
 <link rel="stylesheet" href="common.css">
 <style>
-.frame { position: absolute; inset: 0; display: flex; flex-direction: column; }
+.frame { position: absolute; inset: 0; display: flex; flex-direction: column; z-index: 1; }
 .band { background: var(--ink); color: var(--cream); border-bottom: .8vw solid var(--crimson); height: 9vw; display: flex; align-items: center; justify-content: space-between; padding: 0 5vw;
   font-weight: 700; letter-spacing: .3vw; text-transform: uppercase; font-size: 3.4vw; flex: none; }
 .band b { color: var(--crimson-lt); font-weight: 800; }
@@ -64,7 +64,7 @@ window.init = (G) => {
   band.append(el('span', null, G.league), right);
   f.append(band, body);
   if (G.brand?.bismillah && G.type !== 'fulltime') f.append(el('div', 'foot ar', G.brand.bismillah));
-  stage.replaceChildren(f);
+  stage.replaceChildren(...[logoField(G.logo, G.brand?.watermark_opacity ?? .07), f].filter(Boolean));
 
   const BUILD = {
     fulltime() {

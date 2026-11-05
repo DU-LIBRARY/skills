@@ -41,6 +41,8 @@
     "crimsonLight": "#d75b6e",
     "up": "#2f8f5b",
     "down": "#c0392b",
+    "logo": "assets/logo.jpg",
+    "watermark_opacity": 0.07,
     "bismillah": "بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ"
   }
 }
