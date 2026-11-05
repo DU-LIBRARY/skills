@@ -61,10 +61,13 @@ computes from the files.
 5. Render, push the data back up (above) so the dashboard gets the `week`
    column, and commit.
 
+## The position-by-week chart
+
+The dashboard's *Position by week* card is a `dash.calc('positions')` over `squads` and `matches`: it replays the table after each week, by the same rules. It uses the `week` column when present, and otherwise numbers the match dates in order. Syncing `matches.json` from the repo (which carries `week`) keeps it exact when a week spans two dates.
+
 ## Adding things to the dashboard
 
-If the user wants the movement shown on the dashboard too (e.g. a
-position-by-week chart), read the dashboard type's own instructions first
+Before adding anything else, read the dashboard type's own instructions first
 (`read_file` `SKILL.md` on the artifact). The page opens with
 `<meta name="dash-one-writer">`, so also read
 `artifact-type/reference/one-writer.md` before editing `files/index.html`.

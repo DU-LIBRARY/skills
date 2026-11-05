@@ -322,6 +322,16 @@ const ICONS = (() => {
 function buildRace(key, field, kicker, title) {
   const STYLE = new Set(String(OPTS.medal_style ?? D.brand?.medal_style ?? 'tab').split(/[\s,+]+/));
   const TIES = OPTS.medal_ties ?? D.brand?.medal_ties ?? 'dense';
+  // flat medal colours for the end band (no sheen); no medal keeps the crimson band
+  const BAND = { 0: [155, 27, 48], 1: [212, 166, 42], 2: [185, 190, 196], 3: [180, 115, 60] };
+  // medal tier for every bar from the numbers currently on screen, so medals change hands live
+  const tiersOf = (vals) => vals.map((v, i) => {
+    if (v < 1) return 0;
+    const t = TIES === 'strict' ? i + 1
+      : TIES === 'shared' ? 1 + vals.filter((x) => x > v).length
+      : 1 + new Set(vals.filter((x) => x > v)).size;
+    return t <= 3 ? t : 0;
+  });
   const list = D[key];
   if (key === 'assists' && !D.stats.assists_recorded) return null;
   const n = el('section', 'scene');
@@ -343,7 +353,7 @@ function buildRace(key, field, kicker, title) {
       : 1 + new Set(top.filter((x) => x[field] > r[field]).map((x) => x[field])).size;
     const m = place <= 3 ? `m${place}` : null;
     const b = el('div', 'bar num'), who = el('div', 'who'), track = el('div', 'track'), fill = el('div', 'fill'), gold = el('div', 'gold'), cap = el('div', 'cap');
-    const medal = m && STYLE.has('tab') ? el('div', `medal ${m}`) : null;
+    const medal = null; // 'tab' now colours the bar's own end band (see draw)
     const disc = m && (STYLE.has('disc') || STYLE.has('podium')) ? el('div', `disc ${m}`, String(place)) : null;
     const metal = m && STYLE.has('bar') ? el('div', `metal ${m}`) : null;
     const glow3 = m && STYLE.has('podium') ? el('div', `glow3 ${m}`) : null;
@@ -360,6 +370,9 @@ function buildRace(key, field, kicker, title) {
   n.append(race);
   let trackW = 0;
   const START = 1.0, DUR = 2.9;
+  // the count each bar shows at time t (what the rolling number reads)
+  const shownAt = (it, t) => Math.round(lerp(it.r.prev, it.r[field], smooth(clamp((t - START) / DUR))));
+  const bandTier = (it, t) => { const vals = items.map((x) => shownAt(x, t)); return tiersOf(vals)[items.indexOf(it)]; };
   return { id: key, node: n, dur: 7.0, still: 5.6, draw(t) {
     trackW ||= items[0].b.querySelector('.track').getBoundingClientRect().width / vw();
     const usable = trackW - 10; // leave room for the number
@@ -376,13 +389,15 @@ function buildRace(key, field, kicker, title) {
       it.fill.style.boxShadow = o.shadow;
       const clip = `inset(0 ${(trackW - w).toFixed(3)}vw 0 0 round .4vw)`;
       it.fill.style.clipPath = clip; it.gold.style.clipPath = clip;
-      it.gold.style.opacity = (it.to === 0 ? smooth((t - START - DUR + .2) / .8) : 0).toFixed(3);
+      it.gold.style.opacity = '0';
       it.cap.style.transform = tf(w - 1, 0);
       // medals arrive once the race has settled: gold first, then silver, then bronze
       const m = clamp((t - START - DUR + .3 - (it.place - 1) * .18) / .7);
-      if (it.medal) {
-        it.medal.style.opacity = smooth(m * 1.4).toFixed(3);
-        it.medal.style.transform = `${tf(w - 1.4, 0)} scaleY(${(.5 + .5 * settle(m)).toFixed(4)})`;
+      if (STYLE.has('tab')) {
+        // the band takes its medal colour from the start and blends (0.3s) whenever a count change moves it up or down
+        const mix = [0, 0, 0], K = 8;
+        for (let k = 0; k <= K; k++) { const c = BAND[bandTier(it, t - .3 * k / K)]; mix[0] += c[0]; mix[1] += c[1]; mix[2] += c[2]; }
+        it.cap.style.background = `rgb(${mix.map((x) => Math.round(x / (K + 1))).join(',')})`;
       }
       if (it.disc) {
         const drop = STYLE.has('podium') ? (1 - settle(m)) * -5 : 0;

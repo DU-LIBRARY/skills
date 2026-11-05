@@ -38,7 +38,7 @@ With the defaults on 4 CPUs, a 36s video takes about 3½ minutes (`--blur 1`: ab
 | intro | 4.6s | Bismillah and دار العلوم fade up, "Darul Uloom / Football League" slide up out of masks, the star rule draws, crests settle in |
 | results | 0.45s + 1.25s per match + 2.8s | Match cards sweep in from alternate sides, scores roll up like a scoreboard, scorer lines stagger in |
 | table | 7.4s | Rows start in last week's order (alphabetical in week 1) and glide to the new order. Risers lift over fallers, the dark leader band follows whoever reaches the top, points roll, ▲▼ arrows settle in |
-| scorers | 7.0s | Top 6 bar race: bars sweep in, then grow and re-rank from last week's totals. Numbers roll; the leader's bar turns crimson; then gold, silver and bronze tabs land on the bar ends: by total, so the highest total is gold, the next silver, the next bronze, and tied players share (4, 2, 2, 2, 1 → gold, silver ×3, bronze) |
+| scorers | 7.0s | Top 6 bar race: bars sweep in, then grow and re-rank from last week's totals. Numbers roll. Each bar's end band shows its medal live (gold, silver, bronze in flat colour; crimson for no medal): from the start it reflects last week, and medals change hands as the counts tick over (0.3s blend) |
 | assists | 7.0s | Same. Skipped until any assist is recorded |
 | talking | ~5s | Leader (or "New leaders"), golden boot, hat-tricks or star of the week, most assists, biggest win |
 | outro | 3.8s | Crests, title, totals so far |
@@ -55,6 +55,7 @@ How it's built, so it stays smooth when edited:
 - Ease with `smooth` (quintic), `expoOut` for arrivals, or `settle` for a soft overshoot (`common.js`). Never switch a style instantly mid-move; blend it (`color-mix`).
 - Numbers that change use `roller(from, to)`, which slides digits instead of swapping them.
 - Fixed things (rank numbers, slot positions) stay put while the rows move past them.
+- A colour that depends on a changing number (the medal band) is computed from the number shown at that instant and blended over 0.3s, so it changes live without a hard flip.
 
 Change timing or layout in `templates/weekly.html` (each `build*` function
 returns `{dur, still, draw(t)}`). Test it with `--preview` before a full render.
