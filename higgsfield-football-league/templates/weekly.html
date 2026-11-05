@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Football League — weekly</title>
+<link rel="stylesheet" href="common.css">
+<style>
+/* persistent chrome */
+.chrome-top { position: absolute; left: 0; right: 0; top: 0; height: 9vw; background: var(--ink); color: var(--cream); border-bottom: .8vw solid var(--crimson);
+  display: flex; align-items: center; justify-content: space-between; padding: 0 5vw; font-weight: 700; letter-spacing: .3vw; text-transform: uppercase; font-size: 3.4vw; z-index: 5; }
+.chrome-top b { color: var(--crimson-lt); font-weight: 800; }
+.chrome-bot { position: absolute; left: 0; right: 0; bottom: 0; height: 7vw; display: flex; align-items: center; justify-content: center; gap: 1.6vw; z-index: 5; }
+.chrome-bot i { width: 1.4vw; height: 1.4vw; background: var(--ink); opacity: .18; transform: rotate(45deg); }
+.chrome-bot i.on { background: var(--crimson); opacity: 1; }
+.still .chrome-bot { display: none; }
+
+.scene { position: absolute; left: 0; right: 0; top: 9vw; bottom: 7vw; display: flex; flex-direction: column; justify-content: center; padding: 0 6vw; opacity: 0; }
+/* intro */
+.intro .bism { text-align: center; font-size: 6.4vw; color: var(--crimson); line-height: 1.7; }
+.intro .title { font-size: 17vw; }
+.intro .week { text-align: center; font-weight: 800; font-size: 9vw; letter-spacing: .4vw; text-transform: uppercase; }
+.intro .date { text-align: center; color: var(--ink2); font-size: 4.4vw; margin-top: .6vw; letter-spacing: .2vw; }
+.crests { display: flex; justify-content: center; gap: 4vw; margin-top: 7vw; }
+.crests svg { width: 17vw; }
+
+/* results */
+.match { background: var(--ink); color: var(--cream); border-bottom: .8vw solid var(--crimson); border-radius: .6vw; padding: 3.6vw 3.6vw 3vw; margin-bottom: 3.6vw; }
+.match-row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 2vw; }
+.side { display: flex; flex-direction: column; align-items: center; gap: 1.2vw; min-width: 0; text-align: center; }
+.side svg { width: 14vw; flex: none; }
+.side .nm { font-weight: 700; font-size: 5.2vw; line-height: 1; white-space: nowrap; }
+.side .nm small { display: block; font-family: 'Amiri', serif; font-weight: 400; color: var(--crimson-lt); font-size: 3.8vw; line-height: 1.5; }
+.score { font-weight: 800; font-size: 15vw; line-height: 1; letter-spacing: .4vw; white-space: nowrap; }
+.score em { font-style: normal; color: var(--crimson-lt); margin: 0 1vw; }
+.scorers-line { display: grid; grid-template-columns: 1fr 1fr; gap: 3vw; margin-top: 2.4vw; padding-top: 2.2vw; border-top: .2vw solid rgba(242,235,221,.18); font-size: 3.6vw; line-height: 1.35; color: #e6dccb; }
+.scorers-line > div:last-child { text-align: right; }
+.scorers-line .as { color: #a89d8c; font-size: 3vw; }
+.badge { display: inline-block; background: var(--crimson); color: var(--cream); font-weight: 800; letter-spacing: .3vw; text-transform: uppercase; font-size: 2.8vw; padding: .3vw 1.4vw; border-radius: .4vw; margin-left: 1vw; vertical-align: .3vw; }
+
+/* table */
+.tbl { position: relative; }
+.tbl-head, .trow { display: grid; grid-template-columns: 6vw 9vw 1fr 5vw 11vw 8vw 9vw 8vw; align-items: center; column-gap: .6vw; }
+.tbl-head { color: var(--crimson); font-weight: 700; font-size: 3.4vw; letter-spacing: .2vw; padding: 0 2vw 1.6vw; border-bottom: .35vw solid var(--ink); text-align: right; }
+.tbl-head span:nth-child(3) { text-align: left; }
+.tbl-body { position: relative; }
+.trow { position: absolute; left: 0; right: 0; height: 13vw; padding: 0 2vw; background: var(--paper); border-bottom: .2vw solid var(--line); font-size: 4.6vw; text-align: right; }
+.trow.lead { background: var(--ink); color: var(--cream); border-bottom: .6vw solid var(--crimson); }
+.trow .pos { font-weight: 800; font-size: 6vw; text-align: left; }
+.trow svg { width: 7.6vw; }
+.trow .tm { text-align: left; font-weight: 700; font-size: 5vw; white-space: nowrap; overflow: hidden; }
+.trow .pts { font-weight: 800; font-size: 6.4vw; }
+.trow .wdl { color: var(--ink2); font-size: 4vw; }
+.trow.lead .wdl { color: #c9bfae; }
+.trow .mv { font-weight: 800; font-size: 4vw; text-align: center; }
+.mv.up { color: var(--up); } .mv.down { color: var(--down); } .mv.same { color: var(--ink2); }
+.trow.lead .mv.same { color: #a89d8c; }
+.form { display: flex; justify-content: flex-end; gap: .6vw; margin-top: 2.6vw; padding-right: 2vw; }
+.formrow { position: absolute; left: 0; right: 0; }
+
+/* race */
+.race { position: relative; }
+.bar { position: absolute; left: 0; right: 0; height: 11vw; display: grid; grid-template-columns: 6vw 1fr; align-items: center; column-gap: 1.6vw; }
+.bar .rk { font-weight: 800; font-size: 5.4vw; color: var(--ink2); }
+.bar .track { position: relative; height: 9vw; }
+.bar .fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--ink); border-right: 1vw solid var(--crimson); border-radius: .4vw; min-width: 1vw; }
+.bar .lbl { position: absolute; left: 2.4vw; top: 50%; transform: translateY(-50%); color: var(--cream); white-space: nowrap; line-height: 1.05; }
+.bar .lbl b { display: block; font-weight: 700; font-size: 4.8vw; }
+.bar .lbl small { display: block; font-size: 3vw; color: #c9bfae; letter-spacing: .1vw; }
+.bar .val { position: absolute; top: 50%; transform: translateY(-50%); font-weight: 800; font-size: 7vw; color: var(--ink); }
+.bar.out .lbl { color: var(--ink); } .bar.out .lbl small { color: var(--ink2); }
+.bar.first .fill { background: var(--crimson); border-right-color: var(--ink); }
+.empty-note { text-align: center; color: var(--ink2); font-size: 4.6vw; }
+
+/* talking points */
+.tp { display: grid; gap: 3vw; }
+.tp-card { background: var(--paper); border: .2vw solid var(--line); border-left: 1.4vw solid var(--crimson); border-radius: .6vw; padding: 3vw 3.6vw; display: flex; align-items: center; gap: 3vw; }
+.tp-card svg { width: 11vw; flex: none; }
+.tp-card .k { color: var(--crimson); font-weight: 700; text-transform: uppercase; letter-spacing: .3vw; font-size: 3.2vw; }
+.tp-card .v { font-weight: 800; font-size: 6.6vw; line-height: 1.05; }
+.tp-card .s { color: var(--ink2); font-size: 3.6vw; margin-top: .4vw; }
+
+/* outro */
+.outro .title { font-size: 13vw; }
+.outro .sub { text-align: center; color: var(--ink2); font-size: 4.6vw; letter-spacing: .2vw; }
+</style>
+</head>
+<body>
+
+<div id="stage"></div>
+<script src="common.js"></script>
+<script>
+// ---------- build ----------
+let D, OPTS, SCENES = [], TOTAL = 0, team, dots = [];
+
+window.init = (data, opts = {}) => {
+  D = data; OPTS = opts;
+  team = (name) => teamOf(D.teams, name);
+  const root = document.getElementById('stage');
+  root.replaceChildren();
+  document.body.classList.toggle('still', !!opts.still);
+  applyBrand(D.brand);
+
+  const top = el('div', 'chrome-top');
+  top.append(el('span', null, D.league), (() => { const s = el('span'); s.append('Matchweek '); s.append(el('b', null, String(D.week))); return s; })());
+  root.append(top);
+
+  const all = [buildIntro(), buildResults(), buildTable(), buildRace('scorers', 'goals', 'Golden boot', 'Top goalscorers'),
+    buildRace('assists', 'assists', 'Playmakers', 'Top assists'), buildTalkingPoints(), buildOutro()].filter(Boolean);
+  SCENES = opts.only ? all.filter((s) => s.id === opts.only) : all;
+  if (!SCENES.length) throw new Error(`no scene "${opts.only}"`);
+  let t = 0;
+  for (const s of SCENES) { s.start = t; t += s.dur; root.append(s.node); }
+  TOTAL = t;
+
+  const bot = el('div', 'chrome-bot');
+  dots = SCENES.map(() => el('i'));
+  bot.append(...dots);
+  root.append(bot);
+  return { duration: TOTAL, scenes: SCENES.map((s) => ({ id: s.id, start: s.start, dur: s.dur, still: s.still })) };
+};
+
+window.renderAt = (t) => {
+  for (const [i, s] of SCENES.entries()) {
+    const lt = t - s.start, on = lt >= 0 && lt < s.dur;
+    if (OPTS.still) { s.node.style.opacity = on ? 1 : 0; }
+    else {
+      const fin = prog(lt, 0, .45), fout = 1 - prog(lt, s.dur - .4, .4);
+      s.node.style.opacity = on ? Math.min(fin, fout) : 0;
+      s.node.style.transform = on ? `translateY(${(1 - easeOut(fin)) * 4}vw)` : '';
+    }
+    if (on) s.draw(lt);
+    dots[i].classList.toggle('on', on);
+  }
+};
+// last frame of a scene with everything settled, for still cards
+window.stillTime = (id) => { const s = SCENES.find((x) => x.id === id); return s.start + (s.still ?? s.dur - .5); };
+
+// ---------- scenes ----------
+function buildIntro() {
+  const n = el('section', 'scene intro');
+  const bism = el('div', 'ar bism', D.brand?.bismillah || '');
+  const title = el('div', 'title', D.league);
+  const week = el('div', 'week', `Matchweek ${D.week}`);
+  const date = el('div', 'date', fmtDate(D.date));
+  const crests = el('div', 'crests');
+  const cs = D.teams.map((t) => crest(t)); crests.append(...cs);
+  n.append(bism, title, starRule(), week, date, crests);
+  return { id: 'intro', node: n, dur: 3.4, still: 3.0, draw(t) {
+    bism.style.opacity = prog(t, .1, .6);
+    title.style.opacity = prog(t, .3, .5); title.style.transform = `scale(${lerp(1.12, 1, easeOut(prog(t, .3, .7)))})`;
+    week.style.opacity = prog(t, .8, .4); date.style.opacity = prog(t, 1, .4);
+    cs.forEach((c, i) => { const p = prog(t, 1.2 + i * .15, .5); c.style.opacity = p; c.style.transform = `scale(${lerp(.4, 1, back(p))})`; });
+  } };
+}
+
+function goalText(goals, side) {
+  const by = new Map();
+  for (const g of goals.filter((x) => x.team === side)) {
+    const k = g.own_goal ? `${g.scorer || 'Own goal'} (og)` : (g.scorer || 'Unknown');
+    const r = by.get(k) || { n: 0, assists: [] }; r.n++; if (g.assist) r.assists.push(g.assist); by.set(k, r);
+  }
+  const box = el('div');
+  for (const [k, r] of by) {
+    const line = el('div', null, `${k}${r.n > 1 ? ` ×${r.n}` : ''}`);
+    if (r.assists.length) line.append(el('span', 'as', ` · ast ${[...new Set(r.assists)].join(', ')}`));
+    box.append(line);
+  }
+  return box;
+}
+function buildResults() {
+  if (!D.results.length) return null;
+  const n = el('section', 'scene');
+  n.append(header(`Matchweek ${D.week}`, D.results.length === 1 ? 'Result' : 'Results'));
+  const cards = D.results.map((m) => {
+    const c = el('div', 'match'), row = el('div', 'match-row');
+    const side = (name, cls) => { const s = el('div', `side ${cls}`); const nm = el('div', 'nm', name); nm.append(el('small', 'ar', team(name).arabic || '')); s.append(crest(team(name)), nm); return s; };
+    const score = el('div', 'score num'); const hg = el('span', null, '0'), ag = el('span', null, '0'); score.append(hg, el('em', null, '–'), ag);
+    row.append(side(m.home, 'home'), score, side(m.away, 'away'));
+    c.append(row);
+    if (m.goals.length) { const sl = el('div', 'scorers-line'); sl.append(goalText(m.goals, m.home), goalText(m.goals, m.away)); c.append(sl); }
+    return { c, hg, ag, m };
+  });
+  n.append(...cards.map((x) => x.c));
+  const per = 1.1;
+  return { id: 'results', node: n, dur: 2.2 + per * cards.length + 1.6, still: 2.2 + per * cards.length + 1.0, draw(t) {
+    cards.forEach((x, i) => {
+      const p = prog(t, .5 + i * per, .6), q = prog(t, .9 + i * per, .8);
+      x.c.style.opacity = p; x.c.style.transform = `translateX(${(1 - easeOut(p)) * (i % 2 ? 30 : -30)}vw)`;
+      x.hg.textContent = Math.round(lerp(0, x.m.home_goals, easeOut(q)));
+      x.ag.textContent = Math.round(lerp(0, x.m.away_goals, easeOut(q)));
+    });
+  } };
+}
+
+function buildTable() {
+  const n = el('section', 'scene');
+  n.append(header(D.first_week ? 'After the opening week' : `After matchweek ${D.week}`, 'League table'));
+  const wrap = el('div', 'tbl'), head = el('div', 'tbl-head'), body = el('div', 'tbl-body');
+  for (const h of ['#', '', 'Team', 'P', 'W-D-L', 'GD', 'Pts', '']) head.append(el('span', null, h));
+  const ROW = 13, rows = D.table.length;
+  body.style.height = `${ROW * rows}vw`;
+  // where each team started: last week's order, or alphabetical in the opening week
+  const startOrder = D.first_week ? [...D.table].sort((a, b) => a.team.localeCompare(b.team)) : [...D.table].sort((a, b) => a.prev_pos - b.prev_pos);
+  const items = D.table.map((r) => {
+    const tr = el('div', 'trow num');
+    const pos = el('span', 'pos', ''), pts = el('span', 'pts', '');
+    const mv = el('span', 'mv');
+    if (r.prev_pos == null) { mv.textContent = 'NEW'; mv.classList.add('same'); }
+    else if (r.move > 0) { mv.textContent = `▲${r.move}`; mv.classList.add('up'); }
+    else if (r.move < 0) { mv.textContent = `▼${-r.move}`; mv.classList.add('down'); }
+    else { mv.textContent = '–'; mv.classList.add('same'); }
+    const tm = el('span', 'tm', r.team);
+    tr.append(pos, crest(team(r.team)), tm, el('span', null, r.played), el('span', 'wdl', `${r.won}-${r.drawn}-${r.lost}`),
+      el('span', null, r.gd > 0 ? `+${r.gd}` : r.gd), pts, mv);
+    body.append(tr);
+    return { tr, pos, pts, mv, r, from: startOrder.findIndex((x) => x.team === r.team), to: r.pos - 1 };
+  });
+  wrap.append(head, body);
+  n.append(wrap);
+  return { id: 'table', node: n, dur: 6.6, still: 5.6, draw(t) {
+    const p = ease(prog(t, 1.0, 2.2)), pop = prog(t, 3.3, .5);
+    for (const it of items) {
+      const y = lerp(it.from, it.to, p);
+      it.tr.style.top = `${y * ROW}vw`;
+      overtake(it.tr, it.from - it.to, p);
+      it.tr.classList.toggle('lead', p > .5 ? it.to === 0 : it.from === 0);
+      it.pos.textContent = String(Math.round(y) + 1);
+      it.pts.textContent = String(Math.round(lerp(it.r.prev_points, it.r.points, easeOut(prog(t, 1.0, 2.4)))));
+      it.mv.style.opacity = pop; it.mv.style.transform = `scale(${lerp(.3, 1, back(pop))})`;
+    }
+  } };
+}
+
+function buildRace(key, field, kicker, title) {
+  const list = D[key];
+  if (key === 'assists' && !D.stats.assists_recorded) return null;
+  const n = el('section', 'scene');
+  n.append(header(kicker, title));
+  if (!list.length) { n.append(el('div', 'empty-note', key === 'scorers' ? 'No goals recorded yet.' : 'No assists recorded yet.')); return { id: key, node: n, dur: 3, draw() {} }; }
+  const N = Math.min(6, list.length), BAR = 12.4;
+  const top = list.slice(0, N);
+  // last week's order among everyone who was on the board then
+  const prevOrder = [...list].filter((r) => r.prev > 0).sort((a, b) => b.prev - a.prev || a.player.localeCompare(b.player));
+  const max = Math.max(...top.map((r) => r[field]), 1);
+  const race = el('div', 'race'); race.style.height = `${BAR * N}vw`;
+  const items = top.map((r, i) => {
+    const b = el('div', 'bar num'), rk = el('span', 'rk', ''), track = el('div', 'track'), fill = el('div', 'fill'), lbl = el('div', 'lbl'), val = el('span', 'val', '');
+    lbl.append(el('b', null, r.player), el('small', null, r.team.toUpperCase()));
+    track.append(fill, lbl, val); b.append(rk, track); race.append(b);
+    const pi = prevOrder.findIndex((x) => x.player === r.player);
+    return { b, rk, fill, lbl, val, r, from: pi >= 0 && pi < N ? pi : N, to: i };
+  });
+  n.append(race);
+  let trackW = 0;
+  return { id: key, node: n, dur: 6.2, still: 5.4, draw(t) {
+    trackW ||= items[0].b.querySelector('.track').getBoundingClientRect().width / (window.innerWidth / 100);
+    const p = ease(prog(t, .9, 2.6));
+    for (const it of items) {
+      const v = lerp(it.r.prev, it.r[field], p), y = lerp(it.from, it.to, p);
+      const w = Math.max(.02, v / max) * (trackW - 12);
+      it.b.style.top = `${y * BAR}vw`;
+      overtake(it.b, it.from - it.to, p, it.fill);
+      if (it.from === N) it.b.style.opacity = clamp(p * 2.5);
+      it.fill.style.width = `${w}vw`;
+      it.val.style.left = `${w + 2}vw`;
+      it.val.textContent = String(Math.round(v));
+      it.rk.textContent = String(Math.round(y) + 1);
+      const labelW = it.lbl.getBoundingClientRect().width / (window.innerWidth / 100);
+      it.b.classList.toggle('out', labelW + 4 > w);
+      it.lbl.style.left = labelW + 4 > w ? `${w + 11}vw` : '2.4vw';
+      it.b.classList.toggle('first', p > .9 && it.to === 0);
+    }
+  } };
+}
+
+function buildTalkingPoints() {
+  const H = D.highlights, cards = [];
+  const card = (k, v, s, crestOf) => { const c = el('div', 'tp-card'); if (crestOf) c.append(crest(team(crestOf))); const d = el('div'); d.append(el('div', 'k', k), el('div', 'v', v)); if (s) d.append(el('div', 's', s)); c.append(d); cards.push(c); };
+  const lead = D.table[0];
+  card(H.leader_changed ? 'New leaders' : 'Top of the table', H.leader, `${lead.points} pts · ${lead.won}W ${lead.drawn}D ${lead.lost}L${H.leader_changed && H.previous_leader ? ` · took over from ${H.previous_leader}` : ''}`, H.leader);
+  if (H.top_scorer) card('Golden boot', H.top_scorer.player, `${H.top_scorer.goals} goal${H.top_scorer.goals === 1 ? '' : 's'} · ${H.top_scorer.team}`, H.top_scorer.team);
+  for (const h of H.hat_tricks) card('Hat-trick', h.player, `${h.goals} goals this week for ${h.team}`, h.team);
+  if (!H.hat_tricks.length && H.week_top_scorer && H.week_top_scorer.goals > 1) card('Star of the week', H.week_top_scorer.player, `${H.week_top_scorer.goals} goals this week`, H.week_top_scorer.team);
+  if (H.top_assist && D.stats.assists_recorded) card('Most assists', H.top_assist.player, `${H.top_assist.assists} assist${H.top_assist.assists === 1 ? '' : 's'} · ${H.top_assist.team}`, H.top_assist.team);
+  if (H.biggest_win) { const w = H.biggest_win, winner = w.home_goals > w.away_goals ? w.home : w.away; card('Biggest win', `${w.home} ${w.home_goals}–${w.away_goals} ${w.away}`, `${winner} by ${w.margin}`, winner); }
+  const shown = cards.slice(0, 5);
+  const n = el('section', 'scene'), box = el('div', 'tp');
+  n.append(header(`Matchweek ${D.week}`, 'Talking points'));
+  box.append(...shown); n.append(box);
+  return { id: 'talking', node: n, dur: 1.4 + shown.length * .45 + 2.2, still: 1.4 + shown.length * .45 + 1.4, draw(t) {
+    shown.forEach((c, i) => { const p = prog(t, .5 + i * .45, .5); c.style.opacity = p; c.style.transform = `translateX(${(1 - easeOut(p)) * 12}vw)`; });
+  } };
+}
+
+function buildOutro() {
+  const n = el('section', 'scene outro');
+  const crests = el('div', 'crests'); const cs = D.teams.map((t) => crest(t)); crests.append(...cs);
+  n.append(crests, el('div', 'title', D.league), starRule(), el('div', 'sub', `${D.stats.matches_played} matches · ${D.stats.total_goals} goals so far`), el('div', 'sub', 'See you next matchweek'));
+  crests.style.margin = '0 0 5vw';
+  return { id: 'outro', node: n, dur: 3, still: 2.4, draw(t) {
+    cs.forEach((c, i) => { const p = prog(t, .2 + i * .12, .5); c.style.opacity = p; c.style.transform = `translateY(${(1 - back(p)) * 6}vw)`; });
+  } };
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+@font-face { font-family: 'Barlow Condensed'; font-weight: 500; src: url(../assets/fonts/BarlowCondensed-Medium.ttf); }
+@font-face { font-family: 'Barlow Condensed'; font-weight: 700; src: url(../assets/fonts/BarlowCondensed-Bold.ttf); }
+@font-face { font-family: 'Barlow Condensed'; font-weight: 800; src: url(../assets/fonts/BarlowCondensed-ExtraBold.ttf); }
+@font-face { font-family: 'Amiri'; font-weight: 400; src: url(../assets/fonts/Amiri-Regular.ttf); }
+@font-face { font-family: 'Amiri'; font-weight: 700; src: url(../assets/fonts/Amiri-Bold.ttf); }
+
+:root { --cream: #f2ebdd; --paper: #faf6ee; --ink: #171412; --ink2: #5d5650; --crimson: #9b1b30; --crimson-lt: #d75b6e; --up: #2f8f5b; --down: #c0392b; --line: rgba(23,20,18,.14); }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100vw; height: 100vh; overflow: hidden; }
+body { background: var(--cream); color: var(--ink); font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif; font-weight: 500;
+  background-image: radial-gradient(ellipse at 50% 0, var(--paper), transparent 65%); -webkit-font-smoothing: antialiased; }
+.ar { font-family: 'Amiri', serif; direction: rtl; }
+.num { font-variant-numeric: tabular-nums; }
+
+
+.kicker { text-align: center; color: var(--crimson); font-weight: 700; letter-spacing: .5vw; text-transform: uppercase; font-size: 3.6vw; }
+.title { text-align: center; font-weight: 800; text-transform: uppercase; letter-spacing: .3vw; font-size: 11vw; line-height: .95; margin: .6vw 0 1.2vw; }
+.rule { display: flex; align-items: center; justify-content: center; gap: 1.6vw; margin: 0 0 5vw; }
+.rule span { width: 18vw; height: .25vw; background: linear-gradient(90deg, transparent, var(--crimson)); }
+.rule span:last-child { background: linear-gradient(90deg, var(--crimson), transparent); }
+.star { width: 2.6vw; height: 2.6vw; color: var(--crimson); }
+
+
+.crests { display: flex; justify-content: center; gap: 4vw; }
+.crests svg { width: 17vw; }

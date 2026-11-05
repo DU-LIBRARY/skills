@@ -11,6 +11,7 @@ higgsfield-product-photoshoot  →  self-contained, brand visuals via gpt_image_
 higgsfield-marketplace-cards  →  marketplace main, secondary, and A+ style images
 higgsfield-websites  →  build/edit/deploy full-stack sites via `higgsfield website …`
 higgsfield-video-explainer  →  audio + video blocks assembled by `explainer_video`
+higgsfield-football-league  →  weekly league data in league/ → table, races, recap video, graphics, dashboard sync
 ```
 
 ## Repository structure
@@ -139,6 +140,7 @@ A single repo-wide version must match every skill and plugin manifest:
 - `higgsfield-brandkit/SKILL.md` — `version:` in frontmatter.
 - `higgsfield-websites/SKILL.md` — `version:` in frontmatter.
 - `higgsfield-youtube-thumbnail/SKILL.md` — `version:` in frontmatter.
+- `higgsfield-football-league/SKILL.md` — `version:` in frontmatter.
 - `.claude-plugin/marketplace.json` — `plugins[0].version`.
 - `.claude-plugin/plugin.json` — top-level `version`.
 - `.codex-plugin/plugin.json` — top-level `version`.
@@ -155,6 +157,7 @@ Skills communicate through return values, not implicit state.
 - `higgsfield-product-photoshoot` does not chain — it owns its own pipeline.
 - `higgsfield-marketplace-cards` does not chain by default; it can reuse an existing main image job through `--main-job`.
 - `higgsfield-video-explainer` owns complete narrated explainers: live style resolve, Seed Audio blocks, Gemini Omni clips, then `explainer_video` assembly. Generic short video generation stays in `higgsfield-generate`.
+- `higgsfield-football-league` owns the league: data in `league/`, deterministic video/graphics renders (no AI-drawn numbers), Football League dashboard sync, and the `football-weekly.yml` Action that auto-renders and commits outputs. It may call `higgsfield-generate` only for optional text-free intro clips/backgrounds.
 - `higgsfield-websites` owns browser games (`--type game`): game-wide design, assets, build, verification, and deployment through `higgsfield website deploy`.
 
 When the user asks for both identity AND output in one request ("train Soul on these photos AND make a video of me"), run `higgsfield-soul-id` first, then `higgsfield-generate`. Don't batch-ask questions across skills — finish Soul, then start the video conversation.

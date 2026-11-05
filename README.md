@@ -58,6 +58,7 @@ More options in [INSTALL.md](./INSTALL.md). Agent-driven install (paste into you
 | [`higgsfield-websites`](./higgsfield-websites) | `/higgsfield:higgsfield-websites` | Build, edit, and deploy full-stack websites — React 19 + TanStack Start, server-rendered as one Cloudflare Worker with D1 / R2 / KV / Durable Objects / Containers. Create → get git repo access → edit locally → push → deploy preview/production, all via `higgsfield website …`. |
 | [`higgsfield-video-explainer`](./higgsfield-video-explainer) | `/higgsfield:higgsfield-video-explainer` | Create a narrated non-photoreal explainer as matched Seed Audio + Gemini Omni blocks, then assemble the final MP4 with `explainer_video`. |
 | [`higgsfield-youtube-thumbnail`](./higgsfield-youtube-thumbnail) | `/higgsfield:higgsfield-youtube-thumbnail` | Create truthful, high-impact YouTube thumbnails and vertical video covers with identity-preserving references, controlled variants, focused edits, and optional text-overlay guidance. |
+| [`higgsfield-football-league`](./higgsfield-football-league) | `/higgsfield:higgsfield-football-league` | Weekly football league: record results, scorers and assists; update the table, top scorers and top assists; render an animated recap video of the table and scorer-race movement; make matchday graphics (full time, player of the week, fixtures, announcements); sync the dashboard; auto-save to the repo. |
 
 The skills chain: train Soul → use the reference id in `generate` (including Marketing Studio jobs). `brandkit` chains Recraft, Seedream, GPT Image, and deterministic local tooling into one approval-aware identity system. `product-photoshoot` and `marketplace-cards` are self-contained — backend enhances prompts before submitting image jobs. `youtube-thumbnail` can follow any video workflow once its truthful topic and visual direction are known. `websites` chains with `generate` to embed bespoke hero images, video loops, and OG assets in the site.
 
@@ -110,6 +111,7 @@ The skills chain: train Soul → use the reference id in `generate` (including M
 | Create a narrated explainer from a topic or document | `higgsfield-video-explainer` | Resolves a live style, generates audio then video per block, and assembles with `explainer_video` |
 | Create a YouTube thumbnail or Shorts/Instagram video cover | `higgsfield-youtube-thumbnail` | Nano Banana Pro 4K main render, optional face/logo references, controlled variants, and Seedream tweaks |
 | Build and deploy a playable browser game | `higgsfield-websites` | `--type game`: game design, assets, implementation, QA, deploy, and optional publish |
+| Weekly league results → table, top scorers/assists, animated recap video, matchday graphics | `higgsfield-football-league` | Deterministic renders from `league/data/` (no AI-drawn numbers); syncs the Football League dashboard; GitHub Action auto-renders on new data |
 
 ## License
 

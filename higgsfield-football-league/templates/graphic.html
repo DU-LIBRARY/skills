@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Football League — matchday graphic</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.frame { position: absolute; inset: 0; display: flex; flex-direction: column; }
+.band { background: var(--ink); color: var(--cream); border-bottom: .8vw solid var(--crimson); height: 9vw; display: flex; align-items: center; justify-content: space-between; padding: 0 5vw;
+  font-weight: 700; letter-spacing: .3vw; text-transform: uppercase; font-size: 3.4vw; flex: none; }
+.band b { color: var(--crimson-lt); font-weight: 800; }
+.body { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 4vw 6vw; min-height: 0; }
+.foot { flex: none; text-align: center; padding: 0 0 4vw; color: var(--crimson); font-size: 4.6vw; }
+
+/* full time */
+.ft-big { text-align: center; font-weight: 800; font-size: min(20vw, 11vh); line-height: .9; letter-spacing: .4vw; text-transform: uppercase; }
+.ft-row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 3vw; margin: 3vw 0 4vw; }
+.ft-side { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.6vw; }
+.ft-side svg { width: min(22vw, 13vh); }
+.ft-side .nm { font-weight: 800; font-size: 6vw; line-height: 1; white-space: nowrap; }
+.ft-side .ar { color: var(--crimson); font-size: 5vw; line-height: 1.5; }
+.ft-score { font-weight: 800; font-size: 20vw; line-height: 1; white-space: nowrap; }
+.ft-score em { font-style: normal; color: var(--crimson); margin: 0 1.2vw; }
+.ft-goals { display: grid; grid-template-columns: 1fr 1fr; gap: 4vw; border-top: .3vw solid var(--ink); padding-top: 3vw; font-size: 4.2vw; line-height: 1.4; }
+.ft-goals > div:last-child { text-align: right; }
+.ft-goals .as { color: var(--ink2); font-size: 3.4vw; }
+
+/* player of the week */
+.potw-photo { width: min(62vw, 30vh); height: min(62vw, 30vh); margin: 0 auto; position: relative; display: grid; place-items: center; }
+.potw-photo img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 1.4vw solid var(--ink); box-shadow: 0 0 0 1vw var(--crimson); }
+.potw-photo svg { width: 70%; }
+.potw-name { text-align: center; font-weight: 800; text-transform: uppercase; font-size: min(15vw, 8vh); line-height: .95; margin-top: min(5vw, 2.4vh); letter-spacing: .3vw; }
+.potw-team { text-align: center; color: var(--crimson); font-weight: 700; font-size: 5.4vw; letter-spacing: .3vw; text-transform: uppercase; margin-top: 1vw; }
+.stats { display: flex; justify-content: center; gap: 3vw; margin-top: min(5vw, 2.4vh); }
+.potw .title { font-size: min(11vw, 6vh); }
+.stat { background: var(--ink); color: var(--cream); border-bottom: .8vw solid var(--crimson); border-radius: .6vw; padding: 2.4vw 4vw; text-align: center; min-width: 22vw; }
+.stat b { display: block; font-weight: 800; font-size: min(11vw, 6vh); line-height: 1; }
+.stat span { display: block; font-size: 3.4vw; letter-spacing: .3vw; text-transform: uppercase; color: #c9bfae; margin-top: .6vw; }
+
+/* fixtures */
+.fx { display: grid; gap: 3.4vw; }
+.fx-card { background: var(--paper); border: .2vw solid var(--line); border-left: 1.4vw solid var(--crimson); border-radius: .6vw; padding: 3vw 3.6vw; }
+.fx-row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 2vw; }
+.fx-side { display: flex; align-items: center; gap: 2vw; font-weight: 800; font-size: 5vw; line-height: 1; white-space: nowrap; }
+.fx-side.away { flex-direction: row-reverse; text-align: right; }
+.fx-side svg { width: 10vw; flex: none; }
+.fx-vs { font-weight: 800; color: var(--crimson); font-size: 6vw; }
+.fx-meta { text-align: center; color: var(--ink2); font-size: 3.8vw; margin-top: 1.6vw; letter-spacing: .1vw; }
+
+/* announcement */
+.ann-body { text-align: center; font-size: 6vw; line-height: 1.3; color: var(--ink); max-width: 80vw; margin: 0 auto; white-space: pre-line; }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script src="common.js"></script>
+<script>
+window.init = (G) => {
+  applyBrand(G.brand);
+  const team = (n) => teamOf(G.teams, n);
+  const stage = document.getElementById('stage');
+  const f = el('div', 'frame'), band = el('div', 'band'), body = el('div', 'body');
+  const right = el('span'); if (G.week) { right.append('Matchweek '); right.append(el('b', null, String(G.week))); } else right.append(G.band_right || '');
+  band.append(el('span', null, G.league), right);
+  f.append(band, body);
+  if (G.brand?.bismillah && G.type !== 'fulltime') f.append(el('div', 'foot ar', G.brand.bismillah));
+  stage.replaceChildren(f);
+
+  const BUILD = {
+    fulltime() {
+      const m = G.match;
+      body.append(el('div', 'kicker', fmtDate(m.date)), el('div', 'ft-big', 'Full time'));
+      const row = el('div', 'ft-row');
+      const side = (n) => { const s = el('div', 'ft-side'); s.append(crest(team(n)), el('div', 'nm', n), el('div', 'ar', team(n).arabic || '')); return s; };
+      const sc = el('div', 'ft-score num'); sc.append(String(m.home_goals), el('em', null, '–'), String(m.away_goals));
+      row.append(side(m.home), sc, side(m.away));
+      body.append(row);
+      if (m.goals?.length) {
+        const g = el('div', 'ft-goals');
+        for (const s of [m.home, m.away]) {
+          const col = el('div'), by = new Map();
+          for (const x of m.goals.filter((y) => y.team === s)) { const k = x.own_goal ? `${x.scorer || 'Own goal'} (og)` : (x.scorer || 'Unknown'); const r = by.get(k) || { n: 0, a: [] }; r.n++; if (x.assist) r.a.push(x.assist); by.set(k, r); }
+          for (const [k, r] of by) { const d = el('div', null, `⚽ ${k}${r.n > 1 ? ` ×${r.n}` : ''}`); if (r.a.length) d.append(el('div', 'as', `assist ${[...new Set(r.a)].join(', ')}`)); col.append(d); }
+          g.append(col);
+        }
+        body.append(g);
+      }
+    },
+    potw() {
+      const p = G.player;
+      body.classList.add('potw');
+      body.append(el('div', 'kicker', `Matchweek ${G.week}`), el('div', 'title', 'Player of the week'), starRule());
+      const ph = el('div', 'potw-photo');
+      if (p.photo) { const i = document.createElement('img'); i.src = p.photo; ph.append(i); } else ph.append(crest(team(p.team)));
+      body.append(ph, el('div', 'potw-name', p.player), el('div', 'potw-team', p.team));
+      const st = el('div', 'stats');
+      for (const [v, k] of [[p.goals, p.goals === 1 ? 'Goal' : 'Goals'], [p.assists, p.assists === 1 ? 'Assist' : 'Assists']]) if (v) { const s = el('div', 'stat num'); s.append(el('b', null, String(v)), el('span', null, k)); st.append(s); }
+      if (st.children.length) body.append(st);
+      if (p.note) body.append(el('div', 'fx-meta', p.note));
+    },
+    fixtures() {
+      body.append(el('div', 'kicker', G.kicker || (G.date ? fmtDate(G.date) : 'Coming up')), el('div', 'title', G.title || 'Fixtures'), starRule());
+      const box = el('div', 'fx');
+      for (const fx of G.fixtures) {
+        const c = el('div', 'fx-card'), row = el('div', 'fx-row');
+        const side = (n, cls) => { const s = el('div', `fx-side ${cls}`); s.append(crest(team(n)), el('span', null, n)); return s; };
+        row.append(side(fx.home, 'home'), el('div', 'fx-vs', 'v'), side(fx.away, 'away'));
+        c.append(row);
+        const meta = [fx.date && fx.date !== G.date ? fmtDate(fx.date) : null, fx.time, fx.venue].filter(Boolean).join(' · ');
+        if (meta) c.append(el('div', 'fx-meta', meta));
+        box.append(c);
+      }
+      body.append(box);
+    },
+    announcement() {
+      body.append(el('div', 'kicker', G.kicker || G.league), el('div', 'title', G.title), starRule(), el('div', 'ann-body', G.body || ''));
+      const cr = el('div', 'crests'); cr.style.marginTop = '7vw'; cr.append(...G.teams.map((t) => crest(t))); body.append(cr);
+    },
+  };
+  if (!BUILD[G.type]) throw new Error(`unknown graphic type ${G.type}`);
+  BUILD[G.type]();
+  return true;
+};
+</script>
+</body>
+</html>

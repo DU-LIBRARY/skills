@@ -1,3 +1,8 @@
 .DS_Store
 *.swp
 *.swo
+
+# football league scratch output
+league/weeks/*/preview-*.jpg
+league/weeks/*/*.silent.mp4
+league/weeks/*/*.joined.mp4
