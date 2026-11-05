@@ -156,7 +156,7 @@ function finish(silent, final, duration, [w, h]) {
 function run(args) { const r = spawnSync('ffmpeg', args, { stdio: 'inherit' }); if (r.status !== 0) die(`ffmpeg failed: ${args.join(' ')}`); }
 
 async function renderCards(browser) {
-  const ids = ['results', 'table', 'scorers', 'assists', 'talking'];
+  const ids = ['results', 'goals', 'table', 'scorers', 'assists', 'talking'];
   for (const id of ids) {
     let res;
     try { res = await openPage(browser, FORMATS.feed, { still: true, only: id }); } catch { continue; } // scene not in this week (e.g. no assists recorded)
