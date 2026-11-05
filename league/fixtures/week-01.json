@@ -1,0 +1,67 @@
+{
+ "week": 1,
+ "date": null,
+ "venue": null,
+ "rounds": [
+  {
+   "round": 1,
+   "kickoff": null,
+   "games": [
+    {
+     "pitch": "Pitch 1",
+     "teams": [
+      "Al-Mufliḥūn",
+      "As-Sābiqūn"
+     ]
+    },
+    {
+     "pitch": "Pitch 2",
+     "teams": [
+      "An-Nāṣirūn",
+      "Al-Fāʾizūn"
+     ]
+    }
+   ]
+  },
+  {
+   "round": 2,
+   "kickoff": null,
+   "games": [
+    {
+     "pitch": "Pitch 1",
+     "teams": [
+      "An-Nāṣirūn",
+      "Al-Mufliḥūn"
+     ]
+    },
+    {
+     "pitch": "Pitch 2",
+     "teams": [
+      "Al-Fāʾizūn",
+      "As-Sābiqūn"
+     ]
+    }
+   ]
+  },
+  {
+   "round": 3,
+   "kickoff": null,
+   "games": [
+    {
+     "pitch": "Pitch 1",
+     "teams": [
+      "Al-Fāʾizūn",
+      "Al-Mufliḥūn"
+     ]
+    },
+    {
+     "pitch": "Pitch 2",
+     "teams": [
+      "An-Nāṣirūn",
+      "As-Sābiqūn"
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -12,6 +12,7 @@ This folder is the league's archive. It's maintained by the
 | `data/goals.json` | One row per goal: `{match, team, scorer, assist, own_goal}` |
 | `weeks/week-NN/` | That week's `snapshot.json`, recap video `week-NN-story.mp4` and `cards/*.png` |
 | `graphics/` | Fixtures posters and announcements |
+| `fixtures/` | Weekly fixture list PDFs (`week-NN-fixtures.pdf`) and the fixtures as data |
 
 **Weekly:** send the results to Claude. It saves them, renders the video and
 graphics, syncs the [Darul Uloom Football League dashboard](https://claude.ai/artifact/X3aSihZoh87zLQ57WvfycH)

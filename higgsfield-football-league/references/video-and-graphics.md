@@ -83,6 +83,24 @@ Fixtures spec:
 A Player of the Week photo goes into a circular crop. Only use a photo the user
 provides of that player. Without one, the team crest is used.
 
+## fixtures.mjs: weekly fixture list PDF
+
+```bash
+node higgsfield-football-league/scripts/fixtures.mjs [--week N] [--weeks K] [--date YYYY-MM-DD]
+```
+
+Every team plays every other team once a week (4 teams → 6 games), two games at once on two pitches, so a week is
+3 rounds and nobody sits out. Default week is the one after the last recorded; `--weeks K` makes K weeks in a row.
+Date: `--date`, else 7 days after the last recorded match day, else left off.
+
+The order changes every week: it cycles through all 6 orders of the 3 pairings, chosen so a week never opens with
+the pairing the previous week closed on (nobody meets the same team twice in a row across weeks), and the two games
+swap pitches. There is no home/away. Pitch names, kick-off times per round and venue come from
+`league.json → schedule` (`pitches`, `kickoffs` like `["10:00", "10:40", "11:20"]`, `venue`).
+
+Output: `league/fixtures/week-NN-fixtures.pdf` (one A4 page: three rounds, then each team's running order) and
+`week-NN.json` (the same fixtures as data). The page shrinks itself to stay on one sheet.
+
 ## Style
 
 `templates/common.css` + `common.js` hold the shared style: colours from

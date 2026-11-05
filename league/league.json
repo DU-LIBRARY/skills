@@ -26,6 +26,12 @@
       "squads": "datasets/squads"
     }
   },
+  "schedule": {
+    "format": "Each team plays every other team once a week: 3 rounds of 2 games played at the same time",
+    "pitches": ["Pitch 1", "Pitch 2"],
+    "kickoffs": [],
+    "venue": null
+  },
   "teams": [
     { "name": "An-Nāṣirūn", "arabic": "الناصرون", "crest_text": "الناصرون", "crest": "shield", "short": "NAS" },
     { "name": "Al-Fāʾizūn", "arabic": "الفائزون", "crest_text": "الفائزون", "crest": "roundel", "short": "FAI" },

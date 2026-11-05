@@ -45,6 +45,7 @@ higgsfield-football-league/
   scripts/league.mjs            add-week | snapshot | status | check | import
   scripts/render.mjs            the recap video and still cards
   scripts/graphic.mjs           fulltime | potw | fixtures | announcement
+  scripts/fixtures.mjs          weekly fixture list PDFs (rotating round-robin)
   templates/                    weekly.html, graphic.html, common.{css,js}: the house style
   assets/fonts/                 Barlow Condensed and Amiri (bundled, OFL)
 ```
@@ -138,6 +139,7 @@ available. Mention anything you assumed (e.g. "no assists given for the 2nd goal
 | User says | Do |
 |---|---|
 | "Fix last week: it was 2-2 not 2-1" | Edit the week JSON, `add-week --replace`, re-render that week **and every later week** (`--week N` each), then sync and commit. |
+| "Make this week's fixtures" / "fixture list PDF" | `fixtures.mjs [--week N] [--weeks K] [--date YYYY-MM-DD]`: A4 PDF in `league/fixtures/`, 3 rounds of 2 simultaneous games, order rotates every week, no home/away ([video-and-graphics.md](references/video-and-graphics.md)) |
 | "Make a fixtures poster for Saturday" | `graphic.mjs fixtures --spec fx.json` ([video-and-graphics.md](references/video-and-graphics.md)) |
 | "Post that the games are off" | `graphic.mjs announcement --title … --body …` |
 | "Player of the week is X" | `graphic.mjs potw --player X [--photo path] [--note …]` |
