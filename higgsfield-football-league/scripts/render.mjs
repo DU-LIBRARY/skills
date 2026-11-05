@@ -6,12 +6,15 @@
 //   week-NN-<format>.mp4            the animated recap (table movement, scorer and assist races)
 //   cards/<scene>-feed.png           still graphics for posting (results, table, scorers, assists, talking points)
 //   snapshot.json                    the numbers every frame was drawn from
+// Launch video (season opener: title, each team and its squad, Matchweek 1 fixtures):
+//   node render.mjs --launch [--date YYYY-MM-DD] [--format story|feed|square] [--preview]
+//   -> <root>/launch/launch-<format>.mp4
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawn, spawnSync } from 'node:child_process';
 import os from 'node:os';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { loadLeague, weeksOf, snapshot, writeJSON, weekDir, pad2, launchChromium, hasFfmpeg, logoDataURL } from './lib.mjs';
+import { loadLeague, weeksOf, snapshot, writeJSON, weekDir, pad2, launchChromium, hasFfmpeg, logoDataURL, weekFixtures } from './lib.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const argv = process.argv.slice(2);
@@ -30,25 +33,39 @@ const blur = Math.max(1, Number(opt('blur', 2)));
 const workers = Math.max(1, Number(opt('workers', Math.min(4, os.cpus().length))));
 const only = opt('only');
 const L = loadLeague(root);
-const weeks = weeksOf(L);
-if (!weeks.length) die('no matches recorded yet — add a week first');
-const week = Number(opt('week', weeks[weeks.length - 1]));
-const snap = snapshot(L, week);
-const outDir = weekDir(root, week);
-const snapPath = path.join(outDir, 'snapshot.json');
-// --if-changed: skip when this week's video already exists and its numbers haven't moved
-// (used by the GitHub Action so a local render isn't redone).
-if (flag('if-changed') && fs.existsSync(path.join(outDir, `week-${pad2(week)}-${format}.mp4`)) && fs.existsSync(snapPath)
-  && fs.readFileSync(snapPath, 'utf8') === JSON.stringify(snap, null, 1) + '\n') {
-  console.log(`= week ${week} unchanged and already rendered; skipping`); process.exit(0);
+const LAUNCH = flag('launch');
+let week, snap, outDir, pageData, baseName;
+if (LAUNCH) {
+  // the season opener: needs no results, only the teams, squads and Matchweek 1 fixtures
+  week = 1;
+  outDir = path.join(root, 'launch');
+  fs.mkdirSync(outDir, { recursive: true });
+  baseName = `launch-${format}`;
+  pageData = { league: L.config.name, title_lines: L.config.title_lines, arabic_name: L.config.arabic_name, season: L.config.season,
+    teams: L.config.teams, brand: L.config.brand, logo: logoDataURL(L), date: opt('date') ?? L.config.schedule?.start_date ?? null,
+    venue: L.config.schedule?.venue ?? null, fixtures: weekFixtures(L, 1),
+    squads: Object.fromEntries(L.config.teams.map((t) => [t.name, L.squads.filter((p) => p.team === t.name).map((p) => p.player)])) };
+} else {
+  const weeks = weeksOf(L);
+  if (!weeks.length) die('no matches recorded yet — add a week first');
+  week = Number(opt('week', weeks[weeks.length - 1]));
+  snap = snapshot(L, week);
+  outDir = weekDir(root, week);
+  baseName = `week-${pad2(week)}-${format}`;
+  const snapPath = path.join(outDir, 'snapshot.json');
+  // --if-changed: skip when this week's video already exists and its numbers haven't moved
+  // (used by the GitHub Action so a local render isn't redone).
+  if (flag('if-changed') && fs.existsSync(path.join(outDir, `${baseName}.mp4`)) && fs.existsSync(snapPath)
+    && fs.readFileSync(snapPath, 'utf8') === JSON.stringify(snap, null, 1) + '\n') {
+    console.log(`= week ${week} unchanged and already rendered; skipping`); process.exit(0);
+  }
+  fs.mkdirSync(path.join(outDir, 'cards'), { recursive: true });
+  writeJSON(snapPath, snap);
+  pageData = { ...snap, logo: logoDataURL(L) };
 }
-fs.mkdirSync(path.join(outDir, 'cards'), { recursive: true });
-writeJSON(snapPath, snap);
-
-const pageData = { ...snap, logo: logoDataURL(L) };
 if (!hasFfmpeg()) die('ffmpeg not found — install it (brew install ffmpeg / apt-get install ffmpeg)');
 
-const template = pathToFileURL(path.join(here, '..', 'templates', 'weekly.html')).href;
+const template = pathToFileURL(path.join(here, '..', 'templates', LAUNCH ? 'launch.html' : 'weekly.html')).href;
 
 async function openPage(browser, [w, h], opts) {
   const page = await browser.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: 1 });
@@ -61,7 +78,7 @@ async function openPage(browser, [w, h], opts) {
 
 async function renderVideo(browser) {
   const size = FORMATS[format];
-  const base = path.join(outDir, `week-${pad2(week)}-${format}`);
+  const base = path.join(outDir, baseName);
   const silent = `${base}.silent.mp4`, final = `${base}.mp4`;
 
   if (flag('preview')) {
@@ -172,5 +189,5 @@ let browser;
 try { browser = await launchChromium(); } catch (e) { die(e.message); }
 try {
   if (only !== 'cards') await renderVideo(browser);
-  if (only !== 'video' && !flag('preview')) await renderCards(browser);
+  if (only !== 'video' && !flag('preview') && !LAUNCH) await renderCards(browser);
 } finally { await browser.close(); }

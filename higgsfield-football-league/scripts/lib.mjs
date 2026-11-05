@@ -1,4 +1,4 @@
-// Shared league logic. No dependencies. The maths here mirrors the Football League
+// Shared league logic. No dependencies. The maths here mirrors the league
 // dashboard's own calcs (league_table, scorers, assists, defence) so the video, the
 // cards and the dashboard always agree.
 import fs from 'node:fs';
@@ -208,4 +208,26 @@ export function logoDataURL(L) {
   if (!fs.existsSync(p)) return null;
   const ext = path.extname(p).slice(1).toLowerCase().replace('jpg', 'jpeg');
   return `data:image/${ext};base64,${fs.readFileSync(p).toString('base64')}`;
+}
+
+// Weekly round-robin for 4 teams: every team plays every other once a week, two games at a
+// time, so 3 rounds. The three possible pairings are cycled through all 6 orders, chosen so
+// a week never opens with the pairing the previous week closed on; the two games swap
+// pitches. No home/away.
+const ROUNDS = [[[0, 1], [2, 3]], [[0, 2], [1, 3]], [[0, 3], [1, 2]]];
+const ORDERS = [[0, 1, 2], [1, 2, 0], [2, 0, 1], [0, 2, 1], [2, 1, 0], [1, 0, 2]];
+export function weekFixtures(L, week) {
+  const teams = L.config.teams.map((t) => t.name);
+  if (teams.length !== 4) throw new Error(`the weekly schedule is for 4 teams (league.json has ${teams.length})`);
+  const S = L.config.schedule ?? {};
+  const pitches = S.pitches ?? ['Pitch 1', 'Pitch 2'];
+  const kickoffs = S.kickoffs ?? [];
+  const order = ORDERS[(week - 1) % ORDERS.length];
+  const cycle = Math.floor((week - 1) / ORDERS.length);
+  return order.map((r, slot) => {
+    let games = ROUNDS[r];
+    if ((week + slot + cycle) % 2) games = [games[1], games[0]];
+    return { round: slot + 1, kickoff: kickoffs[slot] ?? null,
+      games: games.map(([a, b], k) => ({ pitch: pitches[k] ?? `Pitch ${k + 1}`, teams: [teams[a], teams[b]] })) };
+  });
 }

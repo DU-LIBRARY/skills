@@ -6,7 +6,7 @@ description: |
   and assists, update the league table, top scorers and top assists, render
   an animated recap video showing how the table and scorer/assist races
   moved, make matchday graphics (full time, player of the week, fixtures,
-  announcements), sync the Football League dashboard artifact, and save
+  announcements), sync the Darul Uloom Winter League dashboard artifact, and save
   everything to the repo. Use when: "here are this week's scores", "add
   the results", "update the league", "make the weekly video/animation",
   "who's top scorer", "player of the week", "make a fixtures poster",
@@ -19,9 +19,9 @@ argument-hint: "[this week's results as text] [--week N] [--format story|feed|sq
 allowed-tools: Bash, Read, Write, Edit
 ---
 
-# Darul Uloom Football League — weekly results, animation, graphics
+# Darul Uloom Winter League — weekly results, animation, graphics
 
-The user runs the Darul Uloom Football League (4 teams, 8-player squads) and sends results
+The user runs the Darul Uloom Winter League (4 teams, 8-player squads) and sends results
 every week. This skill turns that message into four things:
 **saved data → updated standings → recap video + graphics → synced dashboard**,
 and commits all of it to this repo.
@@ -109,7 +109,7 @@ Animation rules (keep it smooth: transforms only, eased, no instant switches), f
 ### 4. Sync the dashboard artifact
 
 Upload the new `matches.json` and `goals.json` (plus `squads.json` if
-players changed) to the Football League dashboard and point its datasets at
+players changed) to the Darul Uloom Winter League dashboard and point its datasets at
 them. Exact steps are in [references/dashboard-sync.md](references/dashboard-sync.md).
 The dashboard computes its own table from these files, so after syncing it
 matches the video exactly.
@@ -139,6 +139,7 @@ available. Mention anything you assumed (e.g. "no assists given for the 2nd goal
 | User says | Do |
 |---|---|
 | "Fix last week: it was 2-2 not 2-1" | Edit the week JSON, `add-week --replace`, re-render that week **and every later week** (`--week N` each), then sync and commit. |
+| "Make a launch/intro video" / "introduce the teams" | `render.mjs --launch [--date YYYY-MM-DD]`: title, each team with its crest, Arabic name and squad, Matchweek 1 fixtures, outro (~27s). Output `league/launch/launch-story.mp4` |
 | "Make this week's fixtures" / "fixture list PDF" | `fixtures.mjs [--week N] [--weeks K] [--date YYYY-MM-DD]`: A4 PDF in `league/fixtures/`, 3 rounds of 2 simultaneous games, order rotates every week, no home/away ([video-and-graphics.md](references/video-and-graphics.md)) |
 | "Make a fixtures poster for Saturday" | `graphic.mjs fixtures --spec fx.json` ([video-and-graphics.md](references/video-and-graphics.md)) |
 | "Post that the games are off" | `graphic.mjs announcement --title … --body …` |

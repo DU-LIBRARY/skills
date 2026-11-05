@@ -1,6 +1,6 @@
-# Syncing the Football League dashboard
+# Syncing the Darul Uloom Winter League dashboard
 
-The user's **Darul Uloom Football League** dashboard is a Claude artifact (Dashboard type).
+The user's **Darul Uloom Winter League** dashboard is a Claude artifact (Dashboard type).
 Its slug and URL are in `league/league.json → artifact`:
 
 - slug `f34e41f1-25cf-4da0-853c-23c3639069be`

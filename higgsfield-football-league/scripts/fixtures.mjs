@@ -10,7 +10,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { loadLeague, weeksOf, writeJSON, pad2, launchChromium, logoDataURL } from './lib.mjs';
+import { loadLeague, weeksOf, writeJSON, pad2, launchChromium, logoDataURL, weekFixtures as weekFixturesOf } from './lib.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const argv = process.argv.slice(2);
@@ -22,29 +22,8 @@ const L = loadLeague(root);
 const teams = L.config.teams.map((t) => t.name);
 if (teams.length !== 4) die(`this schedule is for 4 teams (league.json has ${teams.length})`);
 const S = L.config.schedule ?? {};
-const pitches = S.pitches ?? ['Pitch 1', 'Pitch 2'];
-const kickoffs = S.kickoffs ?? [];            // e.g. ["10:00", "10:40", "11:20"]; optional
 const venue = S.venue ?? null;
-
-// The three ways to split 4 teams into 2 games: each is one round.
-const ROUNDS = [[[0, 1], [2, 3]], [[0, 2], [1, 3]], [[0, 3], [1, 2]]];
-// Round orders, cycled week by week. Chosen so a week never opens with the pairing the
-// previous week closed on: nobody meets the same team twice in a row across weeks.
-const ORDERS = [[0, 1, 2], [1, 2, 0], [2, 0, 1], [0, 2, 1], [2, 1, 0], [1, 0, 2]];
-
-export function weekFixtures(week) {
-  const order = ORDERS[(week - 1) % ORDERS.length];
-  const cycle = Math.floor((week - 1) / ORDERS.length);
-  return order.map((r, slot) => {
-    let games = ROUNDS[r];
-    if ((week + slot + cycle) % 2) games = [games[1], games[0]]; // swap pitches
-    return {
-      round: slot + 1,
-      kickoff: kickoffs[slot] ?? null,
-      games: games.map(([a, b], k) => ({ pitch: pitches[k] ?? `Pitch ${k + 1}`, teams: [teams[a], teams[b]] })),
-    };
-  });
-}
+const weekFixtures = (w) => weekFixturesOf(L, w);
 
 const addDays = (d, n) => { const x = new Date(`${d}T12:00:00Z`); x.setUTCDate(x.getUTCDate() + n); return x.toISOString().slice(0, 10); };
 const lastWeek = weeksOf(L).at(-1) ?? 0;

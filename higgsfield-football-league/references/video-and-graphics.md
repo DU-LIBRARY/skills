@@ -35,7 +35,7 @@ With the defaults on 4 CPUs, a 36s video takes about 3½ minutes (`--blur 1`: ab
 
 | Scene | Length | What moves |
 |---|---|---|
-| intro | 4.6s | Bismillah and دار العلوم fade up, "Darul Uloom / Football League" slide up out of masks, the star rule draws, crests settle in |
+| intro | 4.6s | Bismillah and دار العلوم fade up, "Darul Uloom / Winter League" slide up out of masks, the star rule draws, crests settle in |
 | results | 0.45s + 1.25s per match + 2.8s | Match cards sweep in from alternate sides, scores roll up like a scoreboard, scorer lines stagger in |
 | table | 7.4s | Rows start in last week's order (alphabetical in week 1) and glide to the new order. Risers lift over fallers, the dark leader band follows whoever reaches the top, points roll, ▲▼ arrows settle in |
 | scorers | 7.0s | Top 6 bar race: bars sweep in, then grow and re-rank from last week's totals. Numbers roll. Each bar's end band shows its medal live (gold, silver, bronze in flat colour; crimson for no medal), and the leader's bar fades to crimson as the race settles: from the start it reflects last week, and medals change hands as the counts tick over (0.3s blend) |
@@ -82,6 +82,17 @@ Fixtures spec:
 
 A Player of the Week photo goes into a circular crop. Only use a photo the user
 provides of that player. Without one, the team crest is used.
+
+## Launch video (season opener)
+
+```bash
+node higgsfield-football-league/scripts/render.mjs --launch [--date YYYY-MM-DD] [--format story|feed|square] [--preview]
+```
+
+`templates/launch.html`: title (bismillah, دار العلوم, the league name, "Meet the teams") → one scene per team (crest
+settles in, name, Arabic name without harakat, the squad from `data/squads.json`) → Matchweek 1 fixtures from the
+same schedule as `fixtures.mjs` → outro with the first matchweek's date (`--date`, else `league.json → schedule.start_date`,
+else "coming soon"). About 27s; needs no results. Output `league/launch/launch-<format>.mp4`.
 
 ## fixtures.mjs: weekly fixture list PDF
 

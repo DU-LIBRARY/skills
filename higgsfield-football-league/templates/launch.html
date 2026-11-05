@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Darul Uloom Winter League — launch</title>
+<link rel="stylesheet" href="common.css">
+<style>
+/* Same motion rules as weekly.html: only transform/opacity, eased, scenes hand over without a blank frame. */
+#stage { position: absolute; inset: 0; overflow: hidden; }
+.glow { position: absolute; z-index: 1; left: -30vw; right: -30vw; top: -20vw; height: 120vw; will-change: transform;
+  background: radial-gradient(ellipse at center, rgba(250,246,238,.95), rgba(250,246,238,0) 60%); }
+.chrome-top { position: absolute; left: 0; right: 0; top: 0; height: 9vw; background: var(--ink); color: var(--cream); border-bottom: .8vw solid var(--crimson);
+  display: flex; align-items: center; justify-content: space-between; padding: 0 5vw; font-weight: 700; letter-spacing: .3vw; text-transform: uppercase; font-size: 3.2vw; z-index: 50; }
+.chrome-top b { color: var(--crimson-lt); font-weight: 800; }
+.progress { position: absolute; left: 0; right: 0; bottom: 0; height: .9vw; background: rgba(23,20,18,.08); z-index: 50; }
+.progress i { position: absolute; inset: 0; background: var(--crimson); transform-origin: 0 50%; will-change: transform; }
+.scene { position: absolute; left: 0; right: 0; top: 9vw; bottom: 3vw; z-index: 2; display: flex; flex-direction: column; justify-content: center; padding: 0 6vw; opacity: 0; will-change: transform, opacity; }
+.mask { overflow: hidden; display: block; }
+.mask > * { display: block; will-change: transform; }
+
+/* title */
+.t-bism { text-align: center; font-size: 6.2vw; color: var(--crimson); line-height: 2.1; }
+.t-ar { text-align: center; font-size: 9vw; line-height: 1.6; font-weight: 700; }
+.t-l1 { text-align: center; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2vw; font-size: 8vw; color: var(--crimson); line-height: 1.05; }
+.t-l2 { text-align: center; font-weight: 800; text-transform: uppercase; letter-spacing: .3vw; font-size: 17vw; line-height: .95; }
+.t-sub { text-align: center; font-weight: 700; font-size: 5.4vw; letter-spacing: .6vw; text-transform: uppercase; color: var(--ink2); }
+.t-crests { margin-top: 7vw; }
+
+/* team */
+.tm-kicker { text-align: center; color: var(--crimson); font-weight: 700; letter-spacing: .6vw; text-transform: uppercase; font-size: 3.8vw; }
+.tm-crest { display: flex; justify-content: center; margin: 3vw 0 2vw; }
+.tm-crest svg { width: 46vw; will-change: transform, opacity; filter: drop-shadow(0 2vw 3vw rgba(23,20,18,.25)); }
+.tm-name { text-align: center; font-weight: 800; text-transform: uppercase; font-size: 15vw; line-height: .95; letter-spacing: .3vw; }
+.tm-ar { text-align: center; font-size: 10vw; line-height: 1.5; color: var(--crimson); font-weight: 700; }
+.tm-squad { display: grid; grid-template-columns: 1fr 1fr; column-gap: 4vw; row-gap: 1.4vw; margin-top: 4vw; background: var(--ink); color: var(--cream);
+  border-radius: .8vw; border-bottom: .9vw solid var(--crimson); padding: 3.6vw 5vw; }
+.tm-squad div { font-weight: 700; font-size: 4.6vw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; will-change: transform, opacity; }
+.tm-squad div::before { content: ''; display: inline-block; width: 1.2vw; height: 1.2vw; background: var(--crimson-lt); transform: rotate(45deg); margin-right: 2vw; vertical-align: .5vw; }
+
+/* fixtures */
+.fx-meta { text-align: center; color: var(--ink2); font-size: 4vw; margin: -2vw 0 3.6vw; letter-spacing: .1vw; }
+.fx-round { margin-bottom: 3.4vw; will-change: transform, opacity; }
+.fx-rh { display: flex; align-items: center; gap: 2vw; margin-bottom: 1.4vw; }
+.fx-rh .no { background: var(--crimson); color: var(--cream); font-weight: 800; font-size: 3.4vw; letter-spacing: .3vw; text-transform: uppercase; padding: .5vw 2vw; border-radius: .5vw; }
+.fx-rh .ko { font-weight: 800; font-size: 4vw; }
+.fx-rh .line { flex: 1; height: .3vw; background: linear-gradient(90deg, var(--crimson), transparent); }
+.fx-game { display: grid; grid-template-columns: 7.5vw 1fr auto 1fr 7.5vw; align-items: center; column-gap: 2vw; height: 11.6vw; padding: 0 2.4vw; margin-bottom: 1.4vw;
+  background: var(--ink); color: var(--cream); border-radius: .5vw; will-change: transform, opacity; }
+.fx-game svg { width: 7.5vw; }
+.fx-game .nm { font-weight: 700; font-size: 4.6vw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fx-game .h { text-align: right; }
+.fx-game .v { font-weight: 800; font-size: 4.6vw; color: var(--crimson-lt); text-align: center; line-height: 1; }
+.fx-game .v small { display: block; font-size: 2.4vw; letter-spacing: .25vw; color: #c9bfae; text-transform: uppercase; font-weight: 700; margin-top: .6vw; }
+
+/* outro */
+.o-crests { margin-bottom: 6vw; }
+.o-sub { text-align: center; color: var(--ink2); font-size: 4.8vw; letter-spacing: .2vw; }
+.o-sub b { color: var(--ink); }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script src="common.js"></script>
+<script>
+let D, SCENES = [], TOTAL = 0, team, bar, wm, glow;
+const TRANS = 0.9;
+const tf = (x = 0, y = 0, s = 1) => `translate3d(${x.toFixed(3)}vw, ${y.toFixed(3)}vw, 0) scale(${s.toFixed(4)})`;
+function reveal(text, cls) { const m = el('div', `mask ${cls}`), inner = el('span', null, text); m.append(inner); return { node: m, inner }; }
+const lines = () => D.title_lines?.length ? D.title_lines : [D.league];
+
+window.init = (data) => {
+  D = data;
+  team = (name) => teamOf(D.teams, name);
+  const root = document.getElementById('stage');
+  root.replaceChildren();
+  applyBrand(D.brand);
+  glow = el('div', 'glow');
+  wm = logoField(D.logo, D.brand?.watermark_opacity ?? .07);
+  root.append(...[wm, glow].filter(Boolean));
+  const top = el('div', 'chrome-top');
+  top.append(el('span', null, D.league), (() => { const s = el('span'); s.append('Season '); s.append(el('b', null, 'opener')); return s; })());
+  root.append(top);
+  SCENES = [buildTitle(), ...D.teams.map((t, i) => buildTeam(t, i)), buildFixtures(), buildOutro()];
+  let t = 0;
+  for (const [i, s] of SCENES.entries()) { s.start = i === 0 ? 0 : t - TRANS; t = s.start + s.dur; root.append(s.node); s.node.style.zIndex = String(10 + i); }
+  TOTAL = t;
+  const pg = el('div', 'progress'); bar = el('i'); pg.append(bar); root.append(pg);
+  return { duration: TOTAL, scenes: SCENES.map((s) => ({ id: s.id, start: s.start, dur: s.dur, still: s.still })) };
+};
+
+window.renderAt = (t) => {
+  if (wm) wm.style.transform = tf(-((t * .9) % (LOGO_TILE * 2)), -((t * 1.5) % (LOGO_TILE * 2)));
+  glow.style.transform = tf(Math.sin(t * .35) * 8, Math.cos(t * .27) * 5);
+  bar.style.transform = `scaleX(${clamp(t / TOTAL).toFixed(5)})`;
+  for (const s of SCENES) {
+    const lt = t - s.start, on = lt >= 0 && lt < s.dur;
+    s.node.style.visibility = on ? 'visible' : 'hidden';
+    if (!on) continue;
+    if (s.fit == null) {
+      s.node.style.transform = ''; s.node.style.justifyContent = 'flex-start';
+      const kids = [...s.node.children], a = kids[0].getBoundingClientRect().top, z = Math.max(...kids.map((k) => k.getBoundingClientRect().bottom));
+      s.node.style.justifyContent = '';
+      s.fit = Math.min(1, (s.node.clientHeight - 3 * (window.innerWidth / 100)) / Math.max(1, z - a));
+    }
+    const first = s === SCENES[0], last = s === SCENES[SCENES.length - 1];
+    const qin = lt / TRANS, qout = (lt - (s.dur - TRANS)) / TRANS;
+    const pin = first ? 1 : smooth((qin - .35) / .65), mvin = first ? 1 : smooth(qin);
+    const pout = last ? 0 : smooth(qout / .6), mvout = last ? 0 : smooth(qout);
+    s.node.style.opacity = (pin * (1 - pout)).toFixed(4);
+    s.node.style.transform = tf(0, (1 - mvin) * 8 - mvout * 7, s.fit * (1 - mvout * .03 + (1 - mvin) * .02));
+    s.draw(lt);
+  }
+};
+
+function buildTitle() {
+  const n = el('section', 'scene');
+  const bism = el('div', 'ar t-bism', D.brand?.bismillah || '');
+  const ar = D.arabic_name ? el('div', 'ar t-ar', plainAr(D.arabic_name)) : null;
+  const ls = lines(), l1 = ls.length > 1 ? reveal(ls[0], 't-l1') : null, l2 = reveal(ls.at(-1), 't-l2');
+  const rule = starRule(), ruleBits = [...rule.children];
+  const sub = reveal('Meet the teams', 't-sub');
+  const crests = el('div', 'crests t-crests'); const cs = D.teams.map((t) => crest(t)); crests.append(...cs);
+  n.append(...[bism, ar, l1?.node, l2.node, rule, sub.node, crests].filter(Boolean));
+  return { id: 'title', node: n, dur: 4.6, still: 3.8, draw(t) {
+    bism.style.opacity = smooth((t - .1) / .9).toFixed(3); bism.style.transform = tf(0, (1 - smooth((t - .1) / 1.1)) * 3);
+    if (ar) { ar.style.opacity = smooth((t - .35) / .8).toFixed(3); ar.style.transform = tf(0, (1 - smooth((t - .35) / 1)) * 3); }
+    if (l1) l1.inner.style.transform = tf(0, (1 - expoOut(clamp((t - .55) / .9))) * 11);
+    l2.inner.style.transform = tf(0, (1 - expoOut(clamp((t - .7) / 1))) * 20);
+    ruleBits.forEach((b, i) => { const p = smooth((t - 1.1) / .8); b.style.transform = i === 1 ? `rotate(${(1 - p) * 180}deg) scale(${p.toFixed(3)})` : `scaleX(${p.toFixed(3)})`; });
+    sub.inner.style.transform = tf(0, (1 - expoOut(clamp((t - 1.3) / .9))) * 8);
+    cs.forEach((c, i) => { const p = clamp((t - 1.7 - i * .14) / .9); c.style.opacity = smooth(p * 1.6).toFixed(3); c.style.transform = tf(0, (1 - settle(p)) * 6, .6 + .4 * settle(p)); });
+  } };
+}
+
+function buildTeam(t, i) {
+  const n = el('section', 'scene');
+  const kicker = el('div', 'tm-kicker', `Team ${i + 1} of ${D.teams.length}`);
+  const cbox = el('div', 'tm-crest'), c = crest(t); cbox.append(c);
+  const name = reveal(t.name, 'tm-name');
+  const ar = el('div', 'ar tm-ar', plainAr(t.arabic));
+  const squad = el('div', 'tm-squad');
+  const players = (D.squads[t.name] || []).map((p) => el('div', null, p));
+  squad.append(...players);
+  n.append(kicker, cbox, name.node, ar, squad);
+  return { id: `team-${i + 1}`, node: n, dur: 4.6, still: 3.6, draw(t2) {
+    kicker.style.opacity = smooth((t2 - .1) / .6).toFixed(3);
+    const p = clamp((t2 - .15) / 1.1);
+    c.style.opacity = smooth(p * 1.6).toFixed(3);
+    c.style.transform = `${tf(0, (1 - settle(p)) * 8, .55 + .45 * settle(p))} rotate(${((1 - smooth(p)) * -8).toFixed(2)}deg)`;
+    name.inner.style.transform = tf(0, (1 - expoOut(clamp((t2 - .55) / .9))) * 16);
+    ar.style.opacity = smooth((t2 - .8) / .6).toFixed(3); ar.style.transform = tf(0, (1 - smooth((t2 - .8) / .8)) * 2.5);
+    const q = clamp((t2 - 1.0) / .7); squad.style.opacity = smooth(q * 1.5).toFixed(3); squad.style.transform = tf(0, (1 - expoOut(q)) * 5);
+    players.forEach((pl, k) => { const r = clamp((t2 - 1.25 - k * .08) / .5); pl.style.opacity = smooth(r).toFixed(3); pl.style.transform = tf((1 - expoOut(r)) * 3, 0); });
+  } };
+}
+
+function buildFixtures() {
+  const n = el('section', 'scene');
+  n.append(header('Matchweek 1', 'Fixtures'));
+  const bits = [D.date ? fmtDate(D.date) : null, D.venue].filter(Boolean);
+  n.append(el('div', 'fx-meta', bits.length ? bits.join('  ·  ') : 'Two games at a time · everyone plays everyone'));
+  const items = [];
+  for (const r of D.fixtures) {
+    const box = el('div', 'fx-round'), rh = el('div', 'fx-rh');
+    rh.append(el('span', 'no', `Round ${r.round}`));
+    if (r.kickoff) rh.append(el('span', 'ko', r.kickoff));
+    rh.append(el('span', 'line'));
+    box.append(rh);
+    items.push({ node: box, at: .45 + (r.round - 1) * .55, kind: 'round' });
+    r.games.forEach((g, k) => {
+      const row = el('div', 'fx-game'), v = el('div', 'v', 'v');
+      v.append(el('small', null, g.pitch));
+      row.append(crest(team(g.teams[0])), el('div', 'nm h', g.teams[0]), v, el('div', 'nm', g.teams[1]), crest(team(g.teams[1])));
+      box.append(row);
+      items.push({ node: row, at: .6 + (r.round - 1) * .55 + k * .14, kind: 'game', dir: k ? 1 : -1 });
+    });
+    n.append(box);
+  }
+  const end = .6 + (D.fixtures.length - 1) * .55 + .14 + .9;
+  return { id: 'fixtures', node: n, dur: end + 3.2, still: end + .4, draw(t) {
+    for (const it of items) {
+      const p = clamp((t - it.at) / .8);
+      it.node.style.opacity = smooth(p * 1.5).toFixed(3);
+      it.node.style.transform = it.kind === 'game' ? tf((1 - expoOut(p)) * 14 * it.dir, 0) : tf(0, (1 - expoOut(p)) * 3);
+    }
+  } };
+}
+
+function buildOutro() {
+  const n = el('section', 'scene');
+  const crests = el('div', 'crests o-crests'); const cs = D.teams.map((t) => crest(t)); crests.append(...cs);
+  const ls = lines(), l1 = ls.length > 1 ? reveal(ls[0], 't-l1') : null, l2 = reveal(ls.at(-1), 't-l2');
+  const sub = el('div', 'o-sub'); sub.append('Matchweek 1 · '); sub.append(el('b', null, D.date ? fmtDate(D.date) : 'coming soon'));
+  n.append(...[crests, l1?.node, l2.node, starRule(), sub].filter(Boolean));
+  return { id: 'outro', node: n, dur: 3.6, still: 2.8, draw(t) {
+    cs.forEach((c, i) => { const p = clamp((t - .15 - i * .12) / .9); c.style.opacity = smooth(p * 1.6).toFixed(3); c.style.transform = tf(0, (1 - settle(p)) * 7); });
+    if (l1) l1.inner.style.transform = tf(0, (1 - expoOut(clamp((t - .45) / .9))) * 10);
+    l2.inner.style.transform = tf(0, (1 - expoOut(clamp((t - .6) / 1))) * 18);
+    sub.style.opacity = smooth((t - 1.1) / .7).toFixed(3);
+  } };
+}
+</script>
+</body>
+</html>
