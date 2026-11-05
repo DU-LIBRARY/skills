@@ -80,7 +80,7 @@ window.init = (G) => {
         for (const s of [m.home, m.away]) {
           const col = el('div'), by = new Map();
           for (const x of m.goals.filter((y) => y.team === s)) { const k = x.own_goal ? `${x.scorer || 'Own goal'} (og)` : (x.scorer || 'Unknown'); const r = by.get(k) || { n: 0, a: [] }; r.n++; if (x.assist) r.a.push(x.assist); by.set(k, r); }
-          for (const [k, r] of by) { const d = el('div', null, `⚽ ${k}${r.n > 1 ? ` ×${r.n}` : ''}`); if (r.a.length) d.append(el('div', 'as', `assist ${[...new Set(r.a)].join(', ')}`)); col.append(d); }
+          for (const [k, r] of by) { const d = el('div', null, `⚽ ${k}${r.n > 1 ? ` ×${r.n}` : ''}`); if (r.a.length) d.append(assistLine(r.a, 'div')); col.append(d); }
           g.append(col);
         }
         body.append(g);

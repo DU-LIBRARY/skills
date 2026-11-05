@@ -38,10 +38,14 @@ With the defaults on 4 CPUs, a 36s video takes about 3½ minutes (`--blur 1`: ab
 | intro | 4.6s | Bismillah and دار العلوم fade up, "Darul Uloom / Football League" slide up out of masks, the star rule draws, crests settle in |
 | results | 0.45s + 1.25s per match + 2.8s | Match cards sweep in from alternate sides, scores roll up like a scoreboard, scorer lines stagger in |
 | table | 7.4s | Rows start in last week's order (alphabetical in week 1) and glide to the new order. Risers lift over fallers, the dark leader band follows whoever reaches the top, points roll, ▲▼ arrows settle in |
-| scorers | 7.0s | Top 6 bar race: bars sweep in, then grow and re-rank from last week's totals. Numbers roll; the leader's bar turns crimson; then gold, silver and bronze tabs land on the bar ends of 1st, 2nd and 3rd (ties share a medal) |
+| scorers | 7.0s | Top 6 bar race: bars sweep in, then grow and re-rank from last week's totals. Numbers roll; the leader's bar turns crimson; then gold, silver and bronze tabs land on the bar ends: by total, so the highest total is gold, the next silver, the next bronze, and tied players share (4, 2, 2, 2, 1 → gold, silver ×3, bronze) |
 | assists | 7.0s | Same. Skipped until any assist is recorded |
 | talking | ~5s | Leader (or "New leaders"), golden boot, hat-tricks or star of the week, most assists, biggest win |
 | outro | 3.8s | Crests, title, totals so far |
+
+Medal look and tie rule are settings in `league.json → brand`: `medal_style` (`tab` default; also `disc`, `bar`, `podium`, `badge`, combinable like `"disc tab"`) and `medal_ties` (`dense` default as above; `shared` = Olympic, `strict` = by list position).
+
+Assists are shown the way match centres do: muted, after or under the scorer, with a small boxed **A** tag (`assistLine()` in `common.js`). Scenes too tall for the frame (e.g. two result cards in a 4:5 post) scale themselves down to fit.
 
 Behind everything, a field of tiny Darul Uloom logos (`league/assets/logo.jpg`, set in `league.json → brand.logo`) drifts slowly; its strength is `brand.watermark_opacity` (0.07, very faint). The same field sits behind every graphic. Keep it faint: it's texture, not content.
 

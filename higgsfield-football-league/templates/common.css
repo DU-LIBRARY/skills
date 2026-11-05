@@ -31,3 +31,6 @@ body { background: var(--cream); color: var(--ink); font-family: 'Barlow Condens
 /* tiny league logos, very faint, behind everything. multiply drops their white background into the cream */
 .logofield { position: absolute; left: -48vw; top: -48vw; right: -48vw; bottom: -48vw; background-size: 24vw 24vw; background-repeat: repeat;
   mix-blend-mode: multiply; pointer-events: none; z-index: 0; will-change: transform; }
+
+.atag { display: inline-grid; place-items: center; min-width: 1.45em; height: 1.45em; padding: 0 .2em; margin-right: .45em; border-radius: .3em;
+  border: .09em solid currentColor; font-weight: 800; font-size: .78em; line-height: 1; vertical-align: .08em; letter-spacing: 0; }

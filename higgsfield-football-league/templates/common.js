@@ -101,3 +101,11 @@ window.assetsReady = async () => {
     ...urls.map((u) => { const i = new Image(); i.src = u; return i.decode().catch(() => {}); })]);
   await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
 };
+
+// Assister shown the way match centres do: smaller and muted under the scorer, marked
+// with a compact "A" tag instead of a word ("A  Adam, Hamza Y").
+function assistLine(names, tag = 'span') {
+  const line = el(tag, 'as');
+  line.append(el('span', 'atag', 'A'), document.createTextNode(disp([...new Set(names)].join(', '))));
+  return line;
+}

@@ -44,7 +44,7 @@
 .score em { font-style: normal; color: var(--crimson-lt); margin: 0 1.4vw; }
 .scorers-line { display: grid; grid-template-columns: 1fr 1fr; gap: 3vw; margin-top: 2.4vw; padding-top: 2.2vw; border-top: .2vw solid rgba(242,235,221,.18); font-size: 3.6vw; line-height: 1.35; color: #e6dccb; }
 .scorers-line > div:last-child { text-align: right; }
-.scorers-line .as { color: #a89d8c; font-size: 3vw; }
+.scorers-line .as { color: #a89d8c; font-size: 3vw; margin-left: 1.4vw; white-space: nowrap; }
 .scorers-line > div > div { will-change: transform, opacity; }
 
 /* table */
@@ -161,7 +161,14 @@ window.renderAt = (t) => {
     const lt = t - s.start, on = lt >= 0 && lt < s.dur;
     s.node.style.visibility = on ? 'visible' : 'hidden';
     if (!on) continue;
-    if (OPTS.still) { s.node.style.opacity = 1; s.node.style.transform = ''; }
+    // shrink a scene whose content is taller than the frame (e.g. two result cards in a 4:5 post)
+    if (s.fit == null) {
+      s.node.style.transform = ''; s.node.style.justifyContent = 'flex-start';
+      const kids = [...s.node.children], a = kids[0].getBoundingClientRect().top, z = Math.max(...kids.map((k) => k.getBoundingClientRect().bottom));
+      s.node.style.justifyContent = '';
+      s.fit = Math.min(1, (s.node.clientHeight - 3 * vw()) / Math.max(1, z - a));
+    }
+    if (OPTS.still) { s.node.style.opacity = 1; s.node.style.transform = `scale(${s.fit.toFixed(4)})`; }
     else {
       const first = s === SCENES[0], last = s === SCENES[SCENES.length - 1];
       // staggered handover: the old scene lifts away in the first ~60% of the window,
@@ -170,7 +177,7 @@ window.renderAt = (t) => {
       const pin = first ? 1 : smooth((qin - .35) / .65), mvin = first ? 1 : smooth(qin);
       const pout = last ? 0 : smooth(qout / .6), mvout = last ? 0 : smooth(qout);
       s.node.style.opacity = (pin * (1 - pout)).toFixed(4);
-      s.node.style.transform = tf(0, (1 - mvin) * 8 - mvout * 7, 1 - mvout * .03 + (1 - mvin) * .02);
+      s.node.style.transform = tf(0, (1 - mvin) * 8 - mvout * 7, s.fit * (1 - mvout * .03 + (1 - mvin) * .02));
     }
     s.draw(lt);
   }
@@ -212,7 +219,7 @@ function goalLines(goals, side) {
   const box = el('div'), rows = [];
   for (const [k, r] of by) {
     const line = el('div', null, `${k}${r.n > 1 ? ` ×${r.n}` : ''}`);
-    if (r.assists.length) line.append(el('span', 'as', ` · ast ${[...new Set(r.assists)].join(', ')}`));
+    if (r.assists.length) line.append(assistLine(r.assists));
     box.append(line); rows.push(line);
   }
   return { box, rows };
@@ -314,7 +321,7 @@ const ICONS = (() => {
 })();
 function buildRace(key, field, kicker, title) {
   const STYLE = new Set(String(OPTS.medal_style ?? D.brand?.medal_style ?? 'tab').split(/[\s,+]+/));
-  const TIES = OPTS.medal_ties ?? D.brand?.medal_ties ?? 'shared';
+  const TIES = OPTS.medal_ties ?? D.brand?.medal_ties ?? 'dense';
   const list = D[key];
   if (key === 'assists' && !D.stats.assists_recorded) return null;
   const n = el('section', 'scene');
@@ -329,7 +336,11 @@ function buildRace(key, field, kicker, title) {
   race.append(...ranks);
   const items = top.map((r, i) => {
     // medal by standing, ties share it (two players level on 2nd are both silver, and there's no bronze)
-    const place = TIES === 'strict' ? i + 1 : 1 + top.filter((x) => x[field] > r[field]).length;
+    // medal tiers: 'dense' (default) = by total, ties share, and the next total down still gets the next medal
+    // (4, 2, 2, 2, 1 -> gold, silver x3, bronze); 'shared' = Olympic (no bronze after a 3-way tie); 'strict' = by position
+    const place = TIES === 'strict' ? i + 1
+      : TIES === 'shared' ? 1 + top.filter((x) => x[field] > r[field]).length
+      : 1 + new Set(top.filter((x) => x[field] > r[field]).map((x) => x[field])).size;
     const m = place <= 3 ? `m${place}` : null;
     const b = el('div', 'bar num'), who = el('div', 'who'), track = el('div', 'track'), fill = el('div', 'fill'), gold = el('div', 'gold'), cap = el('div', 'cap');
     const medal = m && STYLE.has('tab') ? el('div', `medal ${m}`) : null;
