@@ -23,3 +23,7 @@ body { background: var(--cream); color: var(--ink); font-family: 'Barlow Condens
 
 .crests { display: flex; justify-content: center; gap: 4vw; }
 .crests svg { width: 17vw; }
+
+.roller { display: inline-block; height: 1em; line-height: 1; overflow: hidden; vertical-align: top; }
+.roller-col { display: flex; flex-direction: column; will-change: transform; }
+.roller-col span { height: 1em; display: block; }

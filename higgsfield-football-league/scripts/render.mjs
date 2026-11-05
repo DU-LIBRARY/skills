@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Render the weekly animation and still cards from the league data.
-//   node render.mjs [--week N] [--root league] [--format story|feed|square] [--fps 30]
-//                   [--only video|cards] [--intro intro.mp4] [--music track.mp3] [--preview] [--if-changed]
+//   node render.mjs [--week N] [--root league] [--format story|feed|square] [--fps 60] [--blur 2]
+//                   [--workers 4] [--only video|cards] [--intro intro.mp4] [--music track.mp3] [--preview] [--if-changed]
 // Output: <root>/weeks/week-NN/
 //   week-NN-<format>.mp4            the animated recap (table movement, scorer and assist races)
 //   cards/<scene>-feed.png           still graphics for posting (results, table, scorers, assists, talking points)
@@ -9,6 +9,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawn, spawnSync } from 'node:child_process';
+import os from 'node:os';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { loadLeague, weeksOf, snapshot, writeJSON, weekDir, pad2, launchChromium, hasFfmpeg } from './lib.mjs';
 
@@ -22,7 +23,11 @@ const FORMATS = { story: [1080, 1920], feed: [1080, 1350], square: [1080, 1080] 
 const root = path.resolve(opt('root', 'league'));
 const format = opt('format', 'story');
 if (!FORMATS[format]) die(`format must be one of ${Object.keys(FORMATS).join(', ')}`);
-const fps = Number(opt('fps', 30));
+const fps = Number(opt('fps', 60));
+// motion blur: each output frame is the average of this many sub-frames across half a frame
+// interval (a 180° film shutter), which is what makes fast moves read as smooth rather than strobing
+const blur = Math.max(1, Number(opt('blur', 2)));
+const workers = Math.max(1, Number(opt('workers', Math.min(4, os.cpus().length))));
 const only = opt('only');
 const L = loadLeague(root);
 const weeks = weeksOf(L);
@@ -54,13 +59,12 @@ async function openPage(browser, [w, h], opts) {
 
 async function renderVideo(browser) {
   const size = FORMATS[format];
-  const { page, info } = await openPage(browser, size, {});
-  const frames = flag('preview') ? 0 : Math.ceil(info.duration * fps);
   const base = path.join(outDir, `week-${pad2(week)}-${format}`);
   const silent = `${base}.silent.mp4`, final = `${base}.mp4`;
 
   if (flag('preview')) {
-    // a contact sheet of stills, for a quick look without encoding
+    // one still per scene, for a quick look without encoding
+    const { page, info } = await openPage(browser, size, {});
     for (const s of info.scenes) {
       await page.evaluate((t) => window.renderAt(t), s.start + (s.still ?? s.dur / 2));
       await page.screenshot({ path: path.join(outDir, `preview-${s.id}.jpg`), type: 'jpeg', quality: 80 });
@@ -69,23 +73,58 @@ async function renderVideo(browser) {
     await page.close(); return;
   }
 
-  console.log(`rendering ${frames} frames (${info.duration.toFixed(1)}s @ ${fps}fps, ${size.join('×')})…`);
-  const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(fps), '-c:v', 'mjpeg', '-i', '-',
-    '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-preset', 'medium', '-crf', '18', '-movflags', '+faststart', silent], { stdio: ['pipe', 'inherit', 'inherit'] });
-  const done = new Promise((res, rej) => ff.on('close', (c) => (c === 0 ? res() : rej(new Error(`ffmpeg exited ${c}`)))));
+  const probe = await openPage(browser, size, {});
+  const duration = probe.info.duration;
+  await probe.page.close();
+  const frames = Math.ceil(duration * fps);
+  const W = Math.min(workers, Math.ceil(frames / 60));
+  console.log(`rendering ${frames} frames (${duration.toFixed(1)}s @ ${fps}fps, ${size.join('×')}, motion blur ×${blur}, ${W} workers)…`);
   const t0 = Date.now();
-  for (let i = 0; i < frames; i++) {
-    await page.evaluate((t) => window.renderAt(t), i / fps);
-    const buf = await page.screenshot({ type: 'jpeg', quality: 94 });
-    if (!ff.stdin.write(buf)) await new Promise((r) => ff.stdin.once('drain', r));
-    if (i % (fps * 5) === 0) process.stdout.write(`  ${Math.round((100 * i) / frames)}%\r`);
+  let doneFrames = 0;
+  const tick = () => { doneFrames++; if (doneFrames % (fps * 5) === 0) process.stdout.write(`  ${Math.round((100 * doneFrames) / frames)}%\r`); };
+
+  // each worker renders a contiguous slice of frames into its own segment
+  const segs = [];
+  const jobs = Array.from({ length: W }, (_, k) => {
+    const a = Math.floor((frames * k) / W), b = Math.floor((frames * (k + 1)) / W);
+    const seg = `${base}.seg${k}.mp4`; segs.push(seg);
+    return renderSlice(browser, size, a, b, seg, tick);
+  });
+  await Promise.all(jobs);
+  console.log(`  frames done in ${((Date.now() - t0) / 1000).toFixed(0)}s`);
+
+  const list = `${base}.segs.txt`;
+  fs.writeFileSync(list, segs.map((f) => `file '${path.basename(f)}'`).join('\n') + '\n');
+  run(['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', list, '-c', 'copy', '-movflags', '+faststart', silent]);
+  for (const f of [...segs, list]) fs.rmSync(f, { force: true });
+  finish(silent, final, duration, size);
+  console.log(`✓ ${path.relative(process.cwd(), final)}`);
+}
+
+async function renderSlice(_shared, size, a, b, seg, tick) {
+  // one browser per worker: screenshots in a shared browser queue behind each other
+  const own = await launchChromium();
+  const ctx = await own.newContext({ viewport: { width: size[0], height: size[1] }, deviceScaleFactor: 1 });
+  const page = await ctx.newPage();
+  page.on('pageerror', (e) => { console.error('page error:', e.message); });
+  await page.goto(template);
+  await page.evaluate(async (d) => { await document.fonts.ready; window.init(d, {}); await document.fonts.ready; }, snap);
+  const vf = blur > 1 ? ['-vf', `tmix=frames=${blur},select=eq(mod(n\\,${blur})\\,${blur - 1}),setpts=N/(${fps}*TB)`] : [];
+  const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(fps * blur), '-c:v', 'mjpeg', '-i', '-', ...vf,
+    '-r', String(fps), '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-preset', 'medium', '-crf', '19', '-g', String(fps * 2), seg], { stdio: ['pipe', 'inherit', 'inherit'] });
+  const done = new Promise((res, rej) => ff.on('close', (c) => (c === 0 ? res() : rej(new Error(`ffmpeg exited ${c}`)))));
+  for (let i = a; i < b; i++) {
+    for (let k = 0; k < blur; k++) {
+      const t = (i + (blur > 1 ? (k / (blur - 1) - .5) * .5 : 0)) / fps;
+      await page.evaluate((x) => window.renderAt(Math.max(0, x)), t);
+      const buf = await page.screenshot({ type: 'jpeg', quality: 95 });
+      if (!ff.stdin.write(buf)) await new Promise((r) => ff.stdin.once('drain', r));
+    }
+    tick();
   }
   ff.stdin.end();
   await done;
-  await page.close();
-  console.log(`  frames done in ${((Date.now() - t0) / 1000).toFixed(0)}s`);
-  finish(silent, final, info.duration, size);
-  console.log(`✓ ${path.relative(process.cwd(), final)}`);
+  await own.close();
 }
 
 // Optional: put an AI-generated intro clip (e.g. from `higgsfield generate`) in front,

@@ -1,4 +1,4 @@
-# Football League: data and weekly outputs
+# Darul Uloom Football League: data and weekly outputs
 
 This folder is the league's archive. It's maintained by the
 [`higgsfield-football-league`](../higgsfield-football-league/SKILL.md) skill.
@@ -13,7 +13,7 @@ This folder is the league's archive. It's maintained by the
 | `graphics/` | Fixtures posters and announcements |
 
 **Weekly:** send the results to Claude. It saves them, renders the video and
-graphics, syncs the [Football League dashboard](https://claude.ai/artifact/X3aSihZoh87zLQ57WvfycH)
+graphics, syncs the [Darul Uloom Football League dashboard](https://claude.ai/artifact/X3aSihZoh87zLQ57WvfycH)
 and commits everything here.
 
 **By hand:** edit `data/*.json` on GitHub and commit. The *Football weekly render*

@@ -19,9 +19,9 @@ argument-hint: "[this week's results as text] [--week N] [--format story|feed|sq
 allowed-tools: Bash, Read, Write, Edit
 ---
 
-# Football League — weekly results, animation, graphics
+# Darul Uloom Football League — weekly results, animation, graphics
 
-The user runs a small league (4 teams, 8-player squads) and sends results
+The user runs the Darul Uloom Football League (4 teams, 8-player squads) and sends results
 every week. This skill turns that message into four things:
 **saved data → updated standings → recap video + graphics → synced dashboard**,
 and commits all of it to this repo.
@@ -90,7 +90,7 @@ saved), `--add-players` (guest or new players: confirm with the user first),
 ### 3. Render → video + cards + graphics
 
 ```bash
-node higgsfield-football-league/scripts/render.mjs                 # latest week, 9:16 story video + 4:5 cards (~70s)
+node higgsfield-football-league/scripts/render.mjs                 # latest week: 60fps 9:16 video + 4:5 cards (~3½ min)
 node higgsfield-football-league/scripts/graphic.mjs fulltime       # a Full Time poster per match
 node higgsfield-football-league/scripts/graphic.mjs potw           # Player of the Week (auto-picked, or --player)
 ```
@@ -102,7 +102,7 @@ talking points (leader, golden boot, hat-tricks, biggest win) → outro.
 
 Before you hand it over, spot-check: `render.mjs --preview` writes one still
 per scene as `preview-*.jpg` (git-ignored). Read two or three of them as images.
-Formats, flags, the other graphic types and troubleshooting are in
+Animation rules (keep it smooth: transforms only, eased, no instant switches), formats, flags, the other graphic types and troubleshooting are in
 [references/video-and-graphics.md](references/video-and-graphics.md).
 
 ### 4. Sync the dashboard artifact
@@ -156,6 +156,8 @@ available. Mention anything you assumed (e.g. "no assists given for the 2nd goal
   scoring. An assist is credited to the team the goal counted for.
 - Team names keep their transliteration marks (An-Nāṣirūn, Al-Fāʾizūn,
   Al-Mufliḥūn, As-Sābiqūn) in data. Templates only swap ʾ for ’ when drawing.
+  Arabic names are written **without harakat** everywhere: vowel marks spill
+  onto neighbouring text.
 - The house style (cream, ink, crimson, Barlow Condensed, Amiri, the bismillah, the four crest
   shapes) comes from the user's dashboard. Keep new graphics in it. Colours live in
   `league.json → brand`.

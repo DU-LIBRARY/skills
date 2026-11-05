@@ -1,22 +1,46 @@
 {
-  "name": "Football League",
+  "name": "Darul Uloom Football League",
+  "title_lines": [
+    "Darul Uloom",
+    "Football League"
+  ],
+  "arabic_name": "دار العلوم",
   "season": "2026",
-  "points": { "win": 3, "draw": 1, "loss": 0 },
-  "tiebreak": ["points", "gd", "gf", "name"],
+  "points": {
+    "win": 3,
+    "draw": 1,
+    "loss": 0
+  },
+  "tiebreak": [
+    "points",
+    "gd",
+    "gf",
+    "name"
+  ],
   "artifact": {
     "slug": "f34e41f1-25cf-4da0-853c-23c3639069be",
     "url": "https://claude.ai/artifact/X3aSihZoh87zLQ57WvfycH",
-    "datasets": { "matches": "datasets/matches", "goals": "datasets/goals", "squads": "datasets/squads" }
+    "datasets": {
+      "matches": "datasets/matches",
+      "goals": "datasets/goals",
+      "squads": "datasets/squads"
+    }
   },
   "teams": [
-    { "name": "An-Nāṣirūn",  "arabic": "النَّاصِرُونَ",  "crest_text": "الناصرون", "crest": "shield",  "short": "NAS" },
-    { "name": "Al-Fāʾizūn",  "arabic": "الفَائِزُونَ",   "crest_text": "الفائزون", "crest": "roundel", "short": "FAI" },
-    { "name": "Al-Mufliḥūn", "arabic": "المُفْلِحُونَ",  "crest_text": "المفلحون", "crest": "octagon", "short": "MUF" },
-    { "name": "As-Sābiqūn",  "arabic": "السَّابِقُونَ",  "crest_text": "السابقون", "crest": "arch",    "short": "SAB" }
+    { "name": "An-Nāṣirūn", "arabic": "الناصرون", "crest_text": "الناصرون", "crest": "shield", "short": "NAS" },
+    { "name": "Al-Fāʾizūn", "arabic": "الفائزون", "crest_text": "الفائزون", "crest": "roundel", "short": "FAI" },
+    { "name": "Al-Mufliḥūn", "arabic": "المفلحون", "crest_text": "المفلحون", "crest": "octagon", "short": "MUF" },
+    { "name": "As-Sābiqūn", "arabic": "السابقون", "crest_text": "السابقون", "crest": "arch", "short": "SAB" }
   ],
   "brand": {
-    "cream": "#f2ebdd", "paper": "#faf6ee", "ink": "#171412", "ink2": "#5d5650",
-    "crimson": "#9b1b30", "crimsonLight": "#d75b6e", "up": "#2f8f5b", "down": "#c0392b",
+    "cream": "#f2ebdd",
+    "paper": "#faf6ee",
+    "ink": "#171412",
+    "ink2": "#5d5650",
+    "crimson": "#9b1b30",
+    "crimsonLight": "#d75b6e",
+    "up": "#2f8f5b",
+    "down": "#c0392b",
     "bismillah": "بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ"
   }
 }

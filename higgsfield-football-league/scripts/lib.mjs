@@ -150,6 +150,8 @@ export function snapshot(L, week) {
 
   return {
     league: L.config.name,
+    title_lines: L.config.title_lines ?? null,
+    arabic_name: L.config.arabic_name ?? null,
     season: L.config.season,
     week,
     date: thisWeek[thisWeek.length - 1].date,

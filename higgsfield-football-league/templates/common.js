@@ -4,18 +4,36 @@ const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
 const lerp = (a, b, p) => a + (b - a) * p;
 const ease = (p) => (p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
 const easeOut = (p) => 1 - Math.pow(1 - p, 3);
-const back = (p) => { const c = 1.70158, d = c + 1; return 1 + d * Math.pow(p - 1, 3) + c * Math.pow(p - 1, 2); };
+// quintic ease-in-out: zero velocity AND acceleration at both ends, so motion never jerks
+const smooth = (p) => { p = clamp(p); return p * p * p * (p * (p * 6 - 15) + 10); };
+const expoOut = (p) => (p >= 1 ? 1 : 1 - Math.pow(2, -10 * p));
+// gentle settle with a little overshoot, for things arriving on screen
+const settle = (p) => { p = clamp(p); return p >= 1 ? 1 : 1 - Math.exp(-6.5 * p) * Math.cos(5.2 * p); };
+const back = (p) => { const c = 1.4, d = c + 1; return 1 + d * Math.pow(p - 1, 3) + c * Math.pow(p - 1, 2); };
 const prog = (t, start, dur) => clamp((t - start) / dur);
 const disp = (x) => String(x).replace(/ʾ/g, '’').replace(/ʿ/g, '‘');
+// Arabic without harakat: the vowel marks collide with neighbouring lines at display sizes
+const plainAr = (x) => String(x ?? '').replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g, '');
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = disp(text); return e; };
 const fmtDate = (d) => { const x = new Date(d + 'T12:00:00Z'); return isNaN(x) ? d : x.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }); };
 let uid = 0;
 // Make crossings readable: risers lift over the top, fallers sink back and fade a touch.
-function overtake(node, rise, p, shadowOn = node) {
+// Returns the parts so callers can fold them into one transform.
+function overtake(rise, p) {
   const k = Math.sin(Math.PI * clamp(p));
-  if (rise > 0) { node.style.zIndex = String(30 + rise); node.style.transform = `translateX(${-1.2 * k}vw) scale(${1 + .045 * k})`; shadowOn.style.boxShadow = `0 ${2 * k}vw ${4 * k}vw rgba(23,20,18,${.35 * k})`; node.style.opacity = 1; }
-  else if (rise < 0) { node.style.zIndex = String(10); node.style.transform = `translateX(${1.6 * k}vw) scale(${1 - .06 * k})`; shadowOn.style.boxShadow = 'none'; node.style.opacity = String(1 - .45 * k); }
-  else { node.style.zIndex = String(20); node.style.transform = ''; shadowOn.style.boxShadow = 'none'; node.style.opacity = 1; }
+  if (rise > 0) return { x: -1.2 * k, s: 1 + .04 * k, o: 1, z: 30 + rise, shadow: `0 ${2 * k}vw ${4 * k}vw rgba(23,20,18,${(.3 * k).toFixed(3)})` };
+  if (rise < 0) return { x: 1.6 * k, s: 1 - .05 * k, o: 1 - .4 * k, z: 10, shadow: 'none' };
+  return { x: 0, s: 1, o: 1, z: 20, shadow: 'none' };
+}
+
+// A rolling number, like a stadium scoreboard: a column of digits slides, so a
+// count from 1 to 4 moves continuously instead of stepping.
+function roller(from, to, cls = '') {
+  const lo = Math.min(from, to), hi = Math.max(from, to);
+  const box = el('span', `roller ${cls}`), col = el('span', 'roller-col');
+  for (let v = lo; v <= hi; v++) col.append(el('span', null, String(v)));
+  box.append(col);
+  return { node: box, set(v) { col.style.transform = `translate3d(0, ${-(clamp(v, lo, hi) - lo)}em, 0)`; } };
 }
 
 // The four crest shapes from the dashboard's team sheets.
@@ -36,7 +54,7 @@ function crest(team) {
     <path d="${s.outer}" fill="url(#crestfill)" stroke="#f2ebdd" stroke-width="3"/>
     <g clip-path="url(#k${id})"><rect width="100" height="118" fill="url(#p${id})"/><rect x="0" y="${s.band}" width="100" height="24" fill="#141110"/><path d="M0 ${s.band} H100 M0 ${s.band + 24} H100" stroke="#d75b6e" stroke-width="1"/></g>
     <path d="${s.inner}" fill="none" stroke="#d75b6e" stroke-width="1.2"/>
-    <text x="50" y="${s.band + 17}" text-anchor="middle" font-family="Amiri" font-weight="700" font-size="15" fill="#f2ebdd" textLength="46" lengthAdjust="spacingAndGlyphs">${team.crest_text}</text></svg>`;
+    <text x="50" y="${s.band + 17}" text-anchor="middle" font-family="Amiri" font-weight="700" font-size="15" fill="#f2ebdd" textLength="46" lengthAdjust="spacingAndGlyphs">${plainAr(team.crest_text)}</text></svg>`;
   return wrap.firstElementChild;
 }
 const starRule = () => { const r = el('div', 'rule'); r.innerHTML = '<span></span><svg class="star"><use href="#star"/></svg><span></span>'; return r; };
