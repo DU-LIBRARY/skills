@@ -389,7 +389,7 @@ function buildRace(key, field, kicker, title) {
       it.fill.style.boxShadow = o.shadow;
       const clip = `inset(0 ${(trackW - w).toFixed(3)}vw 0 0 round .4vw)`;
       it.fill.style.clipPath = clip; it.gold.style.clipPath = clip;
-      it.gold.style.opacity = '0';
+      it.gold.style.opacity = (it.to === 0 ? smooth((t - START - DUR + .2) / .8) : 0).toFixed(3);
       it.cap.style.transform = tf(w - 1, 0);
       // medals arrive once the race has settled: gold first, then silver, then bronze
       const m = clamp((t - START - DUR + .3 - (it.place - 1) * .18) / .7);
