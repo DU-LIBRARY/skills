@@ -154,8 +154,9 @@ window.init = (data, opts = {}) => {
 
 window.renderAt = (t) => {
   // the logo field drifts slowly up and to the left, so the frame is never fully static
-  if (wm) wm.style.transform = tf(-((t * .9) % (LOGO_TILE * 2)), -((t * 1.5) % (LOGO_TILE * 2)));
-  glow.style.transform = tf(Math.sin(t * .35) * 8, Math.cos(t * .27) * 5);
+  // calm (--whatsapp): a still background, so messaging apps' re-encoding spends its bits on the text
+  if (wm && !D.calm) wm.style.transform = tf(-((t * .9) % (LOGO_TILE * 2)), -((t * 1.5) % (LOGO_TILE * 2)));
+  if (!D.calm) glow.style.transform = tf(Math.sin(t * .35) * 8, Math.cos(t * .27) * 5);
   bar.style.transform = `scaleX(${clamp(t / TOTAL).toFixed(5)})`;
   for (const s of SCENES) {
     const lt = t - s.start, on = lt >= 0 && lt < s.dur;

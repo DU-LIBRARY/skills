@@ -144,6 +144,7 @@ available. Mention anything you assumed (e.g. "no assists given for the 2nd goal
 | "Make a fixtures poster for Saturday" | `graphic.mjs fixtures --spec fx.json` ([video-and-graphics.md](references/video-and-graphics.md)) |
 | "Post that the games are off" | `graphic.mjs announcement --title … --body …` |
 | "Player of the week is X" | `graphic.mjs potw --player X [--photo path] [--note …]` |
+| "It looks bad on WhatsApp" | Re-render with `--whatsapp` (still background, 30fps, 720p) and send `*-whatsapp.mp4`; tell them about HD / send as Document |
 | "Make it square / for the feed" | `render.mjs --format square` or `feed` |
 | "Add music" / "add an AI intro" | `render.mjs --music track.mp3` / `--intro clip.mp4`; see [ai-extras.md](references/ai-extras.md) |
 | "I entered the results on the dashboard" | Pull them into the repo: [dashboard-sync.md](references/dashboard-sync.md) → "Dashboard → repo", then render, commit. |

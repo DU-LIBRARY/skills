@@ -9,6 +9,7 @@
 // Launch video (season opener: title, each team and its squad, Matchweek 1 fixtures):
 //   node render.mjs --launch [--date YYYY-MM-DD] [--format story|feed|square] [--preview]
 //   -> <root>/launch/launch-<format>.mp4
+// --whatsapp: still background, 30fps, 720p -> <name>-whatsapp.mp4 (looks right after WhatsApp re-compresses it)
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawn, spawnSync } from 'node:child_process';
@@ -26,7 +27,10 @@ const FORMATS = { story: [1080, 1920], feed: [1080, 1350], square: [1080, 1080] 
 const root = path.resolve(opt('root', 'league'));
 const format = opt('format', 'story');
 if (!FORMATS[format]) die(`format must be one of ${Object.keys(FORMATS).join(', ')}`);
-const fps = Number(opt('fps', 60));
+// --whatsapp: a version that survives WhatsApp's re-compression: still background, 30fps, 720p,
+// written next to the normal file as <name>-whatsapp.mp4
+const WHATSAPP = flag('whatsapp');
+const fps = Number(opt('fps', WHATSAPP ? 30 : 60));
 // motion blur: each output frame is the average of this many sub-frames across half a frame
 // interval (a 180° film shutter), which is what makes fast moves read as smooth rather than strobing
 const blur = Math.max(1, Number(opt('blur', 2)));
@@ -63,6 +67,7 @@ if (LAUNCH) {
   writeJSON(snapPath, snap);
   pageData = { ...snap, logo: logoDataURL(L) };
 }
+if (WHATSAPP) { baseName += '-whatsapp'; pageData.calm = true; }
 if (!hasFfmpeg()) die('ffmpeg not found — install it (brew install ffmpeg / apt-get install ffmpeg)');
 
 const template = pathToFileURL(path.join(here, '..', 'templates', LAUNCH ? 'launch.html' : 'weekly.html')).href;
@@ -169,6 +174,14 @@ function finish(silent, final, duration, [w, h]) {
       '-map', '0:v', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-shortest', '-movflags', '+faststart', final]);
     fs.rmSync(video);
   } else fs.renameSync(video, final);
+  if (WHATSAPP) {
+    // 720p, Main profile, generous quality: WhatsApp re-encodes anything it gets, and a clean,
+    // small, low-motion source comes through far better than a 1080p60 one
+    const tmp = final.replace('.mp4', '.720.mp4'), tw = Math.round((w * 1280) / Math.max(w, h) / 2) * 2, th = Math.round((h * 1280) / Math.max(w, h) / 2) * 2;
+    run(['-y', '-loglevel', 'error', '-i', final, '-vf', `scale=${tw}:${th}:flags=lanczos`, '-c:v', 'libx264', '-profile:v', 'main', '-level', '3.1', '-tune', 'animation',
+      '-preset', 'slow', '-crf', '20', '-maxrate', '3M', '-bufsize', '6M', '-pix_fmt', 'yuv420p', '-r', String(fps), '-g', String(fps * 2), '-c:a', 'copy', '-movflags', '+faststart', tmp]);
+    fs.renameSync(tmp, final);
+  }
 }
 function run(args) { const r = spawnSync('ffmpeg', args, { stdio: 'inherit' }); if (r.status !== 0) die(`ffmpeg failed: ${args.join(' ')}`); }
 
