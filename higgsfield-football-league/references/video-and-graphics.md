@@ -89,10 +89,14 @@ provides of that player. Without one, the team crest is used.
 node higgsfield-football-league/scripts/render.mjs --launch [--date YYYY-MM-DD] [--format story|feed|square] [--preview]
 ```
 
-`templates/launch.html`: title (bismillah, دار العلوم, the league name, "Meet the teams") → one scene per team (crest
-settles in, name, Arabic name without harakat, the squad from `data/squads.json`) → Matchweek 1 fixtures from the
-same schedule as `fixtures.mjs` → outro with the first matchweek's date (`--date`, else `league.json → schedule.start_date`,
-else "coming soon"). About 27s; needs no results. Output `league/launch/launch-<format>.mp4`.
+`templates/launch.html`: Darul Uloom logo with the bismillah (fully drawn on frame 0, so the paused video and its
+thumbnail show the logo, never a half-revealed word) → opening hadith → title (دار العلوم, the league name, "Meet the
+teams") → one scene per team (crest settles in, name, Arabic name without harakat, the squad from `data/squads.json`,
+and a Manager line when the team has `manager` in `league.json`) → Matchweek 1 fixtures from the same schedule as
+`fixtures.mjs` → closing hadith as the last slide. The two hadith live in `league.json → launch.opening_hadith` /
+`closing_hadith` (`arabic`, `english`, `narrator`, `source`); take the wording from a hadith source tool, never from
+memory. Without `closing_hadith` the last slide is an outro with the first matchweek's date (`--date`, else
+`schedule.start_date`, else "coming soon"). About 46s; needs no results. Output `league/launch/launch-<format>.mp4`.
 
 ## fixtures.mjs: weekly fixture list PDF
 

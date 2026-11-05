@@ -43,7 +43,7 @@ if (LAUNCH) {
   baseName = `launch-${format}`;
   pageData = { league: L.config.name, title_lines: L.config.title_lines, arabic_name: L.config.arabic_name, season: L.config.season,
     teams: L.config.teams, brand: L.config.brand, logo: logoDataURL(L), date: opt('date') ?? L.config.schedule?.start_date ?? null,
-    venue: L.config.schedule?.venue ?? null, fixtures: weekFixtures(L, 1),
+    venue: L.config.schedule?.venue ?? null, fixtures: weekFixtures(L, 1), hadith: L.config.launch ?? {},
     squads: Object.fromEntries(L.config.teams.map((t) => [t.name, L.squads.filter((p) => p.team === t.name).map((p) => p.player)])) };
 } else {
   const weeks = weeksOf(L);

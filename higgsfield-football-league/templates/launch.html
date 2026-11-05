@@ -52,6 +52,29 @@
 .fx-game .v { font-weight: 800; font-size: 4.6vw; color: var(--crimson-lt); text-align: center; line-height: 1; }
 .fx-game .v small { display: block; font-size: 2.4vw; letter-spacing: .25vw; color: #c9bfae; text-transform: uppercase; font-weight: 700; margin-top: .6vw; }
 
+/* opening logo: fully drawn on frame 0, so the video's thumbnail is the Darul Uloom logo */
+.lg-wrap { display: flex; justify-content: center; }
+.lg-img { width: 68vw; will-change: transform; filter: drop-shadow(0 1.5vw 2.5vw rgba(23,20,18,.12)); }
+.lg-bism { text-align: center; font-size: 6.4vw; color: var(--crimson); line-height: 2; margin-top: 3vw; }
+
+/* hadith slides */
+.hd-kicker { text-align: center; color: var(--crimson); font-weight: 700; letter-spacing: .6vw; text-transform: uppercase; font-size: 3.8vw; }
+.hd-ar { text-align: center; font-weight: 700; color: var(--ink); line-height: 1.75; margin: 3vw 0 2vw; will-change: transform, opacity; }
+.hd-en { text-align: center; font-family: Georgia, 'Times New Roman', serif; font-style: italic; color: var(--ink2); line-height: 1.45; margin-top: 3vw; will-change: transform, opacity; }
+.hd-src { text-align: center; margin-top: 4vw; will-change: opacity; }
+.hd-src b { display: inline-block; background: var(--ink); color: var(--cream); font-weight: 800; letter-spacing: .3vw; text-transform: uppercase; font-size: 3.4vw;
+  padding: .8vw 2.6vw; border-radius: .5vw; border-bottom: .6vw solid var(--crimson); }
+.hd-src div { color: var(--ink2); font-size: 3.4vw; margin-top: 1.6vw; letter-spacing: .1vw; }
+.hd-open .hd-ar { font-size: 10vw; white-space: pre-line; }
+.hd-open .hd-en { font-size: 5.2vw; }
+.hd-close .hd-ar { font-size: 6.1vw; }
+.hd-close .hd-en { font-size: 3.9vw; }
+
+/* team manager */
+.tm-mgr { display: flex; align-items: center; justify-content: center; gap: 2.4vw; margin-top: 2.6vw; will-change: transform, opacity; }
+.tm-mgr span { background: var(--crimson); color: var(--cream); font-weight: 800; font-size: 3.2vw; letter-spacing: .4vw; text-transform: uppercase; padding: .6vw 2.2vw; border-radius: .5vw; }
+.tm-mgr b { font-weight: 800; font-size: 5.6vw; }
+
 /* outro */
 .o-crests { margin-bottom: 6vw; }
 .o-sub { text-align: center; color: var(--ink2); font-size: 4.8vw; letter-spacing: .2vw; }
@@ -62,7 +85,9 @@
 <div id="stage"></div>
 <script src="common.js"></script>
 <script>
-let D, SCENES = [], TOTAL = 0, team, bar, wm, glow;
+let D, SCENES = [], TOTAL = 0, team, bar, wm, glow, logoReady = null;
+const baseReady = window.assetsReady;
+window.assetsReady = async () => { await logoReady; await baseReady(); };
 const TRANS = 0.9;
 const tf = (x = 0, y = 0, s = 1) => `translate3d(${x.toFixed(3)}vw, ${y.toFixed(3)}vw, 0) scale(${s.toFixed(4)})`;
 function reveal(text, cls) { const m = el('div', `mask ${cls}`), inner = el('span', null, text); m.append(inner); return { node: m, inner }; }
@@ -80,7 +105,9 @@ window.init = (data) => {
   const top = el('div', 'chrome-top');
   top.append(el('span', null, D.league), (() => { const s = el('span'); s.append('Season '); s.append(el('b', null, 'opener')); return s; })());
   root.append(top);
-  SCENES = [buildTitle(), ...D.teams.map((t, i) => buildTeam(t, i)), buildFixtures(), buildOutro()];
+  const H = D.hadith || {};
+  SCENES = [buildLogo(), H.opening_hadith ? buildHadith(H.opening_hadith, 'open') : null, buildTitle(), ...D.teams.map((t, i) => buildTeam(t, i)), buildFixtures(),
+    H.closing_hadith ? buildHadith(H.closing_hadith, 'close') : buildOutro()].filter(Boolean);
   let t = 0;
   for (const [i, s] of SCENES.entries()) { s.start = i === 0 ? 0 : t - TRANS; t = s.start + s.dur; root.append(s.node); s.node.style.zIndex = String(10 + i); }
   TOTAL = t;
@@ -112,9 +139,55 @@ window.renderAt = (t) => {
   }
 };
 
+// Frame 0 is the Darul Uloom logo, already fully drawn, so the paused video / thumbnail shows it.
+function buildLogo() {
+  const n = el('section', 'scene');
+  const wrap = el('div', 'lg-wrap');
+  // the logo file has a white background: knock it out so the logo sits on the cream page
+  const img = document.createElement('canvas'); img.className = 'lg-img'; wrap.append(img);
+  const src = new Image(); src.src = D.logo || '';
+  logoReady = src.decode().then(() => {
+    img.width = src.naturalWidth; img.height = src.naturalHeight;
+    const g = img.getContext('2d'); g.drawImage(src, 0, 0);
+    const px = g.getImageData(0, 0, img.width, img.height), d = px.data;
+    for (let i = 0; i < d.length; i += 4) {
+      const lo = Math.min(d[i], d[i + 1], d[i + 2]);
+      const a = clamp((255 - lo) / 40);          // pure white → transparent, colours stay solid
+      if (a < 1) { d[i + 3] = Math.round(255 * a); if (a > 0) for (let k = 0; k < 3; k++) d[i + k] = Math.round(255 - (255 - d[i + k]) / a); }
+    }
+    g.putImageData(px, 0, 0);
+  }).catch(() => {});
+  const bism = el('div', 'ar lg-bism', D.brand?.bismillah || '');
+  n.append(wrap, bism);
+  return { id: 'logo', node: n, dur: 3.4, still: 0, draw(t) {
+    img.style.transform = tf(0, 0, 1 + .035 * smooth(t / 3.4));
+  } };
+}
+
+// A hadith slide: kicker, Arabic (no harakat), English meaning, source.
+function buildHadith(h, kind) {
+  const n = el('section', `scene hd-${kind}`);
+  const kicker = el('div', 'hd-kicker', 'The Messenger of Allah ﷺ said');
+  const ar = el('div', 'ar hd-ar', `«${kind === 'open' ? plainAr(h.arabic).replace(/، /g, '،\n') : plainAr(h.arabic)}»`);
+  const rule = starRule(), ruleBits = [...rule.children];
+  const en = el('div', 'hd-en', `“${h.english}”`);
+  const src = el('div', 'hd-src'); src.append(el('b', null, h.source)); if (h.narrator) src.append(el('div', null, `Narrated by ${h.narrator}`));
+  n.append(kicker, ar, rule, en, src);
+  const long = kind === 'close', enAt = long ? 2.2 : 1.7;
+  const dur = long ? 13 : 7;
+  return { id: `hadith-${kind}`, node: n, dur, still: dur - 1.2, draw(t) {
+    kicker.style.opacity = smooth((t - .1) / .6).toFixed(3);
+    const a = clamp((t - .35) / 1.2); ar.style.opacity = smooth(a * 1.3).toFixed(3); ar.style.transform = tf(0, (1 - expoOut(a)) * 4, .97 + .03 * smooth(a));
+    ruleBits.forEach((b, i) => { const p = smooth((t - enAt + .4) / .8); b.style.transform = i === 1 ? `rotate(${(1 - p) * 180}deg) scale(${p.toFixed(3)})` : `scaleX(${p.toFixed(3)})`; });
+    const e = clamp((t - enAt) / 1.1); en.style.opacity = smooth(e * 1.3).toFixed(3); en.style.transform = tf(0, (1 - expoOut(e)) * 4);
+    src.style.opacity = smooth((t - enAt - .8) / .8).toFixed(3);
+  } };
+}
+
 function buildTitle() {
   const n = el('section', 'scene');
-  const bism = el('div', 'ar t-bism', D.brand?.bismillah || '');
+  // the bismillah is on the opening logo slide; don't repeat it here
+  const bism = el('div', 'ar t-bism', D.logo ? '' : (D.brand?.bismillah || ''));
   const ar = D.arabic_name ? el('div', 'ar t-ar', plainAr(D.arabic_name)) : null;
   const ls = lines(), l1 = ls.length > 1 ? reveal(ls[0], 't-l1') : null, l2 = reveal(ls.at(-1), 't-l2');
   const rule = starRule(), ruleBits = [...rule.children];
@@ -141,8 +214,10 @@ function buildTeam(t, i) {
   const squad = el('div', 'tm-squad');
   const players = (D.squads[t.name] || []).map((p) => el('div', null, p));
   squad.append(...players);
-  n.append(kicker, cbox, name.node, ar, squad);
-  return { id: `team-${i + 1}`, node: n, dur: 4.6, still: 3.6, draw(t2) {
+  let mgr = null;
+  if (t.manager) { mgr = el('div', 'tm-mgr'); mgr.append(el('span', null, 'Manager'), el('b', null, t.manager)); }
+  n.append(...[kicker, cbox, name.node, ar, squad, mgr].filter(Boolean));
+  return { id: `team-${i + 1}`, node: n, dur: t.manager ? 5.2 : 4.6, still: 3.6, draw(t2) {
     kicker.style.opacity = smooth((t2 - .1) / .6).toFixed(3);
     const p = clamp((t2 - .15) / 1.1);
     c.style.opacity = smooth(p * 1.6).toFixed(3);
@@ -151,6 +226,7 @@ function buildTeam(t, i) {
     ar.style.opacity = smooth((t2 - .8) / .6).toFixed(3); ar.style.transform = tf(0, (1 - smooth((t2 - .8) / .8)) * 2.5);
     const q = clamp((t2 - 1.0) / .7); squad.style.opacity = smooth(q * 1.5).toFixed(3); squad.style.transform = tf(0, (1 - expoOut(q)) * 5);
     players.forEach((pl, k) => { const r = clamp((t2 - 1.25 - k * .08) / .5); pl.style.opacity = smooth(r).toFixed(3); pl.style.transform = tf((1 - expoOut(r)) * 3, 0); });
+    if (mgr) { const r = clamp((t2 - 1.25 - players.length * .08 - .1) / .7); mgr.style.opacity = smooth(r * 1.4).toFixed(3); mgr.style.transform = tf(0, (1 - expoOut(r)) * 4); }
   } };
 }
 

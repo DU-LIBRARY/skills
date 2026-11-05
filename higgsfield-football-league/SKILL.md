@@ -139,7 +139,7 @@ available. Mention anything you assumed (e.g. "no assists given for the 2nd goal
 | User says | Do |
 |---|---|
 | "Fix last week: it was 2-2 not 2-1" | Edit the week JSON, `add-week --replace`, re-render that week **and every later week** (`--week N` each), then sync and commit. |
-| "Make a launch/intro video" / "introduce the teams" | `render.mjs --launch [--date YYYY-MM-DD]`: title, each team with its crest, Arabic name and squad, Matchweek 1 fixtures, outro (~27s). Output `league/launch/launch-story.mp4` |
+| "Make a launch/intro video" / "introduce the teams" | `render.mjs --launch [--date YYYY-MM-DD]`: logo (frame 0), opening hadith, title, each team with crest, Arabic name, squad and manager, Matchweek 1 fixtures, closing hadith (~46s). Output `league/launch/launch-story.mp4` |
 | "Make this week's fixtures" / "fixture list PDF" | `fixtures.mjs [--week N] [--weeks K] [--date YYYY-MM-DD]`: A4 PDF in `league/fixtures/`, 3 rounds of 2 simultaneous games, order rotates every week, no home/away ([video-and-graphics.md](references/video-and-graphics.md)) |
 | "Make a fixtures poster for Saturday" | `graphic.mjs fixtures --spec fx.json` ([video-and-graphics.md](references/video-and-graphics.md)) |
 | "Post that the games are off" | `graphic.mjs announcement --title … --body …` |
