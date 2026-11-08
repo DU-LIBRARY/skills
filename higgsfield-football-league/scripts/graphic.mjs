@@ -4,6 +4,7 @@
 //   node graphic.mjs potw         [--week N] [--player NAME] [--photo img.jpg] [--note "..."]
 //   node graphic.mjs fixtures     --spec fixtures.json              {date, title?, fixtures:[{home, away, time?, venue?, date?}]}
 //   node graphic.mjs announcement --title "..." [--body "..."] [--kicker "..."]
+//   node graphic.mjs thumbnail    [--week N] [--title "..."] [--body "..."]   "Week N Recap" cover (also opens the weekly video)
 // Common: [--root league] [--format feed|story|square]
 // Week graphics go to <root>/weeks/week-NN/cards/, the rest to <root>/graphics/.
 import fs from 'node:fs';
@@ -75,7 +76,15 @@ if (type === 'fulltime') {
   if (!opt('title')) die('--title is required');
   jobs.push([{ ...base, type, title: opt('title'), body: opt('body', '').replace(/\\n/g, '\n'), kicker: opt('kicker'), band_right: opt('band', 'Announcement') },
     path.join(root, 'graphics', `${today}-${slug(opt('title'))}-${format}.png`)]);
-} else die('types: fulltime | potw | fixtures | announcement');
+} else if (type === 'thumbnail') {
+  // the week's recap cover: also the first second of the weekly video (render.mjs makes it itself)
+  const w = week(), snap = snapshot(L, w);
+  const goals = snap.results.reduce((n, r) => n + r.home_goals + r.away_goals, 0), games = snap.results.length;
+  const top = snap.table[0]?.team;
+  const body = [`${games} game${games === 1 ? '' : 's'} · ${goals} goal${goals === 1 ? '' : 's'}`, top ? `${top} top of the table` : ''].filter(Boolean).join('\n');
+  jobs.push([{ ...base, type: 'announcement', title: opt('title', `Week ${w} Recap`), body: opt('body', body).replace(/\\n/g, '\n'),
+    kicker: opt('kicker', L.config.name), band_right: `Matchweek ${w}` }, path.join(weekDir(root, w), 'cards', `thumbnail-${format}.png`)]);
+} else die('types: fulltime | potw | fixtures | announcement | thumbnail');
 
 
 let browser;
