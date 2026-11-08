@@ -96,7 +96,7 @@ node higgsfield-football-league/scripts/graphic.mjs fulltime       # a Full Time
 node higgsfield-football-league/scripts/graphic.mjs potw           # Player of the Week (auto-picked, or --player)
 ```
 
-Video scenes: intro → results (with scorers and assists) → league table
+Video scenes: thumbnail ("Week N Recap", 1s, also the file's cover) → results (with scorers and assists) → league table
 (rows glide from last week's positions, points count up, ▲▼ arrows) → top
 goalscorers race → top assists race (skipped until assists are recorded) →
 talking points (leader, golden boot, hat-tricks, biggest win) → outro.

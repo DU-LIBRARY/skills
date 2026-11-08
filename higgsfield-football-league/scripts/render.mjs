@@ -10,6 +10,8 @@
 //   node render.mjs --launch [--date YYYY-MM-DD] [--format story|feed|square] [--preview]
 //   -> <root>/launch/launch-<format>.mp4
 // --whatsapp: still background, 30fps, 720p -> <name>-whatsapp.mp4 (looks right after WhatsApp re-compresses it)
+// A weekly video opens on the "Week N Recap" thumbnail (graphic.mjs thumbnail) for 1s in place of the
+// animated intro scene, and carries it as its cover image. --classic-intro keeps the animated intro instead.
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawn, spawnSync } from 'node:child_process';
@@ -38,6 +40,9 @@ const workers = Math.max(1, Number(opt('workers', Math.min(4, os.cpus().length))
 const only = opt('only');
 const L = loadLeague(root);
 const LAUNCH = flag('launch');
+// the thumbnail opener: weekly videos only, not the launch video
+const THUMB = !LAUNCH && !flag('classic-intro');
+const THUMB_HOLD = 1, THUMB_FADE = 0.3;   // seconds on screen, of which the last part crossfades into the results
 let week, snap, outDir, pageData, baseName;
 if (LAUNCH) {
   // the season opener: needs no results, only the teams, squads and Matchweek 1 fixtures
@@ -90,6 +95,7 @@ async function renderVideo(browser) {
     // one still per scene, for a quick look without encoding
     const { page, info } = await openPage(browser, size, {});
     for (const s of info.scenes) {
+      if (THUMB && s.id === 'intro') continue; // replaced by the thumbnail
       await page.evaluate((t) => window.renderAt(t), s.start + (s.still ?? s.dur / 2));
       await page.screenshot({ path: path.join(outDir, `preview-${s.id}.jpg`), type: 'jpeg', quality: 80 });
     }
@@ -98,7 +104,11 @@ async function renderVideo(browser) {
   }
 
   const probe = await openPage(browser, size, {});
-  const duration = probe.info.duration;
+  // With the thumbnail opener, start where the intro scene has faded out (60% into its crossfade
+  // with the results), so the results rise in straight after the thumbnail.
+  const sc = Object.fromEntries(probe.info.scenes.map((s) => [s.id, s]));
+  const skip = THUMB && sc.intro && sc.results ? sc.results.start + 0.6 * (sc.intro.start + sc.intro.dur - sc.results.start) : 0;
+  const duration = probe.info.duration - skip;
   await probe.page.close();
   const frames = Math.ceil(duration * fps);
   const W = Math.min(workers, Math.ceil(frames / 60));
@@ -137,7 +147,7 @@ async function renderVideo(browser) {
       while (i - next > AHEAD) await new Promise((r) => setTimeout(r, 5));
       const bufs = [];
       for (let k = 0; k < blur; k++) {
-        const t = (i + (blur > 1 ? (k / (blur - 1) - .5) * .5 : 0)) / fps;
+        const t = skip + (i + (blur > 1 ? (k / (blur - 1) - .5) * .5 : 0)) / fps;
         await page.evaluate((x) => window.renderAt(Math.max(0, x)), t);
         bufs.push(await page.screenshot({ type: 'jpeg', quality: 95 }));
       }
@@ -160,6 +170,19 @@ async function renderVideo(browser) {
 function finish(silent, final, duration, [w, h]) {
   const intro = opt('intro'), music = opt('music');
   let video = silent;
+  let thumb = null;
+  if (THUMB) {
+    // the week's thumbnail, drawn at the video's size, held for THUMB_HOLD seconds and crossfaded into the results
+    const g = spawnSync(process.execPath, [path.join(here, 'graphic.mjs'), 'thumbnail', '--week', String(week), '--format', format, '--root', root], { stdio: 'inherit' });
+    thumb = path.join(outDir, 'cards', `thumbnail-${format}.png`);
+    if (g.status !== 0 || !fs.existsSync(thumb)) die('could not draw the thumbnail (try --classic-intro)');
+    const opened = silent.replace('.silent.mp4', '.thumb.mp4'), tb = 'settb=AVTB';
+    run(['-y', '-loglevel', 'error', '-loop', '1', '-t', String(THUMB_HOLD), '-framerate', String(fps), '-i', thumb, '-i', silent, '-filter_complex',
+      `[0:v]scale=${w}:${h},format=yuv420p,fps=${fps},${tb}[a];[1:v]fps=${fps},format=yuv420p,${tb}[b];[a][b]xfade=transition=fade:duration=${THUMB_FADE}:offset=${THUMB_HOLD - THUMB_FADE}[v]`,
+      '-map', '[v]', '-c:v', 'libx264', '-preset', 'medium', '-crf', '19', '-pix_fmt', 'yuv420p', '-g', String(fps * 2), opened]);
+    fs.rmSync(silent); video = opened;
+    duration += THUMB_HOLD - THUMB_FADE;
+  }
   if (intro) {
     if (!fs.existsSync(intro)) die(`intro clip not found: ${intro}`);
     const joined = silent.replace('.silent.mp4', '.joined.mp4');
@@ -180,6 +203,14 @@ function finish(silent, final, duration, [w, h]) {
     const tmp = final.replace('.mp4', '.720.mp4'), tw = Math.round((w * 1280) / Math.max(w, h) / 2) * 2, th = Math.round((h * 1280) / Math.max(w, h) / 2) * 2;
     run(['-y', '-loglevel', 'error', '-i', final, '-vf', `scale=${tw}:${th}:flags=lanczos`, '-c:v', 'libx264', '-profile:v', 'main', '-level', '3.1', '-tune', 'animation',
       '-preset', 'slow', '-crf', '20', '-maxrate', '3M', '-bufsize', '6M', '-pix_fmt', 'yuv420p', '-r', String(fps), '-g', String(fps * 2), '-c:a', 'copy', '-movflags', '+faststart', tmp]);
+    fs.renameSync(tmp, final);
+  }
+  if (thumb) {
+    // also set the thumbnail as the file's cover image (shown by players and file browsers)
+    const tmp = final.replace('.mp4', '.cover.mp4');
+    const [cw, ch] = WHATSAPP ? [Math.round((w * 1280) / Math.max(w, h) / 2) * 2, Math.round((h * 1280) / Math.max(w, h) / 2) * 2] : [w, h];
+    run(['-y', '-loglevel', 'error', '-i', final, '-i', thumb, '-filter_complex', `[1:v]scale=${cw}:${ch}:flags=lanczos,format=yuvj420p[c]`,
+      '-map', '0', '-map', '[c]', '-c', 'copy', '-c:v:1', 'mjpeg', '-q:v:1', '2', '-disposition:v:1', 'attached_pic', '-movflags', '+faststart', tmp]);
     fs.renameSync(tmp, final);
   }
 }

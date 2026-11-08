@@ -19,13 +19,15 @@ node higgsfield-football-league/scripts/render.mjs [flags]
 | `--workers N` | min(4, CPUs) | Parallel browsers rendering frames, all feeding one encoder in order (no joins in the video). |
 | `--only video\|cards` | both | Skip one half. |
 | `--preview` | off | One JPEG per scene (`preview-<scene>.jpg`, git-ignored), no encoding. Use it to check layout in a few seconds. |
+| `--classic-intro` | off | Keep the animated intro scene instead of opening on the week's thumbnail. |
 | `--intro clip.mp4` | — | Put a clip in front (scaled and cropped to fit). For AI intros, see ai-extras.md. |
 | `--music track.mp3` | — | Background audio with fade in and out. Use only tracks the user has the rights to. |
 | `--if-changed` | off | Skip if the MP4 exists and the numbers haven't changed (the Action uses this). |
 | `--root dir` | `league` | League folder. |
 
 Outputs in `league/weeks/week-NN/`:
-- `week-NN-<format>.mp4`: about 35–40s, 60fps H.264, ~10 MB.
+- `week-NN-<format>.mp4`: about 35–40s, 60fps H.264, ~10 MB. Opens on the week's thumbnail and carries it as its cover image.
+- `cards/thumbnail-<format>.png`: the "Week N Recap" thumbnail (also `graphic.mjs thumbnail`).
 - `cards/{results,table,scorers,assists,talking}-feed.png`: 1080×1350 stills of each scene's final state.
 - `snapshot.json`: the exact numbers drawn.
 
@@ -35,7 +37,8 @@ With the defaults on 4 CPUs, a 36s video takes about 3½ minutes (`--blur 1`: ab
 
 | Scene | Length | What moves |
 |---|---|---|
-| intro | 4.6s | Bismillah and دار العلوم fade up, "Darul Uloom / Winter League" slide up out of masks, the star rule draws, crests settle in |
+| thumbnail | 1.0s | The "Week N Recap" thumbnail (league name, games and goals, who's top, crests). Its last 0.3s crossfades into the results. Replaces the intro unless `--classic-intro` |
+| intro | 4.6s | Only with `--classic-intro`. Bismillah and دار العلوم fade up, "Darul Uloom / Winter League" slide up out of masks, the star rule draws, crests settle in |
 | results | 0.45s + 1.25s per match + 2.8s | Match cards sweep in from alternate sides, scores roll up like a scoreboard, scorer lines stagger in |
 | table | 7.4s | Rows start in last week's order (alphabetical in week 1) and glide to the new order. Risers lift over fallers, the dark leader band follows whoever reaches the top, points roll, ▲▼ arrows settle in |
 | scorers | 7.0s | Top 6 bar race: bars sweep in, then grow and re-rank from last week's totals. Numbers roll. Each bar's end band shows its medal live (gold, silver, bronze in flat colour; crimson for no medal), and the leader's bar fades to crimson as the race settles: from the start it reflects last week, and medals change hands as the counts tick over (0.3s blend) |
@@ -72,6 +75,7 @@ node higgsfield-football-league/scripts/graphic.mjs <type> [flags] [--format fee
 | `potw` | `--week N`, `--player NAME` (default: most goals×2 + assists that week), `--photo img.jpg`, `--note "…"` | `weeks/week-NN/cards/potw-<player>-<format>.png` |
 | `fixtures` | `--spec fx.json` | `graphics/<date>-fixtures-<format>.png` |
 | `announcement` | `--title "…"`, `--body "…"` (`\n` for line breaks), `--kicker "…"`, `--band "…"` | `graphics/<today>-<title>-<format>.png` |
+| `thumbnail` | `--week N`, `--title "…"` (default "Week N Recap"), `--body "…"` (default games, goals and who's top) | `weeks/week-NN/cards/thumbnail-<format>.png` |
 
 Fixtures spec:
 
