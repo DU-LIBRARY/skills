@@ -162,8 +162,9 @@ function fitOf(s) {
 window.renderAt = (t) => {
   // the logo field drifts slowly up and to the left, so the frame is never fully static
   // calm (--whatsapp): a still background, so messaging apps' re-encoding spends its bits on the text
-  if (wm && !D.calm) wm.style.transform = tf(-((t * .9) % (LOGO_TILE * 2)), -((t * 1.5) % (LOGO_TILE * 2)));
-  if (!D.calm) glow.style.transform = tf(Math.sin(t * .35) * 8, Math.cos(t * .27) * 5);
+  // the logo field and glow stay still: slow drift shimmered on the fine logo pattern
+  if (wm && D.drift) wm.style.transform = tf(-((t * .9) % (LOGO_TILE * 2)), -((t * 1.5) % (LOGO_TILE * 2)));
+  if (D.drift) glow.style.transform = tf(Math.sin(t * .35) * 8, Math.cos(t * .27) * 5);
   bar.style.transform = `scaleX(${clamp(t / TOTAL).toFixed(5)})`;
   for (const s of SCENES) {
     const lt = t - s.start, on = lt >= 0 && lt < s.dur;
@@ -185,7 +186,8 @@ window.renderAt = (t) => {
       const pin = first ? 1 : smooth((qin - .35) / .65), mvin = first ? 1 : smooth(qin);
       const pout = last ? 0 : smooth(qout / .6), mvout = last ? 0 : smooth(qout);
       s.node.style.opacity = (pin * (1 - pout)).toFixed(4);
-      s.node.style.transform = tf(0, (1 - mvin) * 8 - mvout * 7, s.fit * (1 - mvout * .03 + (1 - mvin) * .02));
+      // a plain crossfade: scenes don't slide up or down
+      s.node.style.transform = tf(0, 0, s.fit); void mvin; void mvout;
     }
     s.draw(lt);
   }
@@ -265,7 +267,7 @@ function buildResultsScreen(results, id) {
       x.c.style.transform = tf((1 - expoOut(p)) * 34 * x.dir, 0, 1);
       const q = smooth((t - x.at - .45) / 1.1);
       x.hg.set(q * x.m.home_goals); x.ag.set(q * x.m.away_goals);
-      x.gl.forEach((g, j) => { const r = clamp((t - x.at - .9 - j * .12) / .6); g.style.opacity = smooth(r).toFixed(3); g.style.transform = tf(0, (1 - expoOut(r)) * 2); });
+      x.gl.forEach((g, j) => { const r = clamp((t - x.at - .9 - j * .12) / .6); g.style.opacity = smooth(r).toFixed(3); });
     }
   } };
 }
@@ -463,9 +465,9 @@ function buildOutro() {
   const subs = [el('div', 'sub', `${D.stats.matches_played} matches · ${D.stats.total_goals} goals so far`), el('div', 'sub', 'See you next matchweek')];
   n.append(...[crests, l1?.node, l2.node, starRule(), ...subs].filter(Boolean));
   return { id: 'outro', node: n, dur: 3.8, still: 2.6, draw(t) {
-    cs.forEach((c, i) => { const p = clamp((t - .15 - i * .12) / .9); c.style.opacity = smooth(p * 1.6).toFixed(3); c.style.transform = tf(0, (1 - settle(p)) * 7); });
-    if (l1) l1.inner.style.transform = tf(0, (1 - expoOut(clamp((t - .5) / .9))) * 10);
-    l2.inner.style.transform = tf(0, (1 - expoOut(clamp((t - .62) / 1))) * 16);
+    cs.forEach((c, i) => { const p = clamp((t - .15 - i * .12) / .9); c.style.opacity = smooth(p * 1.6).toFixed(3); });
+    if (l1) l1.inner.style.opacity = smooth((t - .5) / .8).toFixed(3);
+    l2.inner.style.opacity = smooth((t - .62) / .8).toFixed(3);
     subs.forEach((s, i) => { s.style.opacity = smooth((t - 1.1 - i * .2) / .7).toFixed(3); });
   } };
 }

@@ -50,13 +50,14 @@ Medal look and tie rule are settings in `league.json → brand`: `medal_style` (
 
 Assists are shown the way match centres do: muted, after or under the scorer, with a small boxed **A** tag (`assistLine()` in `common.js`). Scenes too tall for the frame (e.g. two result cards in a 4:5 post) scale themselves down to fit.
 
-Behind everything, a field of tiny Darul Uloom logos (`league/assets/logo.jpg`, set in `league.json → brand.logo`) drifts slowly; its strength is `brand.watermark_opacity` (0.07, very faint). The same field sits behind every graphic. Keep it faint: it's texture, not content.
+Behind everything, a field of tiny Darul Uloom logos (`league/assets/logo.jpg`, set in `league.json → brand.logo`) stays still (a slow drift shimmered on the fine pattern; pass `drift: true` in the page data to bring it back); its strength is `brand.watermark_opacity` (0.07, very faint). The same field sits behind every graphic. Keep it faint: it's texture, not content.
 
-Scenes hand over with a 0.9s overlap: the old scene lifts away, then the new one rises in, so the frame is never blank and text never sits on text.
+Scenes hand over with a 0.9s crossfade, with no sliding up or down: the old scene fades out, then the new one fades in, so the frame is never blank and text never sits on text.
+Keep it calm: nothing bobs, bounces or wobbles. Rows only move straight up or down when they change place; things arrive by fading or sliding sideways, never by rising or overshooting.
 How it's built, so it stays smooth when edited:
 - Move things only with `transform`, `opacity` or `clip-path` (helper `tf(x, y, scale)` in vw). Animating `top`, `left` or `width` snaps to whole pixels and judders.
-- Ease with `smooth` (quintic), `expoOut` for arrivals, or `settle` for a soft overshoot (`common.js`). Never switch a style instantly mid-move; blend it (`color-mix`).
-- Numbers that change use `roller(from, to)`, which slides digits instead of swapping them.
+- Ease with `smooth` (quintic), `expoOut` for arrivals, or `settle` for a soft stop with no overshoot (`common.js`). Never switch a style instantly mid-move; blend it (`color-mix`).
+- Numbers that change use `roller(from, to)`, which fades from one value to the next in place (no rolling up or down).
 - Fixed things (rank numbers, slot positions) stay put while the rows move past them.
 - A colour that depends on a changing number (the medal band) is computed from the number shown at that instant and blended over 0.3s, so it changes live without a hard flip.
 
