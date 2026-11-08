@@ -9,15 +9,15 @@
  {
   "match": 1,
   "team": "As-Sābiqūn",
-  "scorer": "Yusuf Kassam",
-  "assist": "Saifullah Salloo",
+  "scorer": "Saifullah Salloo",
+  "assist": "Yusuf Kassam",
   "own_goal": false
  },
  {
   "match": 1,
   "team": "As-Sābiqūn",
-  "scorer": "Yusuf Kassam",
-  "assist": "Muhammad Talati",
+  "scorer": "Muhammad Talati",
+  "assist": "Bilal Anees",
   "own_goal": false
  },
  {
@@ -86,8 +86,8 @@
  {
   "match": 6,
   "team": "An-Nāṣirūn",
-  "scorer": "Asjad Patel",
-  "assist": "Hanzala Salloo",
+  "scorer": "Hanzala Salloo",
+  "assist": "Asjad Patel",
   "own_goal": false
  }
 ]

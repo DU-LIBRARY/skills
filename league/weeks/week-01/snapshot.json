@@ -35,15 +35,15 @@
     {
      "match": 1,
      "team": "As-Sābiqūn",
-     "scorer": "Yusuf Kassam",
-     "assist": "Saifullah Salloo",
+     "scorer": "Saifullah Salloo",
+     "assist": "Yusuf Kassam",
      "own_goal": false
     },
     {
      "match": 1,
      "team": "As-Sābiqūn",
-     "scorer": "Yusuf Kassam",
-     "assist": "Muhammad Talati",
+     "scorer": "Muhammad Talati",
+     "assist": "Bilal Anees",
      "own_goal": false
     }
    ]
@@ -166,8 +166,8 @@
     {
      "match": 6,
      "team": "An-Nāṣirūn",
-     "scorer": "Asjad Patel",
-     "assist": "Hanzala Salloo",
+     "scorer": "Hanzala Salloo",
+     "assist": "Asjad Patel",
      "own_goal": false
     }
    ]
@@ -258,14 +258,6 @@
  "scorers": [
   {
    "rank": 1,
-   "player": "Asjad Patel",
-   "team": "An-Nāṣirūn",
-   "goals": 2,
-   "prev": 0,
-   "prev_rank": null
-  },
-  {
-   "rank": 2,
    "player": "Haizam Jiffry",
    "team": "Al-Mufliḥūn",
    "goals": 2,
@@ -273,7 +265,7 @@
    "prev_rank": null
   },
   {
-   "rank": 3,
+   "rank": 2,
    "player": "Jameel Bholat",
    "team": "Al-Fāʾizūn",
    "goals": 2,
@@ -281,7 +273,7 @@
    "prev_rank": null
   },
   {
-   "rank": 4,
+   "rank": 3,
    "player": "Salahuddeen Patel",
    "team": "Al-Mufliḥūn",
    "goals": 2,
@@ -289,15 +281,7 @@
    "prev_rank": null
   },
   {
-   "rank": 5,
-   "player": "Yusuf Kassam",
-   "team": "As-Sābiqūn",
-   "goals": 2,
-   "prev": 0,
-   "prev_rank": null
-  },
-  {
-   "rank": 6,
+   "rank": 4,
    "player": "Abdullah Patel",
    "team": "Al-Mufliḥūn",
    "goals": 1,
@@ -305,9 +289,41 @@
    "prev_rank": null
   },
   {
-   "rank": 7,
+   "rank": 5,
+   "player": "Asjad Patel",
+   "team": "An-Nāṣirūn",
+   "goals": 1,
+   "prev": 0,
+   "prev_rank": null
+  },
+  {
+   "rank": 6,
    "player": "Hamza Yousofzai",
    "team": "Al-Fāʾizūn",
+   "goals": 1,
+   "prev": 0,
+   "prev_rank": null
+  },
+  {
+   "rank": 7,
+   "player": "Hanzala Salloo",
+   "team": "An-Nāṣirūn",
+   "goals": 1,
+   "prev": 0,
+   "prev_rank": null
+  },
+  {
+   "rank": 8,
+   "player": "Muhammad Talati",
+   "team": "As-Sābiqūn",
+   "goals": 1,
+   "prev": 0,
+   "prev_rank": null
+  },
+  {
+   "rank": 9,
+   "player": "Saifullah Salloo",
+   "team": "As-Sābiqūn",
    "goals": 1,
    "prev": 0,
    "prev_rank": null
@@ -332,14 +348,6 @@
   },
   {
    "rank": 3,
-   "player": "Hanzala Salloo",
-   "team": "An-Nāṣirūn",
-   "assists": 2,
-   "prev": 0,
-   "prev_rank": null
-  },
-  {
-   "rank": 4,
    "player": "Abdullah Patel",
    "team": "Al-Mufliḥūn",
    "assists": 1,
@@ -347,8 +355,16 @@
    "prev_rank": null
   },
   {
+   "rank": 4,
+   "player": "Asjad Patel",
+   "team": "An-Nāṣirūn",
+   "assists": 1,
+   "prev": 0,
+   "prev_rank": null
+  },
+  {
    "rank": 5,
-   "player": "Muhammad Talati",
+   "player": "Bilal Anees",
    "team": "As-Sābiqūn",
    "assists": 1,
    "prev": 0,
@@ -356,8 +372,8 @@
   },
   {
    "rank": 6,
-   "player": "Saifullah Salloo",
-   "team": "As-Sābiqūn",
+   "player": "Hanzala Salloo",
+   "team": "An-Nāṣirūn",
    "assists": 1,
    "prev": 0,
    "prev_rank": null
@@ -374,6 +390,14 @@
    "rank": 8,
    "player": "Shahid Omarmia",
    "team": "Al-Fāʾizūn",
+   "assists": 1,
+   "prev": 0,
+   "prev_rank": null
+  },
+  {
+   "rank": 9,
+   "player": "Yusuf Kassam",
+   "team": "As-Sābiqūn",
    "assists": 1,
    "prev": 0,
    "prev_rank": null
@@ -410,8 +434,8 @@
   "leader_changed": false,
   "previous_leader": null,
   "top_scorer": {
-   "player": "Asjad Patel",
-   "team": "An-Nāṣirūn",
+   "player": "Haizam Jiffry",
+   "team": "Al-Mufliḥūn",
    "goals": 2
   },
   "top_assist": {
@@ -420,8 +444,8 @@
    "assists": 3
   },
   "week_top_scorer": {
-   "player": "Asjad Patel",
-   "team": "An-Nāṣirūn",
+   "player": "Haizam Jiffry",
+   "team": "Al-Mufliḥūn",
    "goals": 2
   },
   "hat_tricks": [],
