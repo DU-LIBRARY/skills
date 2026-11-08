@@ -140,7 +140,7 @@ window.init = (data, opts = {}) => {
   top.append(el('span', null, D.league), (() => { const s = el('span'); s.append('Matchweek '); s.append(el('b', null, String(D.week))); return s; })());
   root.append(top);
 
-  const all = [buildIntro(), buildResults(), buildTable(), buildRace('scorers', 'goals', 'Golden boot', 'Top goalscorers'),
+  const all = [buildIntro(), ...buildResults(), buildTable(), buildRace('scorers', 'goals', 'Golden boot', 'Top goalscorers'),
     buildRace('assists', 'assists', 'Playmakers', 'Top assists'), buildTalkingPoints(), buildOutro()].filter(Boolean);
   SCENES = opts.only ? all.filter((s) => s.id === opts.only) : all;
   if (!SCENES.length) throw new Error(`no scene "${opts.only}"`);
@@ -152,6 +152,13 @@ window.init = (data, opts = {}) => {
   return { duration: TOTAL, scenes: SCENES.map((s) => ({ id: s.id, start: s.start, dur: s.dur, still: s.still })) };
 };
 
+function fitOf(s) {
+  const was = s.node.style.transform;
+  s.node.style.transform = ''; s.node.style.justifyContent = 'flex-start';
+  const kids = [...s.node.children], a = kids[0].getBoundingClientRect().top, z = Math.max(...kids.map((k) => k.getBoundingClientRect().bottom));
+  s.node.style.justifyContent = ''; s.node.style.transform = was;
+  return Math.min(1, (s.node.clientHeight - 3 * vw()) / Math.max(1, z - a));
+}
 window.renderAt = (t) => {
   // the logo field drifts slowly up and to the left, so the frame is never fully static
   // calm (--whatsapp): a still background, so messaging apps' re-encoding spends its bits on the text
@@ -164,10 +171,10 @@ window.renderAt = (t) => {
     if (!on) continue;
     // shrink a scene whose content is taller than the frame (e.g. two result cards in a 4:5 post)
     if (s.fit == null) {
-      s.node.style.transform = ''; s.node.style.justifyContent = 'flex-start';
-      const kids = [...s.node.children], a = kids[0].getBoundingClientRect().top, z = Math.max(...kids.map((k) => k.getBoundingClientRect().bottom));
-      s.node.style.justifyContent = '';
-      s.fit = Math.min(1, (s.node.clientHeight - 3 * vw()) / Math.max(1, z - a));
+      // screens of one group (the results screens) share the smallest fit, so their cards match in size
+      const group = s.group ? SCENES.filter((x) => x.group === s.group) : [s];
+      const f = Math.min(...group.map(fitOf));
+      for (const x of group) x.fit = f;
     }
     if (OPTS.still) { s.node.style.opacity = 1; s.node.style.transform = `scale(${s.fit.toFixed(4)})`; }
     else {
@@ -225,12 +232,20 @@ function goalLines(goals, side) {
   }
   return { box, rows };
 }
+// Results go on screens of at most 3 matches (6 matches -> 3 + 3, 4 -> 2 + 2), so each card is big
+// enough to read. The first screen keeps the id 'results'; the next ones are 'results-2', 'results-3'…
 function buildResults() {
-  if (!D.results.length) return null;
+  if (!D.results.length) return [];
+  const screens = Math.ceil(D.results.length / 3), size = Math.ceil(D.results.length / screens);
+  const out = [];
+  for (let k = 0; k < screens; k++) out.push(buildResultsScreen(D.results.slice(k * size, (k + 1) * size), k ? `results-${k + 1}` : 'results'));
+  return out;
+}
+function buildResultsScreen(results, id) {
   const n = el('section', 'scene');
   n.append(header(`Matchweek ${D.week}`, D.results.length === 1 ? 'Result' : 'Results'));
   const per = 1.25;
-  const cards = D.results.map((m, i) => {
+  const cards = results.map((m, i) => {
     const c = el('div', 'match'), row = el('div', 'match-row');
     const side = (name, cls) => { const s = el('div', `side ${cls}`); const nm = el('div', 'nm', name); nm.append(el('small', 'ar', plainAr(team(name).arabic))); s.append(crest(team(name)), nm); return s; };
     const hg = roller(0, m.home_goals), ag = roller(0, m.away_goals);
@@ -243,7 +258,7 @@ function buildResults() {
   });
   n.append(...cards.map((x) => x.c));
   const end = .45 + per * cards.length + 1.2;
-  return { id: 'results', node: n, dur: end + 1.6, still: end + .4, draw(t) {
+  return { id, group: 'results', node: n, dur: end + 1.6, still: end + .4, draw(t) {
     for (const x of cards) {
       const p = clamp((t - x.at) / 1.0);
       x.c.style.opacity = smooth(p * 1.4).toFixed(3);
@@ -379,9 +394,12 @@ function buildRace(key, field, kicker, title) {
     const usable = trackW - 10; // leave room for the number
     for (const it of items) {
       const p = clamp((t - START) / DUR), e = smooth(p);
-      const v = lerp(it.r.prev, it.r[field], e), y = lerp(it.from, it.to, e);
-      const o = overtake(it.from - it.to, p);
-      const enter = it.from === N ? smooth(clamp((t - START) / 1.2)) : 1;
+      // a player new to the race fades in at his own place; the rest glide straight up or down
+      // (no sideways shift or scaling, so the names stay steady and readable)
+      const fresh = it.from === N;
+      const v = lerp(it.r.prev, it.r[field], e), y = fresh ? it.to : lerp(it.from, it.to, e);
+      const ot = overtake(fresh ? 0 : it.from - it.to, p), o = { ...ot, x: 0, s: 1 };
+      const enter = fresh ? smooth(clamp((t - .35) / .9)) : 1;
       const grow = smooth((t - .35) / 1.1); // bars sweep in from zero as the scene opens
       const w = Math.max(.8, (v / max) * usable * grow);
       it.b.style.transform = tf(o.x, y * BAR, o.s);
