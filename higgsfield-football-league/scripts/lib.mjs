@@ -139,8 +139,16 @@ export function snapshot(L, week) {
   });
 
   // talking points
+  // the week's top scorer(s): most goals across the gameweek (joint if tied)
   const wsc = scorers(weekGoals);
-  const hatTricks = wsc.filter((s) => s.goals >= 3);
+  const weekTop = wsc.length ? wsc.filter((s) => s.goals === wsc[0].goals) : [];
+  // a hat-trick is 3+ goals in ONE match, never goals added up across the week's matches
+  const hatTricks = [];
+  for (const m of thisWeek) {
+    for (const s of scorers(weekGoals.filter((g) => g.match === m.match))) {
+      if (s.goals >= 3) hatTricks.push({ ...s, match: m.match, opponent: s.team === m.home ? m.away : m.home });
+    }
+  }
   let biggest = null;
   for (const m of thisWeek) {
     const margin = Math.abs(m.home_goals - m.away_goals);
@@ -174,6 +182,7 @@ export function snapshot(L, week) {
       top_scorer: sNow[0] || null,
       top_assist: aNow[0] || null,
       week_top_scorer: wsc[0] || null,
+      week_top_scorers: weekTop,
       hat_tricks: hatTricks,
       biggest_win: biggest,
     },

@@ -458,9 +458,17 @@ function buildTalkingPoints() {
   const card = (k, v, s, crestOf) => { const c = el('div', 'tp-card'); if (crestOf) c.append(crest(team(crestOf))); const d = el('div'); d.append(el('div', 'k', k), el('div', 'v', v)); if (s) d.append(el('div', 's', s)); c.append(d); cards.push(c); };
   const lead = D.table[0];
   card(H.leader_changed ? 'New leaders' : 'Top of the table', H.leader, `${lead.points} pts · ${lead.won}W ${lead.drawn}D ${lead.lost}L${H.leader_changed && H.previous_leader ? ` · took over from ${H.previous_leader}` : ''}`, H.leader);
-  if (H.top_scorer) card('Golden boot', H.top_scorer.player, `${H.top_scorer.goals} goal${H.top_scorer.goals === 1 ? '' : 's'} · ${H.top_scorer.team}`, H.top_scorer.team);
-  for (const h of H.hat_tricks) card('Hat-trick', h.player, `${h.goals} goals this week for ${h.team}`, h.team);
-  if (!H.hat_tricks.length && H.week_top_scorer && H.week_top_scorer.goals > 1) card('Star of the week', H.week_top_scorer.player, `${H.week_top_scorer.goals} goals this week`, H.week_top_scorer.team);
+  // the gameweek's top scorer: most goals this week (joint when tied, up to 3 names)
+  const wk = H.week_top_scorers || (H.week_top_scorer ? [H.week_top_scorer] : []);
+  if (wk.length && wk.length <= 3) {
+    const names = wk.length === 1 ? wk[0].player : `${wk.slice(0, -1).map((s) => s.player).join(', ')} & ${wk[wk.length - 1].player}`;
+    const g = wk[0].goals;
+    card(wk.length === 1 ? 'Top scorer this week' : 'Joint top scorers this week', names, `${g} goal${g === 1 ? '' : 's'} this week${wk.length === 1 ? ` · ${wk[0].team}` : ' each'}`, wk.length === 1 ? wk[0].team : null);
+  }
+  // season golden boot, only when it isn't already the week's top scorer
+  if (H.top_scorer && !wk.some((s) => s.player === H.top_scorer.player)) card('Golden boot', H.top_scorer.player, `${H.top_scorer.goals} goal${H.top_scorer.goals === 1 ? '' : 's'} · ${H.top_scorer.team}`, H.top_scorer.team);
+  // hat-tricks: 3+ goals in a single match only
+  for (const h of H.hat_tricks) card('Hat-trick', h.player, `${h.goals} goals v ${h.opponent}`, h.team);
   if (H.top_assist && D.stats.assists_recorded) card('Most assists', H.top_assist.player, `${H.top_assist.assists} assist${H.top_assist.assists === 1 ? '' : 's'} · ${H.top_assist.team}`, H.top_assist.team);
   if (H.biggest_win) { const w = H.biggest_win, winner = w.home_goals > w.away_goals ? w.home : w.away; card('Biggest win', `${w.home} ${w.home_goals}–${w.away_goals} ${w.away}`, `${winner} by ${w.margin}`, winner); }
   const shown = cards.slice(0, 5);
