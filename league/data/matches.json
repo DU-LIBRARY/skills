@@ -1,1 +1,56 @@
-[]
+[
+ {
+  "match": 1,
+  "week": 1,
+  "date": "2026-11-08",
+  "home": "Al-Mufliḥūn",
+  "away": "As-Sābiqūn",
+  "home_goals": 1,
+  "away_goals": 2
+ },
+ {
+  "match": 2,
+  "week": 1,
+  "date": "2026-11-08",
+  "home": "An-Nāṣirūn",
+  "away": "Al-Fāʾizūn",
+  "home_goals": 0,
+  "away_goals": 2
+ },
+ {
+  "match": 3,
+  "week": 1,
+  "date": "2026-11-08",
+  "home": "An-Nāṣirūn",
+  "away": "Al-Mufliḥūn",
+  "home_goals": 1,
+  "away_goals": 4
+ },
+ {
+  "match": 4,
+  "week": 1,
+  "date": "2026-11-08",
+  "home": "Al-Fāʾizūn",
+  "away": "As-Sābiqūn",
+  "home_goals": 0,
+  "away_goals": 0
+ },
+ {
+  "match": 5,
+  "week": 1,
+  "date": "2026-11-08",
+  "home": "Al-Fāʾizūn",
+  "away": "Al-Mufliḥūn",
+  "home_goals": 1,
+  "away_goals": 1
+ },
+ {
+  "match": 6,
+  "week": 1,
+  "date": "2026-11-08",
+  "home": "An-Nāṣirūn",
+  "away": "As-Sābiqūn",
+  "home_goals": 1,
+  "away_goals": 0
+ }
+]
