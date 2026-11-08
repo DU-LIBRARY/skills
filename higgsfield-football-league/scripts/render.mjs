@@ -70,7 +70,11 @@ if (LAUNCH) {
   }
   fs.mkdirSync(path.join(outDir, 'cards'), { recursive: true });
   writeJSON(snapPath, snap);
-  pageData = { ...snap, logo: logoDataURL(L) };
+  // the week's fixture rounds, so the results screens follow the fixture list (one round per screen)
+  const fxPath = path.join(root, 'fixtures', `week-${pad2(week)}.json`);
+  let rounds = null;
+  try { rounds = fs.existsSync(fxPath) ? JSON.parse(fs.readFileSync(fxPath, 'utf8')).rounds : weekFixtures(L, week); } catch { rounds = null; }
+  pageData = { ...snap, logo: logoDataURL(L), rounds };
 }
 if (WHATSAPP) { baseName += '-whatsapp'; pageData.calm = true; }
 if (!hasFfmpeg()) die('ffmpeg not found — install it (brew install ffmpeg / apt-get install ffmpeg)');

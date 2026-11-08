@@ -232,18 +232,35 @@ function goalLines(goals, side) {
   }
   return { box, rows };
 }
-// Results go on screens of at most 3 matches (6 matches -> 3 + 3, 4 -> 2 + 2), so each card is big
-// enough to read. The first screen keeps the id 'results'; the next ones are 'results-2', 'results-3'…
+// Results go one fixture round per screen (the rounds in fixtures/week-NN.json, 2 games each), headed
+// "Round N". If the rounds don't cover every result, fall back to screens of at most 3 matches
+// (6 matches -> 3 + 3, 4 -> 2 + 2). The first screen keeps the id 'results'; the next ones are 'results-2', 'results-3'…
+function resultsByRound() {
+  if (!Array.isArray(D.rounds) || !D.rounds.length) return null;
+  const key = (a, b) => [a, b].sort().join('|');
+  const left = D.results.slice(), groups = [];
+  for (const r of D.rounds) {
+    const g = [];
+    for (const gm of r.games || []) {
+      const i = left.findIndex((m) => key(m.home, m.away) === key(gm.teams[0], gm.teams[1]));
+      if (i >= 0) g.push(left.splice(i, 1)[0]);
+    }
+    if (g.length) groups.push({ round: r.round, results: g });
+  }
+  return left.length ? null : groups;
+}
 function buildResults() {
   if (!D.results.length) return [];
+  const byRound = resultsByRound();
+  if (byRound) return byRound.map((g, k) => buildResultsScreen(g.results, k ? `results-${k + 1}` : 'results', `Round ${g.round}`));
   const screens = Math.ceil(D.results.length / 3), size = Math.ceil(D.results.length / screens);
   const out = [];
   for (let k = 0; k < screens; k++) out.push(buildResultsScreen(D.results.slice(k * size, (k + 1) * size), k ? `results-${k + 1}` : 'results'));
   return out;
 }
-function buildResultsScreen(results, id) {
+function buildResultsScreen(results, id, round) {
   const n = el('section', 'scene');
-  n.append(header(`Matchweek ${D.week}`, D.results.length === 1 ? 'Result' : 'Results'));
+  n.append(header(round ? `Matchweek ${D.week} · ${round}` : `Matchweek ${D.week}`, D.results.length === 1 ? 'Result' : 'Results'));
   const per = 1.25;
   const cards = results.map((m, i) => {
     const c = el('div', 'match'), row = el('div', 'match-row');
