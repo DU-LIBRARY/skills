@@ -28,8 +28,8 @@
     {
      "match": 1,
      "team": "Al-Mufliḥūn",
-     "scorer": "Haizam Jiffry",
-     "assist": "Salahuddeen Patel",
+     "scorer": "Salahuddeen Patel",
+     "assist": "Haizam Jiffry",
      "own_goal": false
     },
     {
@@ -258,9 +258,9 @@
  "scorers": [
   {
    "rank": 1,
-   "player": "Haizam Jiffry",
+   "player": "Salahuddeen Patel",
    "team": "Al-Mufliḥūn",
-   "goals": 2,
+   "goals": 3,
    "prev": 0,
    "prev_rank": null
   },
@@ -274,14 +274,6 @@
   },
   {
    "rank": 3,
-   "player": "Salahuddeen Patel",
-   "team": "Al-Mufliḥūn",
-   "goals": 2,
-   "prev": 0,
-   "prev_rank": null
-  },
-  {
-   "rank": 4,
    "player": "Abdullah Patel",
    "team": "Al-Mufliḥūn",
    "goals": 1,
@@ -289,9 +281,17 @@
    "prev_rank": null
   },
   {
-   "rank": 5,
+   "rank": 4,
    "player": "Asjad Patel",
    "team": "An-Nāṣirūn",
+   "goals": 1,
+   "prev": 0,
+   "prev_rank": null
+  },
+  {
+   "rank": 5,
+   "player": "Haizam Jiffry",
+   "team": "Al-Mufliḥūn",
    "goals": 1,
    "prev": 0,
    "prev_rank": null
@@ -334,7 +334,7 @@
    "rank": 1,
    "player": "Haizam Jiffry",
    "team": "Al-Mufliḥūn",
-   "assists": 3,
+   "assists": 4,
    "prev": 0,
    "prev_rank": null
   },
@@ -380,14 +380,6 @@
   },
   {
    "rank": 7,
-   "player": "Salahuddeen Patel",
-   "team": "Al-Mufliḥūn",
-   "assists": 1,
-   "prev": 0,
-   "prev_rank": null
-  },
-  {
-   "rank": 8,
    "player": "Shahid Omarmia",
    "team": "Al-Fāʾizūn",
    "assists": 1,
@@ -395,7 +387,7 @@
    "prev_rank": null
   },
   {
-   "rank": 9,
+   "rank": 8,
    "player": "Yusuf Kassam",
    "team": "As-Sābiqūn",
    "assists": 1,
@@ -434,21 +426,27 @@
   "leader_changed": false,
   "previous_leader": null,
   "top_scorer": {
-   "player": "Haizam Jiffry",
+   "player": "Salahuddeen Patel",
    "team": "Al-Mufliḥūn",
-   "goals": 2
+   "goals": 3
   },
   "top_assist": {
    "player": "Haizam Jiffry",
    "team": "Al-Mufliḥūn",
-   "assists": 3
+   "assists": 4
   },
   "week_top_scorer": {
-   "player": "Haizam Jiffry",
+   "player": "Salahuddeen Patel",
    "team": "Al-Mufliḥūn",
-   "goals": 2
+   "goals": 3
   },
-  "hat_tricks": [],
+  "hat_tricks": [
+   {
+    "player": "Salahuddeen Patel",
+    "team": "Al-Mufliḥūn",
+    "goals": 3
+   }
+  ],
   "biggest_win": {
    "match": 3,
    "margin": 3,
