@@ -166,3 +166,7 @@ available. Mention anything you assumed (e.g. "no assists given for the 2nd goal
   shapes, a very faint field of tiny Darul Uloom logos behind everything) comes from the user's dashboard and logo. Keep new graphics in it. Colours live in
   `league.json → brand`.
 - Commit outputs every week; this repo is the archive.
+- Talking points (user's instruction, from Week 2 on): show only **the gameweek's top
+  scorer**, the player with the most goals that week. Never call it a "hat-trick" when the
+  goals came across different matches: a hat-trick means 3+ goals in **one** match.
+  (`lib.mjs` currently counts week totals as hat-tricks; Week 1 was left as rendered.)
