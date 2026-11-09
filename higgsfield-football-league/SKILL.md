@@ -101,7 +101,7 @@ node higgsfield-football-league/scripts/report.mjs                 # standings P
 Video scenes: thumbnail ("Week N Recap", 1s, also the file's cover) → results (with scorers and assists) → league table
 (rows glide from last week's positions, points count up, ▲▼ arrows) → top
 goalscorers race → top assists race (skipped until assists are recorded) →
-talking points (leader, golden boot, hat-tricks, biggest win) → outro.
+talking points (leader, the week’s top scorer, golden boot, single-match hat-tricks, biggest win) → outro.
 
 Before you hand it over, spot-check: `render.mjs --preview` writes one still
 per scene as `preview-*.jpg` (git-ignored). Read two or three of them as images.
@@ -169,3 +169,7 @@ available. Mention anything you assumed (e.g. "no assists given for the 2nd goal
   shapes, a very faint field of tiny Darul Uloom logos behind everything) comes from the user's dashboard and logo. Keep new graphics in it. Colours live in
   `league.json → brand`.
 - Commit outputs every week; this repo is the archive.
+- Talking points (user's instruction, from Week 2 on): show only **the gameweek's top
+  scorer**, the player with the most goals that week. Never call it a "hat-trick" when the
+  goals came across different matches: a hat-trick means 3+ goals in **one** match.
+  (`lib.mjs` and `templates/weekly.html` follow this; the Week 1 video predates it.)
