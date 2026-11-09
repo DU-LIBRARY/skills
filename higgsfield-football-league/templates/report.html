@@ -12,6 +12,9 @@ html, body { height: auto; overflow: visible; }  /* common.css fixes these to on
 html { background: var(--cream); }
 body { -webkit-print-color-adjust: exact; print-color-adjust: exact; width: 210mm; background: var(--cream); }
 .logofield { position: fixed; inset: -20mm 0; z-index: 0; }
+/* the PDF uses a flat picture of the logo field (report.mjs takes it): a tiled pattern with a nested image
+   is too heavy for phone and WhatsApp PDF viewers, which then fail to open the file */
+.bgimg { position: fixed; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
 .doc { position: relative; z-index: 1; }
 .band { background: var(--ink); color: var(--cream); border-bottom: 1.1vw solid var(--crimson); height: 9vw; display: flex; align-items: center; justify-content: space-between;
   padding: 0 6vw; font-weight: 700; letter-spacing: .4vw; text-transform: uppercase; font-size: 2.6vw; }
@@ -90,6 +93,12 @@ td svg { width: 4.4vw; vertical-align: middle; margin-right: 1.4vw; }
 <div id="stage"></div>
 <script src="common.js"></script>
 <script>
+// just the page background (cream and the faint logo field), for report.mjs to photograph
+window.background = (R) => {
+  applyBrand(R.brand);
+  document.getElementById('stage').replaceChildren(...[logoField(R.logo, R.brand?.watermark_opacity ?? .07)].filter(Boolean));
+  return true;
+};
 window.init = (R) => {
   applyBrand(R.brand);
   const team = (n) => teamOf(R.teams, n);
@@ -181,7 +190,10 @@ window.init = (R) => {
 
 
   doc.append(band, body);
-  stage.replaceChildren(...[logoField(R.logo, R.brand?.watermark_opacity ?? .07), doc].filter(Boolean));
+  let bg = null;
+  if (R.bg) { bg = document.createElement('img'); bg.className = 'bgimg'; bg.src = R.bg; }
+  else bg = logoField(R.logo, R.brand?.watermark_opacity ?? .07);
+  stage.replaceChildren(...[bg, doc].filter(Boolean));
   return true;
 };
 </script>

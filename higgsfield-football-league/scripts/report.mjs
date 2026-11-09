@@ -31,6 +31,13 @@ const data = { league: L.config.name, title_lines: L.config.title_lines, teams: 
 
 const browser = await launchChromium();
 try {
+  // 1. photograph the background once, at print resolution, as a plain JPEG
+  const shot = await browser.newPage({ viewport: { width: 794, height: 1123 }, deviceScaleFactor: 2 });
+  await shot.goto(pathToFileURL(path.join(here, '..', 'templates', 'report.html')).href);
+  await shot.evaluate(async (d) => { await document.fonts.ready; window.background(d); await window.assetsReady(); }, data);
+  data.bg = `data:image/jpeg;base64,${(await shot.screenshot({ type: 'jpeg', quality: 80 })).toString('base64')}`;
+  await shot.close();
+  // 2. the PDF itself, over that picture
   const page = await browser.newPage({ viewport: { width: 794, height: 1123 } });
   page.on('pageerror', (e) => console.error('page error:', e.message));
   await page.goto(pathToFileURL(path.join(here, '..', 'templates', 'report.html')).href);
