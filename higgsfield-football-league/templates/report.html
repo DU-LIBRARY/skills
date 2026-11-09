@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Darul Uloom Winter League — standings</title>
+<link rel="stylesheet" href="common.css">
+<style>
+/* A4, flowing onto as many pages as the season needs; the logo field repeats on every page */
+@page { size: A4; margin: 12mm 0 14mm; background: #f2ebdd; }
+@page :first { margin-top: 0; }
+html, body { height: auto; overflow: visible; }  /* common.css fixes these to one screen for videos */
+html { background: var(--cream); }
+body { -webkit-print-color-adjust: exact; print-color-adjust: exact; width: 210mm; background: var(--cream); }
+.logofield { position: fixed; inset: -20mm 0; z-index: 0; }
+.doc { position: relative; z-index: 1; }
+.band { background: var(--ink); color: var(--cream); border-bottom: 1.1vw solid var(--crimson); height: 9vw; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 6vw; font-weight: 700; letter-spacing: .4vw; text-transform: uppercase; font-size: 2.6vw; }
+.band b { color: var(--crimson-lt); font-weight: 800; }
+.body { padding: 2.4vw 7vw 0; }
+.bism { text-align: center; color: var(--crimson); font-size: 3.2vw; line-height: 1.3; }
+.l1 { text-align: center; font-weight: 800; text-transform: uppercase; letter-spacing: .9vw; color: var(--crimson); font-size: 4.2vw; line-height: 1.05; }
+.l2 { text-align: center; font-weight: 800; text-transform: uppercase; letter-spacing: .2vw; font-size: 7vw; line-height: .95; }
+.rule { margin: 1.6vw 0 1.4vw; }
+.meta { text-align: center; font-size: 3.4vw; color: var(--ink2); letter-spacing: .1vw; }
+.meta b { color: var(--ink); font-weight: 700; }
+
+section { margin-top: 2.8vw; }
+h2 { display: flex; align-items: center; gap: 2vw; margin-bottom: 1.6vw; break-after: avoid; }
+h2 span { background: var(--crimson); color: var(--cream); font-weight: 800; font-size: 3vw; letter-spacing: .3vw; text-transform: uppercase; padding: .5vw 1.8vw; border-radius: .5vw; }
+h2 i { flex: 1; height: .25vw; background: linear-gradient(90deg, var(--crimson), transparent); }
+
+table { width: 100%; border-collapse: collapse; }
+th { font-weight: 700; color: var(--ink2); font-size: 2.3vw; letter-spacing: .2vw; text-transform: uppercase; padding: .8vw 1vw; border-bottom: .3vw solid var(--ink); text-align: center; }
+td { padding: .75vw 1vw; border-bottom: .15vw solid var(--line); text-align: center; font-size: 3vw; white-space: nowrap; }
+tr { break-inside: avoid; }
+th.l, td.l { text-align: left; }
+td svg { width: 4.4vw; vertical-align: middle; margin-right: 1.4vw; }
+.tbl td.pos { font-weight: 800; width: 5vw; }
+.tbl td.tm { font-weight: 700; }
+.tbl td.pts { font-weight: 800; font-size: 3.4vw; }
+.tbl tr.lead td { background: var(--ink); color: var(--cream); }
+.tbl tr.lead td.pos, .tbl tr.lead td.pts { color: var(--cream); }
+.tbl tr.lead { border-bottom: .5vw solid var(--crimson); }
+
+.wk { margin-top: 2.6vw; }
+.wkh { break-after: avoid; }
+.wk:first-of-type { margin-top: 0; }
+.wkh { font-weight: 800; text-transform: uppercase; letter-spacing: .3vw; font-size: 2.6vw; color: var(--crimson); margin-bottom: 1vw; }
+.wkh small { color: var(--ink2); font-weight: 500; letter-spacing: .1vw; text-transform: none; font-size: 2.4vw; margin-left: 1.2vw; }
+.match { background: var(--ink); color: var(--cream); border-radius: .7vw; border-bottom: .7vw solid var(--crimson); padding: 1.4vw 2.2vw 1.6vw; margin-bottom: 1.6vw; break-inside: avoid; }
+.mrow { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 2vw; }
+.side { display: flex; align-items: center; gap: 1.4vw; font-weight: 700; font-size: 3.2vw; min-width: 0; }
+.side svg { width: 5.4vw; flex: none; }
+.side.away { flex-direction: row-reverse; text-align: right; }
+.score { font-weight: 800; font-size: 5vw; letter-spacing: .4vw; }
+.score em { color: var(--crimson-lt); font-style: normal; margin: 0 .8vw; }
+.goals { display: grid; grid-template-columns: 1fr 1fr; gap: 3vw; margin-top: 1.2vw; padding-top: 1.1vw; border-top: .15vw solid rgba(242,235,221,.18); font-size: 2.5vw; line-height: 1.5; color: #e6dccb; }
+.goals > div:last-child { text-align: right; }
+.goals .as { color: #a89d8c; font-size: 2.2vw; margin-left: 1vw; }
+.goals .og { color: #a89d8c; }
+
+.lists { display: flex; gap: 4vw; align-items: flex-start; }
+.lists > section { flex: 1 1 0; min-width: 0; }
+.lists section { margin-top: 2.8vw; }
+.list td { font-size: 2.8vw; padding: .7vw 1vw; line-height: 1.1; }
+.lists { break-inside: avoid; }
+.scores { break-before: page; margin-top: 0; }
+@media screen { .scores { margin-top: 4.4vw; } }
+.list td.rk { font-weight: 800; width: 4vw; }
+.list td.pl { font-weight: 700; }
+.list .pw { display: flex; align-items: center; gap: 1.4vw; }
+.list .pw svg { margin: 0; flex: none; }
+.list td.pl small { display: inline; margin-left: 1.2vw; font-weight: 500; color: var(--ink2); font-size: 2vw; letter-spacing: .15vw; text-transform: uppercase; }
+.list td.n { font-weight: 800; font-size: 3.1vw; width: 6vw; }
+.list td svg { width: 3.3vw; }
+.empty { color: var(--ink2); font-size: 2.8vw; padding: 1vw 0; }
+.foot { text-align: center; color: var(--ink2); font-size: 2.3vw; padding: 4vw 0 2vw; letter-spacing: .1vw; }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script src="common.js"></script>
+<script>
+window.init = (R) => {
+  applyBrand(R.brand);
+  const team = (n) => teamOf(R.teams, n);
+  const stage = document.getElementById('stage');
+  const doc = el('div', 'doc'), band = el('div', 'band'), body = el('div', 'body');
+  const right = el('span'); right.append('Matchweek '); right.append(el('b', null, String(R.week)));
+  band.append(el('span', null, 'Standings'), right);
+
+  const lines = R.title_lines?.length ? R.title_lines : [R.league];
+  body.append(el('div', 'ar bism', R.brand?.bismillah || ''));
+  if (lines.length > 1) body.append(el('div', 'l1', lines[0]));
+  body.append(el('div', 'l2', lines.at(-1)), starRule());
+  const meta = el('div', 'meta');
+  meta.append(el('b', null, R.first_week ? 'After the opening week' : `After matchweek ${R.week}`));
+  meta.append(`  ·  ${R.totals.matches} match${R.totals.matches === 1 ? '' : 'es'}  ·  ${R.totals.goals} goal${R.totals.goals === 1 ? '' : 's'}`);
+  body.append(meta);
+
+  const section = (title) => { const s = el('section'), h = el('h2'); h.append(el('span', null, title), el('i')); s.append(h); return s; };
+  const row = (cells) => { const tr = document.createElement('tr'); for (const c of cells) tr.append(c); return tr; };
+  const td = (text, cls) => el('td', cls, text);
+  const th = (text, cls) => el('th', cls, text);
+  const withCrest = (name, cls) => { const c = el('td', cls); c.append(crest(team(name)), document.createTextNode(disp(name))); return c; };
+  // shared positions: players level on the count share a place (2, 2, 2, 1 -> 1, 1, 1, 4)
+  const places = (rows, key) => rows.map((r) => 1 + rows.filter((x) => x[key] > r[key]).length);
+
+  // ---- league table ----
+  const st = section('League table'), tbl = el('table', 'tbl');
+  tbl.append(row(['#', 'Team', 'P', 'W', 'D', 'L', 'GF', 'GA', 'GD', 'Pts'].map((h, i) => th(h, i === 1 ? 'l' : null))));
+  R.table.forEach((r, i) => {
+    const tr = row([td(r.pos, 'pos'), withCrest(r.team, 'l tm'), td(r.played), td(r.won), td(r.drawn), td(r.lost), td(r.gf), td(r.ga),
+      td(r.gd > 0 ? `+${r.gd}` : r.gd), td(r.points, 'pts')]);
+    if (i === 0) tr.classList.add('lead');
+    tbl.append(tr);
+  });
+  st.append(tbl); body.append(st);
+
+  // ---- full scorer and assist lists, side by side ----
+  const lists = el('div', 'lists');
+  const list = (title, rows, key, unit, empty) => {
+    const s = section(title);
+    if (!rows.length) { s.append(el('div', 'empty', empty)); return s; }
+    const t = el('table', 'list'), pl = places(rows, key);
+    t.append(row([th('#'), th('Player', 'l'), th(unit)]));
+    rows.forEach((r, i) => {
+      const who = el('td', 'l pl'), pw = el('div', 'pw'), nm = el('div', null, r.player);
+      nm.append(el('small', null, team(r.team).short || r.team)); pw.append(crest(team(r.team)), nm); who.append(pw);
+      const tr = row([td(pl[i], 'rk'), who, td(r[key], 'n')]);
+      t.append(tr);
+    });
+    s.append(t); return s;
+  };
+  lists.append(list('Top scorers', R.scorers, 'goals', 'Goals', 'No goals recorded yet.'));
+  lists.append(list('Top assists', R.assists, 'assists', 'Assists', R.assists_recorded ? 'No assists recorded yet.' : 'Assists not recorded.'));
+  body.append(lists);
+  // ---- every score so far ----
+  const sr = section(R.totals.matches === 1 ? 'Score' : 'Scores'); sr.classList.add('scores');
+  const byWeek = new Map();
+  for (const m of R.matches) (byWeek.get(m.week) || byWeek.set(m.week, []).get(m.week)).push(m);
+  for (const [w, ms] of byWeek) {
+    const box = el('div', 'wk'), h = el('div', 'wkh', `Matchweek ${w}`);
+    const dates = [...new Set(ms.map((m) => m.date).filter(Boolean))];
+    if (dates.length) h.append(el('small', null, dates.map(fmtDate).join(' & ')));
+    box.append(h);
+    for (const m of ms) {
+      const c = el('div', 'match'), mr = el('div', 'mrow');
+      const side = (n, cls) => { const s = el('div', `side ${cls}`); s.append(crest(team(n)), el('span', null, n)); return s; };
+      const score = el('div', 'score num'); score.append(String(m.home_goals), el('em', null, '–'), String(m.away_goals));
+      mr.append(side(m.home, 'home'), score, side(m.away, 'away'));
+      c.append(mr);
+      if (m.goals.length) {
+        const g = el('div', 'goals');
+        for (const t of [m.home, m.away]) {
+          const col = el('div');
+          for (const x of m.goals.filter((y) => y.team === t)) {
+            const line = el('div');
+            if (x.own_goal) line.append(el('span', 'og', `${disp(x.scorer)} (og)`));
+            else { line.append(disp(x.scorer)); if (x.assist) line.append(el('span', 'as', `assist ${disp(x.assist)}`)); }
+            col.append(line);
+          }
+          g.append(col);
+        }
+        c.append(g);
+      }
+      box.append(c);
+    }
+    sr.append(box);
+  }
+  body.append(sr);
+
+
+  doc.append(band, body);
+  stage.replaceChildren(...[logoField(R.logo, R.brand?.watermark_opacity ?? .07), doc].filter(Boolean));
+  return true;
+};
+</script>
+</body>
+</html>

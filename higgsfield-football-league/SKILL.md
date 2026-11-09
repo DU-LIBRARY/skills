@@ -46,6 +46,7 @@ higgsfield-football-league/
   scripts/render.mjs            the recap video and still cards
   scripts/graphic.mjs           fulltime | potw | fixtures | announcement
   scripts/fixtures.mjs          weekly fixture list PDFs (rotating round-robin)
+  scripts/report.mjs            standings PDF (table, scorer and assist lists, every score)
   templates/                    weekly.html, graphic.html, common.{css,js}: the house style
   assets/fonts/                 Barlow Condensed and Amiri (bundled, OFL)
 ```
@@ -94,6 +95,7 @@ saved), `--add-players` (guest or new players: confirm with the user first),
 node higgsfield-football-league/scripts/render.mjs                 # latest week: 60fps 9:16 video + 4:5 cards (~3½ min)
 node higgsfield-football-league/scripts/graphic.mjs fulltime       # a Full Time poster per match
 node higgsfield-football-league/scripts/graphic.mjs potw           # Player of the Week (auto-picked, or --player)
+node higgsfield-football-league/scripts/report.mjs                 # standings PDF: table, full scorer and assist lists, every score
 ```
 
 Video scenes: thumbnail ("Week N Recap", 1s, also the file's cover) → results (with scorers and assists) → league table
@@ -150,6 +152,7 @@ available. Mention anything you assumed (e.g. "no assists given for the 2nd goal
 | "I entered the results on the dashboard" | Pull them into the repo: [dashboard-sync.md](references/dashboard-sync.md) → "Dashboard → repo", then render, commit. |
 | "New player joined X" | Add `{player, team}` to `data/squads.json`, sync squads to the dashboard, commit. |
 | "Show the table" | `league.mjs status` |
+| "Make a PDF of the table / scorers / assists / scores" | `report.mjs [--week N]`: A4 PDF `weeks/week-NN/week-NN-standings.pdf`. Page 1: league table, full top scorers and top assists lists (players level share a place). Then every score so far with scorers and assists |
 
 ## Rules
 
