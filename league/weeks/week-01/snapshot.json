@@ -440,13 +440,14 @@
    "team": "Al-Mufliḥūn",
    "goals": 3
   },
-  "hat_tricks": [
+  "week_top_scorers": [
    {
     "player": "Salahuddeen Patel",
     "team": "Al-Mufliḥūn",
     "goals": 3
    }
   ],
+  "hat_tricks": [],
   "biggest_win": {
    "match": 3,
    "margin": 3,
