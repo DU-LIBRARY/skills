@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Darul Uloom Winter League — squad changes</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.frame { position: absolute; inset: 0; display: flex; flex-direction: column; z-index: 1; }
+.band { background: var(--ink); color: var(--cream); border-bottom: .8vw solid var(--crimson); height: 9vw; display: flex; align-items: center; justify-content: space-between; padding: 0 5vw;
+  font-weight: 700; letter-spacing: .3vw; text-transform: uppercase; font-size: 3.4vw; flex: none; will-change: transform; }
+.band b { color: var(--crimson-lt); font-weight: 800; }
+.body { flex: 1; position: relative; min-height: 0; }
+.sa, .sb { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: min(5vw, 2.6vh) 6vw; will-change: transform, opacity; }
+/* scene B: the full team sheets */
+.sheets { display: grid; grid-template-columns: 1fr 1fr; gap: 3vw; }
+.sb .title { font-size: 9vw; } .sb .rule { margin-bottom: 3vw; }
+.ts { background: var(--paper); border: .2vw solid var(--line); border-top: 1.2vw solid var(--crimson); border-radius: .8vw; padding: 2.6vw 3vw 3vw; will-change: transform, opacity; }
+.ts-head { display: flex; align-items: center; gap: 2vw; border-bottom: .25vw solid var(--ink); padding-bottom: 1.6vw; margin-bottom: 1.4vw; }
+.ts-head svg { width: 8vw; flex: none; }
+.ts-nm { font-weight: 800; font-size: 4.4vw; line-height: 1; text-transform: uppercase; white-space: nowrap; }
+.ts-ar { color: var(--crimson); font-size: 3.4vw; line-height: 1.25; text-align: left; }
+.ts-pl { font-size: min(4.1vw, 2.1vh); line-height: 1.3; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ts-pl.chg { color: var(--crimson); font-weight: 800; }
+.ts-pl.chg::after { content: ' ●'; font-size: .6em; vertical-align: .2em; }
+.ts-key { text-align: center; color: var(--crimson); font-weight: 700; letter-spacing: .2vw; text-transform: uppercase; font-size: 3vw; margin-top: 2vw; }
+.head { will-change: transform, opacity; }
+.list { display: grid; gap: min(4vw, 2vh); }
+.mv { background: var(--paper); border: .2vw solid var(--line); border-left: 1.4vw solid var(--crimson); border-radius: .8vw; padding: min(3.4vw, 1.8vh) 4vw; will-change: transform, opacity; }
+.mv-tag { display: inline-block; background: var(--ink); color: var(--cream); font-weight: 800; letter-spacing: .4vw; text-transform: uppercase; font-size: 3.2vw; padding: .6vw 2vw; border-radius: .4vw; }
+.mv-tag.new { background: var(--crimson); }
+.mv-name { font-weight: 800; text-transform: uppercase; font-size: min(9vw, 4.6vh); line-height: .95; letter-spacing: .2vw; margin: min(1.6vw, .9vh) 0 .4vw; }
+.mv-meta { color: var(--ink2); font-size: 4.2vw; letter-spacing: .15vw; text-transform: uppercase; font-weight: 700; }
+.mv-meta b { color: var(--crimson); }
+.mv-row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 2vw; margin-top: min(2.4vw, 1.2vh); }
+.side { display: flex; flex-direction: column; align-items: center; gap: 1vw; text-align: center; }
+.side svg { width: min(14vw, 7vh); }
+.side .nm { font-weight: 800; font-size: 4.8vw; line-height: 1; white-space: nowrap; }
+.side .ar { color: var(--crimson); font-size: 4vw; line-height: 1.4; }
+.side.off { opacity: .55; }
+.side.blank .ph { width: min(14vw, 7vh); height: min(16.5vw, 8.3vh); border: .4vw dashed var(--ink2); border-radius: 1vw; display: grid; place-items: center; color: var(--ink2); font-weight: 800; font-size: 4vw; letter-spacing: .3vw; }
+.arrow { width: 16vw; height: 6vw; position: relative; }
+.arrow i { position: absolute; left: 0; top: 50%; height: .9vw; margin-top: -.45vw; width: 100%; background: var(--crimson); transform-origin: left center; border-radius: .45vw; }
+.arrow b { position: absolute; right: -.4vw; top: 50%; width: 4vw; height: 4vw; margin-top: -2vw; border-top: .9vw solid var(--crimson); border-right: .9vw solid var(--crimson); transform: rotate(45deg); border-radius: .3vw; }
+.foot { flex: none; text-align: center; padding: 0 0 5vw; color: var(--crimson); font-size: 4.6vw; }
+/* feed and square: less height to spend, so drop the secondary lines */
+@media (min-aspect-ratio: 7/10) {
+  .foot, .side .ar { display: none; }
+  .head .title { font-size: 9vw; } .head .rule { margin-bottom: 3vw; }
+  .side svg { width: 11vw; } .side.blank .ph { width: 11vw; height: 13vw; font-size: 3.2vw; }
+  .mv-name { font-size: 8vw; }
+}
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script src="common.js"></script>
+<script>
+// G: { league, teams, brand, logo, week, title?, squads: {team: [players]}, changes: [{ player, from?, to, fee?, note? }] }
+// No fantasy data here (prices, fantasy positions): fee is free text, e.g. "100 dinaar".
+let R = null;
+window.init = (G) => {
+  applyBrand(G.brand);
+  const team = (n) => teamOf(G.teams, n);
+  const stage = document.getElementById('stage');
+  const field = logoField(G.logo, G.brand?.watermark_opacity ?? .07);
+  const f = el('div', 'frame'), band = el('div', 'band'), body = el('div', 'body');
+  const right = el('span'); right.append('From matchweek '); right.append(el('b', null, String(G.week)));
+  band.append(el('span', null, G.league), right);
+  const head = el('div', 'head'); head.append(header('Team news', G.title || 'Squad changes'));
+  const list = el('div', 'list');
+  const side = (n, cls) => { const s = el('div', `side ${cls}`); s.append(crest(team(n)), el('div', 'nm', n), el('div', 'ar', plainAr(team(n).arabic || ''))); return s; };
+  const cards = G.changes.map((c) => {
+    const card = el('div', 'mv');
+    card.append(el('span', `mv-tag${c.from ? '' : ' new'}`, c.from ? 'Transfer' : 'New signing'), el('div', 'mv-name', c.player));
+    const meta = [c.fee ? ['Fee', c.fee] : null, c.note ? [null, c.note] : null].filter(Boolean);
+    if (meta.length) { const m = el('div', 'mv-meta'); meta.forEach(([k, v], i) => { if (i) m.append(' · '); if (k) m.append(`${k} `); m.append(k ? el('b', null, v) : v); }); card.append(m); }
+    const row = el('div', 'mv-row');
+    let from;
+    if (c.from) from = side(c.from, 'off');
+    else { from = el('div', 'side blank'); from.append(el('div', 'ph', 'NEW')); }
+    const arrow = el('div', 'arrow'), line = el('i'), tip = el('b'); arrow.append(line, tip);
+    const to = side(c.to, 'on');
+    row.append(from, arrow, to); card.append(row); list.append(card);
+    return { card, line, tip, to };
+  });
+  const sa = el('div', 'sa'); sa.append(head, list);
+  // scene B: every team's full squad as it stands now, the players who changed in crimson
+  const sb = el('div', 'sb');
+  const headB = el('div', 'head'); headB.append(header('Full squads', 'Team sheets'));
+  const grid = el('div', 'sheets'), moved = new Set(G.changes.map((c) => c.player));
+  const panels = G.teams.map((t) => {
+    const p = el('div', 'ts'), h = el('div', 'ts-head'), nm = el('div');
+    nm.append(el('div', 'ts-nm', t.name), el('div', 'ts-ar ar', plainAr(t.arabic || '')));
+    h.append(crest(t), nm); p.append(h);
+    const rows = (G.squads?.[t.name] || []).map((n) => { const r = el('div', `ts-pl${moved.has(n) ? ' chg' : ''}`, n); p.append(r); return r; });
+    grid.append(p); return { p, rows };
+  });
+  sb.append(headB, grid, el('div', 'ts-key', '● New to the team'));
+  body.append(sa, sb);
+  f.append(band, body);
+  if (G.brand?.bismillah) f.append(el('div', 'foot ar', G.brand.bismillah));
+  stage.replaceChildren(...[field, f].filter(Boolean));
+  const step = 0.75, first = 0.9;
+  const cardsEnd = first + cards.length * step + 2.2, swap = 0.7;
+  R = { band, head, cards, field, step, first, sa, sb, headB, panels, cardsEnd, swap };
+  const duration = cardsEnd + swap + 0.4 + panels.length * 0.15 + 4;
+  return { duration, cardsEnd };
+};
+// Everything is a function of t, so any frame can be drawn in any order.
+window.renderAt = (t) => {
+  const { band, head, cards, field, step, first, sa, sb, headB, panels, cardsEnd, swap } = R;
+  // scene change: the squad-changes cards slide away left, the team sheets come in from the right
+  const x = smooth(prog(t, cardsEnd, swap));
+  sa.style.transform = `translate3d(${-x * 40}vw, 0, 0)`; sa.style.opacity = String(1 - x);
+  sb.style.opacity = String(clamp(prog(t, cardsEnd + .2, .4)));
+  const hb = settle(prog(t, cardsEnd + .2, .7));
+  headB.style.transform = `translate3d(0, ${(1 - hb) * 8}vw, 0)`;
+  panels.forEach((pn, i) => {
+    const s0 = cardsEnd + swap * .6 + i * .15, q = settle(prog(t, s0, .8));
+    pn.p.style.opacity = String(clamp(prog(t, s0, .3)));
+    pn.p.style.transform = `translate3d(${(1 - q) * 30}vw, ${(1 - q) * 4}vw, 0)`;
+    pn.rows.forEach((r, j) => { const rq = smooth(prog(t, s0 + .25 + j * .05, .35)); r.style.opacity = String(rq); r.style.transform = `translate3d(${(1 - rq) * 4}vw, 0, 0)`; });
+  });
+  if (field) field.style.transform = `translate3d(${(-t * 1.2) % 24}vw, ${(-t * .8) % 24}vw, 0)`;
+  const b = smooth(prog(t, 0, .45));
+  band.style.transform = `translate3d(0, ${-(1 - b) * 10}vw, 0)`;
+  const h = settle(prog(t, .15, .7));
+  head.style.opacity = String(clamp(prog(t, .15, .35)));
+  head.style.transform = `translate3d(0, ${(1 - h) * 8}vw, 0) scale(${.96 + .04 * h})`;
+  cards.forEach((c, i) => {
+    const s = first + i * step;
+    const p = settle(prog(t, s, .8));
+    c.card.style.opacity = String(clamp(prog(t, s, .3)));
+    c.card.style.transform = `translate3d(${(1 - p) * 60}vw, 0, 0)`;
+    const a = smooth(prog(t, s + .35, .45));
+    c.line.style.transform = `scaleX(${a})`;
+    c.tip.style.opacity = String(clamp((a - .7) / .3));
+    const q = settle(prog(t, s + .6, .6));
+    c.to.style.transform = `scale(${.85 + .15 * q})`;
+    c.to.style.opacity = String(clamp(prog(t, s + .55, .25)));
+  });
+};
+</script>
+</body>
+</html>

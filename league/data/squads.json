@@ -28,6 +28,11 @@
   "team": "An-Nāṣirūn"
  },
  {
+  "player": "Umar Anees",
+  "team": "An-Nāṣirūn",
+  "from_week": 2
+ },
+ {
   "player": "Hamza Lakota",
   "team": "As-Sābiqūn"
  },
@@ -117,7 +122,9 @@
  },
  {
   "player": "Huzayfah Qureshi",
-  "team": "An-Nāṣirūn"
+  "team": "As-Sābiqūn",
+  "from_week": 2,
+  "before": "An-Nāṣirūn"
  },
  {
   "player": "Saifullah Salloo",

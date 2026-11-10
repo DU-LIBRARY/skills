@@ -45,6 +45,7 @@ higgsfield-football-league/
   scripts/league.mjs            add-week | snapshot | status | check | import
   scripts/render.mjs            the recap video and still cards
   scripts/graphic.mjs           fulltime | potw | fixtures | announcement
+  scripts/transfers.mjs         squad changes video (transfers, new signings)
   scripts/fixtures.mjs          weekly fixture list PDFs (rotating round-robin)
   templates/                    weekly.html, graphic.html, common.{css,js}: the house style
   assets/fonts/                 Barlow Condensed and Amiri (bundled, OFL)
@@ -148,7 +149,8 @@ available. Mention anything you assumed (e.g. "no assists given for the 2nd goal
 | "Make it square / for the feed" | `render.mjs --format square` or `feed` |
 | "Add music" / "add an AI intro" | `render.mjs --music track.mp3` / `--intro clip.mp4`; see [ai-extras.md](references/ai-extras.md) |
 | "I entered the results on the dashboard" | Pull them into the repo: [dashboard-sync.md](references/dashboard-sync.md) → "Dashboard → repo", then render, commit. |
-| "New player joined X" | Add `{player, team}` to `data/squads.json`, sync squads to the dashboard, commit. |
+| "New player joined X" / "the teams have changed" | Diff the new team sheet against `data/squads.json`. Mid-season, give each moved or new row `from_week: N` (first week it applies) and, for a move, `before: "<old team>"`, so earlier weeks keep their old line-ups in the fantasy app. Mirror it in the fantasy repo's `players.json` (team, plus pos/price for new players), sync squads to the dashboard, commit with `[skip render]`. |
+| "Make a video of the team change" | `transfers.mjs --spec changes.json` (+ `--whatsapp`): ~5s "Squad changes" story video and a feed card in `league/graphics/`. No fantasy prices or positions; a transfer `fee` (e.g. "100 dinaar") only if the user gives one ([video-and-graphics.md](references/video-and-graphics.md)) |
 | "Show the table" | `league.mjs status` |
 
 ## Rules
