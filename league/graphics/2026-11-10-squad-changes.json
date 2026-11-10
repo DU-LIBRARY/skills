@@ -1,0 +1,4 @@
+{ "week": 2, "date": "2026-11-10", "changes": [
+  { "player": "Huzayfah Qureshi", "from": "An-Nasirun", "to": "As-Sabiqun", "pos": "FWD", "price": 5.0 },
+  { "player": "Umar Anees", "to": "An-Nasirun", "pos": "DEF", "price": 5.0 }
+] }

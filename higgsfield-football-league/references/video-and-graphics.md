@@ -127,6 +127,17 @@ swap pitches. There is no home/away. Pitch names, kick-off times per round and v
 Output: `league/fixtures/week-NN-fixtures.pdf` (one A4 page: three rounds, then each team's running order) and
 `week-NN.json` (the same fixtures as data). The page shrinks itself to stay on one sheet.
 
+## transfers.mjs: squad changes video
+
+```bash
+node higgsfield-football-league/scripts/transfers.mjs --spec changes.json [--format story|feed|square] [--whatsapp] [--preview]
+```
+
+`changes.json`: `{ "week": 2, "date": "YYYY-MM-DD", "changes": [{ "player", "from"?, "to", "pos"?, "price"? }] }`.
+Leave out `from` for a new signing. Teams resolve loosely (`An-Nasirun`). One card per change slides in,
+the arrow draws, the new crest settles: about 4s plus 0.75s per change. Writes
+`league/graphics/<date>-squad-changes-<format>.mp4` and a `-feed.png` still. Keep the spec next to them.
+
 ## Style
 
 `templates/common.css` + `common.js` hold the shared style: colours from
