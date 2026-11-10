@@ -133,7 +133,8 @@ Output: `league/fixtures/week-NN-fixtures.pdf` (one A4 page: three rounds, then 
 node higgsfield-football-league/scripts/transfers.mjs --spec changes.json [--format story|feed|square] [--whatsapp] [--preview]
 ```
 
-`changes.json`: `{ "week": 2, "date": "YYYY-MM-DD", "changes": [{ "player", "from"?, "to", "pos"?, "price"? }] }`.
+`changes.json`: `{ "week": 2, "date": "YYYY-MM-DD", "changes": [{ "player", "from"?, "to", "fee"?, "note"? }] }`.
+`fee` is free text, e.g. `"100 dinaar"`. **Never put fantasy data (fantasy prices, positions) in league videos or graphics.**
 Leave out `from` for a new signing. Teams resolve loosely (`An-Nasirun`). One card per change slides in,
 the arrow draws, the new crest settles: about 4s plus 0.75s per change. Writes
 `league/graphics/<date>-squad-changes-<format>.mp4` and a `-feed.png` still. Keep the spec next to them.

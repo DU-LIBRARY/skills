@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // A very short "Squad changes" video (and a still card) for team news: transfers and new signings.
 //   node transfers.mjs --spec changes.json [--root league] [--format story|feed|square] [--fps 60] [--whatsapp] [--preview]
-// changes.json: { week, title?, changes: [{ player, from?, to, pos?, price?, note? }] }
+// changes.json: { week, title?, changes: [{ player, from?, to, fee?, note? }] }
+//   fee is free text ("100 dinaar"). League videos never show fantasy data: no fantasy prices or positions.
 //   from omitted = a new signing. Names are checked against the teams in league.json.
 // Output: <root>/graphics/<YYYY-MM-DD>-squad-changes-<format>.mp4 and ...-feed.png
 import fs from 'node:fs';
@@ -24,7 +25,7 @@ const fps = Number(opt('fps', WHATSAPP ? 30 : 60));
 const root = path.resolve(opt('root', 'league'));
 const L = loadLeague(root);
 const spec = readJSON(path.resolve(opt('spec', '')), null);
-if (!spec?.changes?.length) die('--spec must point at {week, changes:[{player, from?, to, pos?, price?}]}');
+if (!spec?.changes?.length) die('--spec must point at {week, changes:[{player, from?, to, fee?, note?}]}');
 const changes = spec.changes.map((c, i) => {
   const to = resolveTeam(L, c.to), from = c.from ? resolveTeam(L, c.from) : null;
   if (!to || (c.from && !from)) die(`change ${i + 1}: unknown team (${c.from ?? 'new'} → ${c.to})`);
