@@ -4,7 +4,8 @@
 // changes.json: { week, title?, changes: [{ player, from?, to, fee?, note? }] }
 //   fee is free text ("100 dinaar"). League videos never show fantasy data: no fantasy prices or positions.
 //   from omitted = a new signing. Names are checked against the teams in league.json.
-// Output: <root>/graphics/<YYYY-MM-DD>-squad-changes-<format>.mp4 and ...-feed.png
+// Output: <root>/graphics/<YYYY-MM-DD>-squad-changes-<format>.mp4 (the changes, then every team's full sheet),
+//   ...-feed.png (the changes) and ...-teams-<format>.png (the team sheets)
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
@@ -31,7 +32,8 @@ const changes = spec.changes.map((c, i) => {
   if (!to || (c.from && !from)) die(`change ${i + 1}: unknown team (${c.from ?? 'new'} → ${c.to})`);
   return { ...c, to, from };
 });
-const data = { league: L.config.name, teams: L.config.teams, brand: L.config.brand, logo: logoDataURL(L), week: spec.week, title: spec.title, changes };
+const data = { league: L.config.name, teams: L.config.teams, brand: L.config.brand, logo: logoDataURL(L), week: spec.week, title: spec.title, changes,
+  squads: Object.fromEntries(L.config.teams.map((t) => [t.name, L.squads.filter((p) => p.team === t.name).map((p) => p.player)])) };
 const date = spec.date || new Date().toISOString().slice(0, 10);
 const outDir = path.join(root, 'graphics');
 fs.mkdirSync(outDir, { recursive: true });
@@ -51,9 +53,10 @@ try { browser = await launchChromium(); } catch (e) { die(e.message); }
 try {
   // still card (feed size), drawn at the end state
   { const { page, info } = await open(browser, FORMATS.feed);
-    await page.evaluate((t) => window.renderAt(t), info.duration);
+    await page.evaluate((t) => window.renderAt(t), info.cardsEnd);
     await page.screenshot({ path: `${base}-feed.png` }); await page.close(); console.log(`✓ ${path.relative(process.cwd(), base)}-feed.png`); }
   const { page, info } = await open(browser, FORMATS[format]);
+  await page.evaluate((t) => window.renderAt(t), info.duration); await page.screenshot({ path: `${base}-teams-${format}.png` });
   if (flag('preview')) {
     for (const t of [0.6, 1.4, info.duration - 0.5]) { await page.evaluate((x) => window.renderAt(x), t); await page.screenshot({ path: `${base}-preview-${t.toFixed(1)}.jpg`, type: 'jpeg', quality: 80 }); }
     console.log('✓ previews written'); process.exit(0);

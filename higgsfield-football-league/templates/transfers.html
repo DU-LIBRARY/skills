@@ -9,7 +9,20 @@
 .band { background: var(--ink); color: var(--cream); border-bottom: .8vw solid var(--crimson); height: 9vw; display: flex; align-items: center; justify-content: space-between; padding: 0 5vw;
   font-weight: 700; letter-spacing: .3vw; text-transform: uppercase; font-size: 3.4vw; flex: none; will-change: transform; }
 .band b { color: var(--crimson-lt); font-weight: 800; }
-.body { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: min(5vw, 2.6vh) 6vw; min-height: 0; }
+.body { flex: 1; position: relative; min-height: 0; }
+.sa, .sb { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: min(5vw, 2.6vh) 6vw; will-change: transform, opacity; }
+/* scene B: the full team sheets */
+.sheets { display: grid; grid-template-columns: 1fr 1fr; gap: 3vw; }
+.sb .title { font-size: 9vw; } .sb .rule { margin-bottom: 3vw; }
+.ts { background: var(--paper); border: .2vw solid var(--line); border-top: 1.2vw solid var(--crimson); border-radius: .8vw; padding: 2.6vw 3vw 3vw; will-change: transform, opacity; }
+.ts-head { display: flex; align-items: center; gap: 2vw; border-bottom: .25vw solid var(--ink); padding-bottom: 1.6vw; margin-bottom: 1.4vw; }
+.ts-head svg { width: 8vw; flex: none; }
+.ts-nm { font-weight: 800; font-size: 4.4vw; line-height: 1; text-transform: uppercase; white-space: nowrap; }
+.ts-ar { color: var(--crimson); font-size: 3.4vw; line-height: 1.25; text-align: left; }
+.ts-pl { font-size: min(4.1vw, 2.1vh); line-height: 1.3; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ts-pl.chg { color: var(--crimson); font-weight: 800; }
+.ts-pl.chg::after { content: ' ●'; font-size: .6em; vertical-align: .2em; }
+.ts-key { text-align: center; color: var(--crimson); font-weight: 700; letter-spacing: .2vw; text-transform: uppercase; font-size: 3vw; margin-top: 2vw; }
 .head { will-change: transform, opacity; }
 .list { display: grid; gap: min(4vw, 2vh); }
 .mv { background: var(--paper); border: .2vw solid var(--line); border-left: 1.4vw solid var(--crimson); border-radius: .8vw; padding: min(3.4vw, 1.8vh) 4vw; will-change: transform, opacity; }
@@ -42,7 +55,7 @@
 <div id="stage"></div>
 <script src="common.js"></script>
 <script>
-// G: { league, teams, brand, logo, week, title?, changes: [{ player, from?, to, fee?, note? }] }
+// G: { league, teams, brand, logo, week, title?, squads: {team: [players]}, changes: [{ player, from?, to, fee?, note? }] }
 // No fantasy data here (prices, fantasy positions): fee is free text, e.g. "100 dinaar".
 let R = null;
 window.init = (G) => {
@@ -70,18 +83,44 @@ window.init = (G) => {
     row.append(from, arrow, to); card.append(row); list.append(card);
     return { card, line, tip, to };
   });
-  body.append(head, list);
+  const sa = el('div', 'sa'); sa.append(head, list);
+  // scene B: every team's full squad as it stands now, the players who changed in crimson
+  const sb = el('div', 'sb');
+  const headB = el('div', 'head'); headB.append(header('Full squads', 'Team sheets'));
+  const grid = el('div', 'sheets'), moved = new Set(G.changes.map((c) => c.player));
+  const panels = G.teams.map((t) => {
+    const p = el('div', 'ts'), h = el('div', 'ts-head'), nm = el('div');
+    nm.append(el('div', 'ts-nm', t.name), el('div', 'ts-ar ar', plainAr(t.arabic || '')));
+    h.append(crest(t), nm); p.append(h);
+    const rows = (G.squads?.[t.name] || []).map((n) => { const r = el('div', `ts-pl${moved.has(n) ? ' chg' : ''}`, n); p.append(r); return r; });
+    grid.append(p); return { p, rows };
+  });
+  sb.append(headB, grid, el('div', 'ts-key', '● New to the team'));
+  body.append(sa, sb);
   f.append(band, body);
   if (G.brand?.bismillah) f.append(el('div', 'foot ar', G.brand.bismillah));
   stage.replaceChildren(...[field, f].filter(Boolean));
   const step = 0.75, first = 0.9;
-  R = { band, head, cards, field, step, first };
-  const duration = first + cards.length * step + 2.6;
-  return { duration };
+  const cardsEnd = first + cards.length * step + 2.2, swap = 0.7;
+  R = { band, head, cards, field, step, first, sa, sb, headB, panels, cardsEnd, swap };
+  const duration = cardsEnd + swap + 0.4 + panels.length * 0.15 + 4;
+  return { duration, cardsEnd };
 };
 // Everything is a function of t, so any frame can be drawn in any order.
 window.renderAt = (t) => {
-  const { band, head, cards, field, step, first } = R;
+  const { band, head, cards, field, step, first, sa, sb, headB, panels, cardsEnd, swap } = R;
+  // scene change: the squad-changes cards slide away left, the team sheets come in from the right
+  const x = smooth(prog(t, cardsEnd, swap));
+  sa.style.transform = `translate3d(${-x * 40}vw, 0, 0)`; sa.style.opacity = String(1 - x);
+  sb.style.opacity = String(clamp(prog(t, cardsEnd + .2, .4)));
+  const hb = settle(prog(t, cardsEnd + .2, .7));
+  headB.style.transform = `translate3d(0, ${(1 - hb) * 8}vw, 0)`;
+  panels.forEach((pn, i) => {
+    const s0 = cardsEnd + swap * .6 + i * .15, q = settle(prog(t, s0, .8));
+    pn.p.style.opacity = String(clamp(prog(t, s0, .3)));
+    pn.p.style.transform = `translate3d(${(1 - q) * 30}vw, ${(1 - q) * 4}vw, 0)`;
+    pn.rows.forEach((r, j) => { const rq = smooth(prog(t, s0 + .25 + j * .05, .35)); r.style.opacity = String(rq); r.style.transform = `translate3d(${(1 - rq) * 4}vw, 0, 0)`; });
+  });
   if (field) field.style.transform = `translate3d(${(-t * 1.2) % 24}vw, ${(-t * .8) % 24}vw, 0)`;
   const b = smooth(prog(t, 0, .45));
   band.style.transform = `translate3d(0, ${-(1 - b) * 10}vw, 0)`;
