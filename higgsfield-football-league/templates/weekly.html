@@ -42,9 +42,9 @@
 .side .nm small { display: block; font-family: 'Amiri', serif; font-weight: 700; color: var(--crimson-lt); font-size: 4.4vw; line-height: 1.7; }
 .score { font-weight: 800; font-size: 15vw; line-height: 1; letter-spacing: .4vw; white-space: nowrap; display: flex; align-items: center; }
 .score em { font-style: normal; color: var(--crimson-lt); margin: 0 1.4vw; }
-.scorers-line { display: grid; grid-template-columns: 1fr 1fr; gap: 3vw; margin-top: 2.4vw; padding-top: 2.2vw; border-top: .2vw solid rgba(242,235,221,.18); font-size: 3.6vw; line-height: 1.35; color: #e6dccb; }
+.scorers-line { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 3vw; margin-top: 2.4vw; padding-top: 2.2vw; border-top: .2vw solid rgba(242,235,221,.18); font-size: 3.6vw; line-height: 1.35; color: #e6dccb; }
 .scorers-line > div:last-child { text-align: right; }
-.scorers-line .as { color: #a89d8c; font-size: 3vw; margin-left: 1.4vw; white-space: nowrap; }
+.scorers-line .as { display: block; color: #a89d8c; font-size: 3vw; margin-left: 1.4vw; }  /* equal halves; a long assist list wraps inside its own half instead of pushing the other team off the card */
 .scorers-line > div > div { will-change: transform, opacity; }
 
 /* table */

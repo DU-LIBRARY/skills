@@ -106,6 +106,7 @@ window.assetsReady = async () => {
 // with a compact "A" tag instead of a word ("A  Adam, Hamza Y").
 function assistLine(names, tag = 'span') {
   const line = el(tag, 'as');
-  line.append(el('span', 'atag', 'A'), document.createTextNode(disp([...new Set(names)].join(', '))));
+  // names never break in the middle (a line may break only between names)
+  line.append(el('span', 'atag', 'A'), document.createTextNode(disp([...new Set(names)].map((n) => n.replace(/ /g, '\u00a0')).join(', '))));
   return line;
 }
