@@ -76,8 +76,10 @@ td svg { width: 4.4vw; vertical-align: middle; margin-right: 1.4vw; }
 .lists section { margin-top: 2.3vw; }
 .list td { font-size: 2.6vw; padding: .45vw .6vw; line-height: 1.1; }
 .list tr { break-inside: avoid; }  /* long lists carry on to the next page row by row */
+.lists { break-before: page; }
+.lists > section { margin-top: 0; }
 .scores { break-before: page; margin-top: 0; }
-@media screen { .scores { margin-top: 4.4vw; } }
+@media screen { .scores, .lists { margin-top: 4.4vw; } }
 .list td.rk { font-weight: 800; }
 .list td.pl { font-weight: 700; }
 .list .pw { display: flex; align-items: center; gap: 1.1vw; min-width: 0; }
