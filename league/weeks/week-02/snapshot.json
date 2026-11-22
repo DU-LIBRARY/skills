@@ -1,0 +1,772 @@
+{
+ "league": "Darul Uloom Winter League",
+ "title_lines": [
+  "Darul Uloom",
+  "Winter League"
+ ],
+ "arabic_name": "دار العلوم",
+ "season": "2026",
+ "week": 2,
+ "date": "2026-11-22",
+ "first_week": false,
+ "stats": {
+  "matches_played": 12,
+  "total_goals": 45,
+  "week_goals": 32,
+  "assists_recorded": true
+ },
+ "results": [
+  {
+   "match": 7,
+   "week": 2,
+   "date": "2026-11-22",
+   "home": "An-Nāṣirūn",
+   "away": "Al-Mufliḥūn",
+   "home_goals": 2,
+   "away_goals": 6,
+   "goals": [
+    {
+     "match": 7,
+     "team": "Al-Mufliḥūn",
+     "scorer": "Salahuddeen Patel",
+     "assist": "Haizam Jiffry",
+     "own_goal": false
+    },
+    {
+     "match": 7,
+     "team": "Al-Mufliḥūn",
+     "scorer": "Haizam Jiffry",
+     "assist": "Salahuddeen Patel",
+     "own_goal": false
+    },
+    {
+     "match": 7,
+     "team": "An-Nāṣirūn",
+     "scorer": "Asjad Patel",
+     "assist": null,
+     "own_goal": false
+    },
+    {
+     "match": 7,
+     "team": "Al-Mufliḥūn",
+     "scorer": "Haizam Jiffry",
+     "assist": "Abdullah Patel",
+     "own_goal": false
+    },
+    {
+     "match": 7,
+     "team": "Al-Mufliḥūn",
+     "scorer": "Abdullah Patel",
+     "assist": "Salahuddeen Patel",
+     "own_goal": false
+    },
+    {
+     "match": 7,
+     "team": "An-Nāṣirūn",
+     "scorer": "Umar Anees",
+     "assist": "Muhammad Sharaf",
+     "own_goal": false
+    },
+    {
+     "match": 7,
+     "team": "Al-Mufliḥūn",
+     "scorer": "Abdullah Patel",
+     "assist": "Haizam Jiffry",
+     "own_goal": false
+    },
+    {
+     "match": 7,
+     "team": "Al-Mufliḥūn",
+     "scorer": "Salahuddeen Patel",
+     "assist": "Haizam Jiffry",
+     "own_goal": false
+    }
+   ]
+  },
+  {
+   "match": 8,
+   "week": 2,
+   "date": "2026-11-22",
+   "home": "Al-Mufliḥūn",
+   "away": "Al-Fāʾizūn",
+   "home_goals": 0,
+   "away_goals": 0,
+   "goals": []
+  },
+  {
+   "match": 9,
+   "week": 2,
+   "date": "2026-11-22",
+   "home": "An-Nāṣirūn",
+   "away": "Al-Fāʾizūn",
+   "home_goals": 2,
+   "away_goals": 1,
+   "goals": [
+    {
+     "match": 9,
+     "team": "Al-Fāʾizūn",
+     "scorer": "Hamza Yousofzai",
+     "assist": "Ismail Daudi",
+     "own_goal": false
+    },
+    {
+     "match": 9,
+     "team": "An-Nāṣirūn",
+     "scorer": "Muhammad Furqan",
+     "assist": "Muhammad Sharaf",
+     "own_goal": false
+    },
+    {
+     "match": 9,
+     "team": "An-Nāṣirūn",
+     "scorer": "Asjad Patel",
+     "assist": null,
+     "own_goal": false
+    }
+   ]
+  },
+  {
+   "match": 10,
+   "week": 2,
+   "date": "2026-11-22",
+   "home": "As-Sābiqūn",
+   "away": "Al-Fāʾizūn",
+   "home_goals": 2,
+   "away_goals": 4,
+   "goals": [
+    {
+     "match": 10,
+     "team": "As-Sābiqūn",
+     "scorer": "Yusuf Kassam",
+     "assist": "Muhammad Talati",
+     "own_goal": false
+    },
+    {
+     "match": 10,
+     "team": "As-Sābiqūn",
+     "scorer": "Yusuf Kassam",
+     "assist": "Muhammad Talati",
+     "own_goal": false
+    },
+    {
+     "match": 10,
+     "team": "Al-Fāʾizūn",
+     "scorer": "Hamza Yousofzai",
+     "assist": "Ismail Daudi",
+     "own_goal": false
+    },
+    {
+     "match": 10,
+     "team": "Al-Fāʾizūn",
+     "scorer": "Hamza Yousofzai",
+     "assist": "Ismail Daudi",
+     "own_goal": false
+    },
+    {
+     "match": 10,
+     "team": "Al-Fāʾizūn",
+     "scorer": "Hamza Yousofzai",
+     "assist": null,
+     "own_goal": false
+    },
+    {
+     "match": 10,
+     "team": "Al-Fāʾizūn",
+     "scorer": "Hamza Yousofzai",
+     "assist": null,
+     "own_goal": false
+    }
+   ]
+  },
+  {
+   "match": 11,
+   "week": 2,
+   "date": "2026-11-22",
+   "home": "As-Sābiqūn",
+   "away": "An-Nāṣirūn",
+   "home_goals": 1,
+   "away_goals": 7,
+   "goals": [
+    {
+     "match": 11,
+     "team": "As-Sābiqūn",
+     "scorer": "Muhammad Talati",
+     "assist": "Yusuf Kassam",
+     "own_goal": false
+    },
+    {
+     "match": 11,
+     "team": "An-Nāṣirūn",
+     "scorer": "Muhammad Owais",
+     "assist": "Muhammad Furqan",
+     "own_goal": false
+    },
+    {
+     "match": 11,
+     "team": "An-Nāṣirūn",
+     "scorer": "Muhammad Owais",
+     "assist": "Asjad Patel",
+     "own_goal": false
+    },
+    {
+     "match": 11,
+     "team": "An-Nāṣirūn",
+     "scorer": "Muhammad Owais",
+     "assist": "Muhammad Furqan",
+     "own_goal": false
+    },
+    {
+     "match": 11,
+     "team": "An-Nāṣirūn",
+     "scorer": "Asjad Patel",
+     "assist": "Muhammad Owais",
+     "own_goal": false
+    },
+    {
+     "match": 11,
+     "team": "An-Nāṣirūn",
+     "scorer": "Asjad Patel",
+     "assist": "Muhammad Furqan",
+     "own_goal": false
+    },
+    {
+     "match": 11,
+     "team": "An-Nāṣirūn",
+     "scorer": "Asjad Patel",
+     "assist": "Muhammad Furqan",
+     "own_goal": false
+    },
+    {
+     "match": 11,
+     "team": "An-Nāṣirūn",
+     "scorer": "Muhammad Furqan",
+     "assist": "Muhammad Sharaf",
+     "own_goal": false
+    }
+   ]
+  },
+  {
+   "match": 12,
+   "week": 2,
+   "date": "2026-11-22",
+   "home": "As-Sābiqūn",
+   "away": "Al-Mufliḥūn",
+   "home_goals": 4,
+   "away_goals": 3,
+   "goals": [
+    {
+     "match": 12,
+     "team": "As-Sābiqūn",
+     "scorer": "Yusuf Kassam",
+     "assist": "Muhammad Talati",
+     "own_goal": false
+    },
+    {
+     "match": 12,
+     "team": "As-Sābiqūn",
+     "scorer": "Yusuf Kassam",
+     "assist": "Muhammad Talati",
+     "own_goal": false
+    },
+    {
+     "match": 12,
+     "team": "As-Sābiqūn",
+     "scorer": "Yusuf Kassam",
+     "assist": "AbdurRahman Ghori",
+     "own_goal": false
+    },
+    {
+     "match": 12,
+     "team": "As-Sābiqūn",
+     "scorer": "Muhammad Talati",
+     "assist": "Yusuf Kassam",
+     "own_goal": false
+    },
+    {
+     "match": 12,
+     "team": "Al-Mufliḥūn",
+     "scorer": "Salahuddeen Patel",
+     "assist": "Abdullah Patel",
+     "own_goal": false
+    },
+    {
+     "match": 12,
+     "team": "Al-Mufliḥūn",
+     "scorer": "Salahuddeen Patel",
+     "assist": "Haizam Jiffry",
+     "own_goal": false
+    },
+    {
+     "match": 12,
+     "team": "Al-Mufliḥūn",
+     "scorer": "Haizam Jiffry",
+     "assist": "Abdullah Patel",
+     "own_goal": false
+    }
+   ]
+  }
+ ],
+ "table": [
+  {
+   "pos": 1,
+   "team": "Al-Fāʾizūn",
+   "played": 6,
+   "won": 2,
+   "drawn": 3,
+   "lost": 1,
+   "gf": 8,
+   "ga": 5,
+   "gd": 3,
+   "points": 9,
+   "form": [
+    "D",
+    "D",
+    "D",
+    "L",
+    "W"
+   ],
+   "prev_pos": 1,
+   "prev_points": 5,
+   "move": 0
+  },
+  {
+   "pos": 2,
+   "team": "An-Nāṣirūn",
+   "played": 6,
+   "won": 3,
+   "drawn": 0,
+   "lost": 3,
+   "gf": 13,
+   "ga": 14,
+   "gd": -1,
+   "points": 9,
+   "form": [
+    "L",
+    "W",
+    "L",
+    "W",
+    "W"
+   ],
+   "prev_pos": 4,
+   "prev_points": 3,
+   "move": 2
+  },
+  {
+   "pos": 3,
+   "team": "Al-Mufliḥūn",
+   "played": 6,
+   "won": 2,
+   "drawn": 2,
+   "lost": 2,
+   "gf": 15,
+   "ga": 10,
+   "gd": 5,
+   "points": 8,
+   "form": [
+    "W",
+    "D",
+    "W",
+    "D",
+    "L"
+   ],
+   "prev_pos": 2,
+   "prev_points": 4,
+   "move": -1
+  },
+  {
+   "pos": 4,
+   "team": "As-Sābiqūn",
+   "played": 6,
+   "won": 2,
+   "drawn": 1,
+   "lost": 3,
+   "gf": 9,
+   "ga": 16,
+   "gd": -7,
+   "points": 7,
+   "form": [
+    "D",
+    "L",
+    "L",
+    "L",
+    "W"
+   ],
+   "prev_pos": 3,
+   "prev_points": 4,
+   "move": -1
+  }
+ ],
+ "scorers": [
+  {
+   "rank": 1,
+   "player": "Salahuddeen Patel",
+   "team": "Al-Mufliḥūn",
+   "goals": 7,
+   "prev": 3,
+   "prev_rank": 1
+  },
+  {
+   "rank": 2,
+   "player": "Asjad Patel",
+   "team": "An-Nāṣirūn",
+   "goals": 6,
+   "prev": 1,
+   "prev_rank": 4
+  },
+  {
+   "rank": 3,
+   "player": "Hamza Yousofzai",
+   "team": "Al-Fāʾizūn",
+   "goals": 6,
+   "prev": 1,
+   "prev_rank": 6
+  },
+  {
+   "rank": 4,
+   "player": "Yusuf Kassam",
+   "team": "As-Sābiqūn",
+   "goals": 5,
+   "prev": 0,
+   "prev_rank": null
+  },
+  {
+   "rank": 5,
+   "player": "Haizam Jiffry",
+   "team": "Al-Mufliḥūn",
+   "goals": 4,
+   "prev": 1,
+   "prev_rank": 5
+  },
+  {
+   "rank": 6,
+   "player": "Abdullah Patel",
+   "team": "Al-Mufliḥūn",
+   "goals": 3,
+   "prev": 1,
+   "prev_rank": 3
+  },
+  {
+   "rank": 7,
+   "player": "Muhammad Owais",
+   "team": "An-Nāṣirūn",
+   "goals": 3,
+   "prev": 0,
+   "prev_rank": null
+  },
+  {
+   "rank": 8,
+   "player": "Muhammad Talati",
+   "team": "As-Sābiqūn",
+   "goals": 3,
+   "prev": 1,
+   "prev_rank": 8
+  },
+  {
+   "rank": 9,
+   "player": "Jameel Bholat",
+   "team": "Al-Fāʾizūn",
+   "goals": 2,
+   "prev": 2,
+   "prev_rank": 2
+  },
+  {
+   "rank": 10,
+   "player": "Muhammad Furqan",
+   "team": "An-Nāṣirūn",
+   "goals": 2,
+   "prev": 0,
+   "prev_rank": null
+  },
+  {
+   "rank": 11,
+   "player": "Hanzala Salloo",
+   "team": "An-Nāṣirūn",
+   "goals": 1,
+   "prev": 1,
+   "prev_rank": 7
+  },
+  {
+   "rank": 12,
+   "player": "Saifullah Salloo",
+   "team": "As-Sābiqūn",
+   "goals": 1,
+   "prev": 1,
+   "prev_rank": 9
+  },
+  {
+   "rank": 13,
+   "player": "Umar Anees",
+   "team": "An-Nāṣirūn",
+   "goals": 1,
+   "prev": 0,
+   "prev_rank": null
+  }
+ ],
+ "assists": [
+  {
+   "rank": 1,
+   "player": "Haizam Jiffry",
+   "team": "Al-Mufliḥūn",
+   "assists": 8,
+   "prev": 4,
+   "prev_rank": 1
+  },
+  {
+   "rank": 2,
+   "player": "Abdullah Patel",
+   "team": "Al-Mufliḥūn",
+   "assists": 4,
+   "prev": 1,
+   "prev_rank": 3
+  },
+  {
+   "rank": 3,
+   "player": "Muhammad Furqan",
+   "team": "An-Nāṣirūn",
+   "assists": 4,
+   "prev": 0,
+   "prev_rank": null
+  },
+  {
+   "rank": 4,
+   "player": "Muhammad Talati",
+   "team": "As-Sābiqūn",
+   "assists": 4,
+   "prev": 0,
+   "prev_rank": null
+  },
+  {
+   "rank": 5,
+   "player": "Ismail Daudi",
+   "team": "Al-Fāʾizūn",
+   "assists": 3,
+   "prev": 0,
+   "prev_rank": null
+  },
+  {
+   "rank": 6,
+   "player": "Muhammad Sharaf",
+   "team": "An-Nāṣirūn",
+   "assists": 3,
+   "prev": 0,
+   "prev_rank": null
+  },
+  {
+   "rank": 7,
+   "player": "Yusuf Kassam",
+   "team": "As-Sābiqūn",
+   "assists": 3,
+   "prev": 1,
+   "prev_rank": 8
+  },
+  {
+   "rank": 8,
+   "player": "Asjad Patel",
+   "team": "An-Nāṣirūn",
+   "assists": 2,
+   "prev": 1,
+   "prev_rank": 4
+  },
+  {
+   "rank": 9,
+   "player": "Hamza Yousofzai",
+   "team": "Al-Fāʾizūn",
+   "assists": 2,
+   "prev": 2,
+   "prev_rank": 2
+  },
+  {
+   "rank": 10,
+   "player": "Salahuddeen Patel",
+   "team": "Al-Mufliḥūn",
+   "assists": 2,
+   "prev": 0,
+   "prev_rank": null
+  },
+  {
+   "rank": 11,
+   "player": "AbdurRahman Ghori",
+   "team": "As-Sābiqūn",
+   "assists": 1,
+   "prev": 0,
+   "prev_rank": null
+  },
+  {
+   "rank": 12,
+   "player": "Bilal Anees",
+   "team": "As-Sābiqūn",
+   "assists": 1,
+   "prev": 1,
+   "prev_rank": 5
+  },
+  {
+   "rank": 13,
+   "player": "Hanzala Salloo",
+   "team": "An-Nāṣirūn",
+   "assists": 1,
+   "prev": 1,
+   "prev_rank": 6
+  },
+  {
+   "rank": 14,
+   "player": "Muhammad Owais",
+   "team": "An-Nāṣirūn",
+   "assists": 1,
+   "prev": 0,
+   "prev_rank": null
+  },
+  {
+   "rank": 15,
+   "player": "Shahid Omarmia",
+   "team": "Al-Fāʾizūn",
+   "assists": 1,
+   "prev": 1,
+   "prev_rank": 7
+  }
+ ],
+ "defence": [
+  {
+   "team": "Al-Fāʾizūn",
+   "played": 6,
+   "conceded": 5,
+   "clean_sheets": 3
+  },
+  {
+   "team": "Al-Mufliḥūn",
+   "played": 6,
+   "conceded": 10,
+   "clean_sheets": 1
+  },
+  {
+   "team": "An-Nāṣirūn",
+   "played": 6,
+   "conceded": 14,
+   "clean_sheets": 1
+  },
+  {
+   "team": "As-Sābiqūn",
+   "played": 6,
+   "conceded": 16,
+   "clean_sheets": 1
+  }
+ ],
+ "highlights": {
+  "leader": "Al-Fāʾizūn",
+  "leader_changed": false,
+  "previous_leader": "Al-Fāʾizūn",
+  "top_scorer": {
+   "player": "Salahuddeen Patel",
+   "team": "Al-Mufliḥūn",
+   "goals": 7
+  },
+  "top_assist": {
+   "player": "Haizam Jiffry",
+   "team": "Al-Mufliḥūn",
+   "assists": 8
+  },
+  "week_top_scorer": {
+   "player": "Asjad Patel",
+   "team": "An-Nāṣirūn",
+   "goals": 5
+  },
+  "week_top_scorers": [
+   {
+    "player": "Asjad Patel",
+    "team": "An-Nāṣirūn",
+    "goals": 5
+   },
+   {
+    "player": "Hamza Yousofzai",
+    "team": "Al-Fāʾizūn",
+    "goals": 5
+   },
+   {
+    "player": "Yusuf Kassam",
+    "team": "As-Sābiqūn",
+    "goals": 5
+   }
+  ],
+  "hat_tricks": [
+   {
+    "player": "Hamza Yousofzai",
+    "team": "Al-Fāʾizūn",
+    "goals": 4,
+    "match": 10,
+    "opponent": "As-Sābiqūn"
+   },
+   {
+    "player": "Asjad Patel",
+    "team": "An-Nāṣirūn",
+    "goals": 3,
+    "match": 11,
+    "opponent": "As-Sābiqūn"
+   },
+   {
+    "player": "Muhammad Owais",
+    "team": "An-Nāṣirūn",
+    "goals": 3,
+    "match": 11,
+    "opponent": "As-Sābiqūn"
+   },
+   {
+    "player": "Yusuf Kassam",
+    "team": "As-Sābiqūn",
+    "goals": 3,
+    "match": 12,
+    "opponent": "Al-Mufliḥūn"
+   }
+  ],
+  "biggest_win": {
+   "match": 11,
+   "margin": 6,
+   "home": "As-Sābiqūn",
+   "away": "An-Nāṣirūn",
+   "home_goals": 1,
+   "away_goals": 7
+  }
+ },
+ "teams": [
+  {
+   "name": "An-Nāṣirūn",
+   "arabic": "الناصرون",
+   "crest_text": "الناصرون",
+   "crest": "shield",
+   "short": "NAS"
+  },
+  {
+   "name": "Al-Fāʾizūn",
+   "arabic": "الفائزون",
+   "crest_text": "الفائزون",
+   "crest": "roundel",
+   "short": "FAI"
+  },
+  {
+   "name": "Al-Mufliḥūn",
+   "arabic": "المفلحون",
+   "crest_text": "المفلحون",
+   "crest": "octagon",
+   "short": "MUF"
+  },
+  {
+   "name": "As-Sābiqūn",
+   "arabic": "السابقون",
+   "crest_text": "السابقون",
+   "crest": "arch",
+   "short": "SAB",
+   "manager": "Ismail Kassam"
+  }
+ ],
+ "brand": {
+  "cream": "#f2ebdd",
+  "paper": "#faf6ee",
+  "ink": "#171412",
+  "ink2": "#5d5650",
+  "crimson": "#9b1b30",
+  "crimsonLight": "#d75b6e",
+  "up": "#2f8f5b",
+  "down": "#c0392b",
+  "logo": "assets/logo.jpg",
+  "watermark_opacity": 0.07,
+  "bismillah": "بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ"
+ }
+}

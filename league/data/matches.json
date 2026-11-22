@@ -52,5 +52,59 @@
   "away": "As-Sābiqūn",
   "home_goals": 1,
   "away_goals": 0
+ },
+ {
+  "match": 7,
+  "week": 2,
+  "date": "2026-11-22",
+  "home": "An-Nāṣirūn",
+  "away": "Al-Mufliḥūn",
+  "home_goals": 2,
+  "away_goals": 6
+ },
+ {
+  "match": 8,
+  "week": 2,
+  "date": "2026-11-22",
+  "home": "Al-Mufliḥūn",
+  "away": "Al-Fāʾizūn",
+  "home_goals": 0,
+  "away_goals": 0
+ },
+ {
+  "match": 9,
+  "week": 2,
+  "date": "2026-11-22",
+  "home": "An-Nāṣirūn",
+  "away": "Al-Fāʾizūn",
+  "home_goals": 2,
+  "away_goals": 1
+ },
+ {
+  "match": 10,
+  "week": 2,
+  "date": "2026-11-22",
+  "home": "As-Sābiqūn",
+  "away": "Al-Fāʾizūn",
+  "home_goals": 2,
+  "away_goals": 4
+ },
+ {
+  "match": 11,
+  "week": 2,
+  "date": "2026-11-22",
+  "home": "As-Sābiqūn",
+  "away": "An-Nāṣirūn",
+  "home_goals": 1,
+  "away_goals": 7
+ },
+ {
+  "match": 12,
+  "week": 2,
+  "date": "2026-11-22",
+  "home": "As-Sābiqūn",
+  "away": "Al-Mufliḥūn",
+  "home_goals": 4,
+  "away_goals": 3
  }
 ]

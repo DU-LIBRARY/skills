@@ -89,5 +89,229 @@
   "scorer": "Hanzala Salloo",
   "assist": "Asjad Patel",
   "own_goal": false
+ },
+ {
+  "match": 7,
+  "team": "Al-Mufliḥūn",
+  "scorer": "Salahuddeen Patel",
+  "assist": "Haizam Jiffry",
+  "own_goal": false
+ },
+ {
+  "match": 7,
+  "team": "Al-Mufliḥūn",
+  "scorer": "Haizam Jiffry",
+  "assist": "Salahuddeen Patel",
+  "own_goal": false
+ },
+ {
+  "match": 7,
+  "team": "An-Nāṣirūn",
+  "scorer": "Asjad Patel",
+  "assist": null,
+  "own_goal": false
+ },
+ {
+  "match": 7,
+  "team": "Al-Mufliḥūn",
+  "scorer": "Haizam Jiffry",
+  "assist": "Abdullah Patel",
+  "own_goal": false
+ },
+ {
+  "match": 7,
+  "team": "Al-Mufliḥūn",
+  "scorer": "Abdullah Patel",
+  "assist": "Salahuddeen Patel",
+  "own_goal": false
+ },
+ {
+  "match": 7,
+  "team": "An-Nāṣirūn",
+  "scorer": "Umar Anees",
+  "assist": "Muhammad Sharaf",
+  "own_goal": false
+ },
+ {
+  "match": 7,
+  "team": "Al-Mufliḥūn",
+  "scorer": "Abdullah Patel",
+  "assist": "Haizam Jiffry",
+  "own_goal": false
+ },
+ {
+  "match": 7,
+  "team": "Al-Mufliḥūn",
+  "scorer": "Salahuddeen Patel",
+  "assist": "Haizam Jiffry",
+  "own_goal": false
+ },
+ {
+  "match": 9,
+  "team": "Al-Fāʾizūn",
+  "scorer": "Hamza Yousofzai",
+  "assist": "Ismail Daudi",
+  "own_goal": false
+ },
+ {
+  "match": 9,
+  "team": "An-Nāṣirūn",
+  "scorer": "Muhammad Furqan",
+  "assist": "Muhammad Sharaf",
+  "own_goal": false
+ },
+ {
+  "match": 9,
+  "team": "An-Nāṣirūn",
+  "scorer": "Asjad Patel",
+  "assist": null,
+  "own_goal": false
+ },
+ {
+  "match": 10,
+  "team": "As-Sābiqūn",
+  "scorer": "Yusuf Kassam",
+  "assist": "Muhammad Talati",
+  "own_goal": false
+ },
+ {
+  "match": 10,
+  "team": "As-Sābiqūn",
+  "scorer": "Yusuf Kassam",
+  "assist": "Muhammad Talati",
+  "own_goal": false
+ },
+ {
+  "match": 10,
+  "team": "Al-Fāʾizūn",
+  "scorer": "Hamza Yousofzai",
+  "assist": "Ismail Daudi",
+  "own_goal": false
+ },
+ {
+  "match": 10,
+  "team": "Al-Fāʾizūn",
+  "scorer": "Hamza Yousofzai",
+  "assist": "Ismail Daudi",
+  "own_goal": false
+ },
+ {
+  "match": 10,
+  "team": "Al-Fāʾizūn",
+  "scorer": "Hamza Yousofzai",
+  "assist": null,
+  "own_goal": false
+ },
+ {
+  "match": 10,
+  "team": "Al-Fāʾizūn",
+  "scorer": "Hamza Yousofzai",
+  "assist": null,
+  "own_goal": false
+ },
+ {
+  "match": 11,
+  "team": "As-Sābiqūn",
+  "scorer": "Muhammad Talati",
+  "assist": "Yusuf Kassam",
+  "own_goal": false
+ },
+ {
+  "match": 11,
+  "team": "An-Nāṣirūn",
+  "scorer": "Muhammad Owais",
+  "assist": "Muhammad Furqan",
+  "own_goal": false
+ },
+ {
+  "match": 11,
+  "team": "An-Nāṣirūn",
+  "scorer": "Muhammad Owais",
+  "assist": "Asjad Patel",
+  "own_goal": false
+ },
+ {
+  "match": 11,
+  "team": "An-Nāṣirūn",
+  "scorer": "Muhammad Owais",
+  "assist": "Muhammad Furqan",
+  "own_goal": false
+ },
+ {
+  "match": 11,
+  "team": "An-Nāṣirūn",
+  "scorer": "Asjad Patel",
+  "assist": "Muhammad Owais",
+  "own_goal": false
+ },
+ {
+  "match": 11,
+  "team": "An-Nāṣirūn",
+  "scorer": "Asjad Patel",
+  "assist": "Muhammad Furqan",
+  "own_goal": false
+ },
+ {
+  "match": 11,
+  "team": "An-Nāṣirūn",
+  "scorer": "Asjad Patel",
+  "assist": "Muhammad Furqan",
+  "own_goal": false
+ },
+ {
+  "match": 11,
+  "team": "An-Nāṣirūn",
+  "scorer": "Muhammad Furqan",
+  "assist": "Muhammad Sharaf",
+  "own_goal": false
+ },
+ {
+  "match": 12,
+  "team": "As-Sābiqūn",
+  "scorer": "Yusuf Kassam",
+  "assist": "Muhammad Talati",
+  "own_goal": false
+ },
+ {
+  "match": 12,
+  "team": "As-Sābiqūn",
+  "scorer": "Yusuf Kassam",
+  "assist": "Muhammad Talati",
+  "own_goal": false
+ },
+ {
+  "match": 12,
+  "team": "As-Sābiqūn",
+  "scorer": "Yusuf Kassam",
+  "assist": "AbdurRahman Ghori",
+  "own_goal": false
+ },
+ {
+  "match": 12,
+  "team": "As-Sābiqūn",
+  "scorer": "Muhammad Talati",
+  "assist": "Yusuf Kassam",
+  "own_goal": false
+ },
+ {
+  "match": 12,
+  "team": "Al-Mufliḥūn",
+  "scorer": "Salahuddeen Patel",
+  "assist": "Abdullah Patel",
+  "own_goal": false
+ },
+ {
+  "match": 12,
+  "team": "Al-Mufliḥūn",
+  "scorer": "Salahuddeen Patel",
+  "assist": "Haizam Jiffry",
+  "own_goal": false
+ },
+ {
+  "match": 12,
+  "team": "Al-Mufliḥūn",
+  "scorer": "Haizam Jiffry",
+  "assist": "Abdullah Patel",
+  "own_goal": false
  }
 ]
