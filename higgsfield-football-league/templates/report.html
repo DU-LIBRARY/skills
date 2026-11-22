@@ -62,9 +62,14 @@ td svg { width: 4.4vw; vertical-align: middle; margin-right: 1.4vw; }
 .side.away { flex-direction: row-reverse; text-align: right; }
 .score { font-weight: 800; font-size: 5vw; letter-spacing: .4vw; }
 .score em { color: var(--crimson-lt); font-style: normal; margin: 0 .8vw; }
-.goals { display: grid; grid-template-columns: 1fr 1fr; gap: 3vw; margin-top: 1.2vw; padding-top: 1.1vw; border-top: .15vw solid rgba(242,235,221,.18); font-size: 2.5vw; line-height: 1.5; color: #e6dccb; }
-.goals > div:last-child { text-align: right; }
-.goals .as { color: #a89d8c; font-size: 2.2vw; margin-left: 1vw; }
+/* goals: each side is a two-column grid (scorer | assist) so names and assists line up in columns.
+   The home list hugs the left edge, the away list the right edge, matching the team names above. */
+.goals { display: grid; grid-template-columns: 1fr 1fr; gap: 3vw; margin-top: 1.2vw; padding-top: 1.1vw; border-top: .15vw solid rgba(242,235,221,.18); font-size: 2.5vw; line-height: 1.6; color: #e6dccb; }
+.gside { display: grid; grid-template-columns: max-content max-content; column-gap: 2.2vw; align-content: start; justify-content: start; }
+.gside.away { justify-content: end; }
+.gside > span { white-space: nowrap; }
+.goals .as { color: #a89d8c; }
+.goals .as b { color: var(--crimson-lt); font-weight: 700; margin-left: .6vw; }
 .goals .og { color: #a89d8c; }
 
 .lists { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 3vw; align-items: start; }
@@ -155,6 +160,11 @@ window.init = (R) => {
   lists.append(list('Top scorers', R.scorers, 'goals', 'Goals', 'No goals recorded yet.'));
   lists.append(list('Top assists', R.assists, 'assists', 'Assists', R.assists_recorded ? 'No assists recorded yet.' : 'Assists not recorded.'));
   body.append(lists);
+  // scores pages: surnames cut to one letter ("Asjad Patel" -> "Asjad P"); if two players would
+  // then read the same, they keep more of the surname until they differ
+  const allNames = [...new Set(R.matches.flatMap((m) => m.goals.flatMap((g) => [g.scorer, g.assist])).concat(R.squad || []).filter(Boolean))];
+  const cut = (n, k) => { const w = disp(n).split(' '); return w.length < 2 ? w[0] : `${w.slice(0, -1).join(' ')} ${w.at(-1).slice(0, k)}`; };
+  const short = (n) => { for (let k = 1; k < 30; k++) { const c = cut(n, k); if (!allNames.some((o) => o !== n && cut(o, k) === c)) return c; } return disp(n); };
   // ---- every score so far ----
   const sr = section('Scores'); sr.classList.add('scores');
   const byWeek = new Map();
@@ -173,12 +183,12 @@ window.init = (R) => {
       if (m.goals.length) {
         const g = el('div', 'goals');
         for (const t of [m.home, m.away]) {
-          const col = el('div');
+          const col = el('div', `gside ${t === m.home ? 'home' : 'away'}`);
           for (const x of m.goals.filter((y) => y.team === t)) {
-            const line = el('div');
-            if (x.own_goal) line.append(el('span', 'og', `${disp(x.scorer)} (og)`));
-            else { line.append(disp(x.scorer)); if (x.assist) line.append(el('span', 'as', `assist ${disp(x.assist)}`)); }
-            col.append(line);
+            if (x.own_goal) { col.append(el('span', 'og', `${short(x.scorer)} (og)`), el('span')); continue; }
+            const a = el('span', 'as');
+            if (x.assist) { a.append(short(x.assist)); a.append(el('b', null, '(A)')); }
+            col.append(el('span', null, short(x.scorer)), a);
           }
           g.append(col);
         }

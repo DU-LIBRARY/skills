@@ -28,7 +28,7 @@ const matches = allMatches.filter((m) => Number(m.week) === week)
 
 const data = { league: L.config.name, title_lines: L.config.title_lines, teams: L.config.teams, brand: L.config.brand, logo: logoDataURL(L),
   week, first_week: snap.first_week, table: snap.table, scorers: snap.scorers, assists: snap.assists, assists_recorded: snap.stats.assists_recorded,
-  matches, totals: { matches: allMatches.length, goals: allMatches.reduce((n, m) => n + Number(m.home_goals) + Number(m.away_goals), 0) } };
+  squad: L.squads.map((r) => r.player), matches, totals: { matches: allMatches.length, goals: allMatches.reduce((n, m) => n + Number(m.home_goals) + Number(m.away_goals), 0) } };
 
 const browser = await launchChromium();
 try {
