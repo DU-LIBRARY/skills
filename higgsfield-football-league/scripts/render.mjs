@@ -9,7 +9,7 @@
 // Launch video (season opener: title, each team and its squad, Matchweek 1 fixtures):
 //   node render.mjs --launch [--date YYYY-MM-DD] [--format story|feed|square] [--preview]
 //   -> <root>/launch/launch-<format>.mp4
-// --whatsapp: still background, 30fps, 720p -> <name>-whatsapp.mp4 (looks right after WhatsApp re-compresses it)
+// --whatsapp: still background, 60fps, 720p -> <name>-whatsapp.mp4 (looks right after WhatsApp re-compresses it)
 // A weekly video opens on the "Week N Recap" thumbnail (graphic.mjs thumbnail) for 1s in place of the
 // animated intro scene, and carries it as its cover image. --classic-intro keeps the animated intro instead.
 import fs from 'node:fs';
@@ -29,10 +29,10 @@ const FORMATS = { story: [1080, 1920], feed: [1080, 1350], square: [1080, 1080] 
 const root = path.resolve(opt('root', 'league'));
 const format = opt('format', 'story');
 if (!FORMATS[format]) die(`format must be one of ${Object.keys(FORMATS).join(', ')}`);
-// --whatsapp: a version that survives WhatsApp's re-compression: still background, 30fps, 720p,
+// --whatsapp: a version that survives WhatsApp's re-compression: still background, 60fps, 720p,
 // written next to the normal file as <name>-whatsapp.mp4
 const WHATSAPP = flag('whatsapp');
-const fps = Number(opt('fps', WHATSAPP ? 30 : 60));
+const fps = Number(opt('fps', 60));  // the WhatsApp version is 60fps too (user's choice, Week 2)
 // motion blur: each output frame is the average of this many sub-frames across half a frame
 // interval (a 180° film shutter), which is what makes fast moves read as smooth rather than strobing
 const blur = Math.max(1, Number(opt('blur', 2)));

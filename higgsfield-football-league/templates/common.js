@@ -37,7 +37,12 @@ function roller(from, to, cls = '') {
   const box = el('span', `roller ${cls}`), col = el('span', 'roller-col'), digits = [];
   for (let v = lo; v <= hi; v++) { const d = el('span', null, String(v)); digits.push(d); col.append(d); }
   box.append(col);
-  return { node: box, set(v) { v = clamp(v, lo, hi); digits.forEach((d, i) => { d.style.opacity = clamp(1 - Math.abs(v - (lo + i))).toFixed(3); }); } };
+  // each value holds, then hands over to the next in a short eased crossfade (never more than two
+  // numbers visible at once), so a count of 0 to 7 ticks cleanly instead of smearing
+  return { node: box, set(v) {
+    v = clamp(v, lo, hi); const k = Math.min(Math.floor(v), hi - 1), e = hi > lo ? smooth(clamp((v - k - .3) / .4)) : 0;
+    digits.forEach((d, i) => { const val = lo + i; d.style.opacity = (hi === lo ? 1 : val === k ? 1 - e : val === k + 1 ? e : 0).toFixed(3); });
+  } };
 }
 
 // The four crest shapes from the dashboard's team sheets.

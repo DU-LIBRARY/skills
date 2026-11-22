@@ -277,16 +277,17 @@ function buildResultsScreen(results, id, round) {
     c.append(row);
     let gl = [];
     if (m.goals.length) { const sl = el('div', 'scorers-line'), a = goalLines(m.goals, m.home), b = goalLines(m.goals, m.away); sl.append(a.box, b.box); c.append(sl); gl = [...a.rows, ...b.rows]; }
-    return { c, hg, ag, m, gl, at: .45 + i * per, dir: i % 2 ? 1 : -1 };
+    return { c, hg, ag, m, gl, at: .45 + i * per, dir: i % 2 ? 1 : -1, count: Math.max(.5, .22 * Math.max(m.home_goals, m.away_goals)) };
   });
   n.append(...cards.map((x) => x.c));
-  const end = .45 + per * cards.length + 1.2;
+  const end = .45 + per * cards.length + 1.2 + Math.max(0, ...cards.map((x) => x.count + .45 - 1.2));
   return { id, group: 'results', node: n, dur: end + 1.6, still: end + .4, draw(t) {
     for (const x of cards) {
       const p = clamp((t - x.at) / 1.0);
       x.c.style.opacity = smooth(p * 1.4).toFixed(3);
       x.c.style.transform = tf((1 - expoOut(p)) * 34 * x.dir, 0, 1);
-      const q = smooth((t - x.at - .45) / 1.1);
+      // count up at a steady ~0.22s a goal, so a 7 ticks through every number evenly
+      const q = clamp((t - x.at - .45) / x.count);
       x.hg.set(q * x.m.home_goals); x.ag.set(q * x.m.away_goals);
       x.gl.forEach((g, j) => { const r = clamp((t - x.at - .9 - j * .12) / .6); g.style.opacity = smooth(r).toFixed(3); });
     }

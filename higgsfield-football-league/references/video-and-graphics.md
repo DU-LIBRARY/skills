@@ -107,7 +107,7 @@ memory. Without `closing_hadith` the last slide is an outro with the first match
 
 WhatsApp re-compresses every video it's sent, and the drifting logo field changes every
 pixel on every frame, so the text turns to mush. Add `--whatsapp` (works with `--launch` or a
-week): still background, 30fps, 720p, written as `<name>-whatsapp.mp4`. Send that one, ideally
+week): still background, 60fps, 720p, written as `<name>-whatsapp.mp4`. Send that one, ideally
 with WhatsApp's HD option, or attach it as a Document to skip re-compression entirely.
 
 ## fixtures.mjs: weekly fixture list PDF
