@@ -91,7 +91,7 @@ function addWeek(file) {
         }
         if (og) warnings.push(`${gw}: an assist on an own goal is unusual`);
       }
-      addedGoals.push({ match: id, team, scorer: scorer ?? null, assist, own_goal: og });
+      addedGoals.push({ match: id, team, scorer: scorer ?? null, assist, own_goal: og, ...(g.penalty && !og ? { penalty: true } : {}) });
     });
     if (goals.length) {
       if (tally[home] !== hg) errors.push(`${where}: ${home} scored ${hg} but ${tally[home]} goal(s) listed`);
@@ -181,7 +181,7 @@ function importArtifact(mFile, gFile, sFile) {
   for (const d of fresh) weekOfDate[d] = next++;
   L.matches = am.map((m) => ({ match: Number(m.match), week: Number(m.week ?? known[m.match] ?? weekOfDate[m.date]), date: String(m.date).slice(0, 10),
     home: resolveTeam(L, m.home) ?? m.home, away: resolveTeam(L, m.away) ?? m.away, home_goals: Number(m.home_goals), away_goals: Number(m.away_goals) }));
-  L.goals = ag.map((g) => ({ match: Number(g.match), team: resolveTeam(L, g.team) ?? g.team, scorer: g.scorer || null, assist: g.assist || null, own_goal: !!g.own_goal && g.own_goal !== 'false' }));
+  L.goals = ag.map((g) => ({ match: Number(g.match), team: resolveTeam(L, g.team) ?? g.team, scorer: g.scorer || null, assist: g.assist || null, own_goal: !!g.own_goal && g.own_goal !== 'false', ...(g.penalty && g.penalty !== 'false' ? { penalty: true } : {}) }));
   saveLeague(L);
   console.log(`✓ imported ${L.matches.length} matches, ${L.goals.length} goals; weeks ${weeksOf(L).join(', ') || 'none'}${fresh.length ? ` (new dates ${fresh.join(', ')} numbered as new weeks)` : ''}`);
   check();

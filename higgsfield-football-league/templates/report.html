@@ -71,6 +71,7 @@ td svg { width: 4.4vw; vertical-align: middle; margin-right: 1.4vw; }
 .goals .as { color: #a89d8c; }
 .goals .as b { color: var(--crimson-lt); font-weight: 700; margin-left: .6vw; }
 .goals .og { color: #a89d8c; }
+.goals .pen { font-style: normal; color: #a89d8c; margin-left: .6vw; }
 .goals .pm { color: #a89d8c; font-style: italic; }
 
 .lists { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 3vw; align-items: start; }
@@ -189,7 +190,8 @@ window.init = (R) => {
             if (x.own_goal) { col.append(el('span', 'og', `${short(x.scorer)} (og)`), el('span')); continue; }
             const a = el('span', 'as');
             if (x.assist) { a.append(short(x.assist)); a.append(el('b', null, '(A)')); }
-            col.append(el('span', null, short(x.scorer)), a);
+            const sc = el('span', null, short(x.scorer)); if (x.penalty) sc.append(el('i', 'pen', '(pen)'));
+            col.append(sc, a);
           }
           for (const x of (m.pen_missed || []).filter((y) => y.team === t)) col.append(el('span', 'pm', short(x.player)), el('span', 'pm', 'Penalty missed'));
           g.append(col);

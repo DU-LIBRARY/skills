@@ -37,6 +37,7 @@
 | `goals[].team` | The team the goal **counted for**. |
 | `goals[].scorer` | Must be in that team's squad. For an own goal, the scorer is from the **other** team. |
 | `goals[].assist` | Optional, same squad as `team`. Leave it out when unknown. |
+| `goals[].penalty` | `true` for a scored penalty: shown as "(pen)" in the overview PDF. A missed penalty isn't a goal: record it on the fantasy match sheet (`penMissed`). |
 | `goals[].own_goal` | `true` for own goals. These count in the table but not for any player. |
 | `goals` | Optional. If you leave it out, the table updates but the scorer and assist races don't, and a warning prints. If present, the counts must match the score. |
 

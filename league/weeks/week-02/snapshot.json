@@ -79,7 +79,8 @@
      "team": "Al-Mufliḥūn",
      "scorer": "Salahuddeen Patel",
      "assist": "Haizam Jiffry",
-     "own_goal": false
+     "own_goal": false,
+     "penalty": true
     }
    ]
   },
