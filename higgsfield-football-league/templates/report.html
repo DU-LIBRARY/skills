@@ -156,7 +156,7 @@ window.init = (R) => {
   lists.append(list('Top assists', R.assists, 'assists', 'Assists', R.assists_recorded ? 'No assists recorded yet.' : 'Assists not recorded.'));
   body.append(lists);
   // ---- every score so far ----
-  const sr = section(R.totals.matches === 1 ? 'Score' : 'Scores'); sr.classList.add('scores');
+  const sr = section('Scores'); sr.classList.add('scores');
   const byWeek = new Map();
   for (const m of R.matches) (byWeek.get(m.week) || byWeek.set(m.week, []).get(m.week)).push(m);
   for (const [w, ms] of byWeek) {

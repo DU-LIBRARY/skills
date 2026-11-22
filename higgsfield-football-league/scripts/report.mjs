@@ -20,14 +20,15 @@ if (!weeks.length) die('no matches recorded yet — add a week first');
 const week = Number(opt('week', weeks.at(-1)));
 const snap = snapshot(L, week);
 
-// every match up to this week, oldest first, each with its goals in the order recorded
-const matches = L.matches.filter((m) => Number(m.week) <= week)
+// season totals count every match so far; the scores pages show only this week's matches
+const allMatches = L.matches.filter((m) => Number(m.week) <= week);
+const matches = allMatches.filter((m) => Number(m.week) === week)
   .sort((a, b) => Number(a.week) - Number(b.week) || String(a.date).localeCompare(String(b.date)) || a.match - b.match)
   .map((m) => ({ ...m, goals: L.goals.filter((g) => g.match === m.match) }));
 
 const data = { league: L.config.name, title_lines: L.config.title_lines, teams: L.config.teams, brand: L.config.brand, logo: logoDataURL(L),
   week, first_week: snap.first_week, table: snap.table, scorers: snap.scorers, assists: snap.assists, assists_recorded: snap.stats.assists_recorded,
-  matches, totals: { matches: matches.length, goals: matches.reduce((n, m) => n + Number(m.home_goals) + Number(m.away_goals), 0) } };
+  matches, totals: { matches: allMatches.length, goals: allMatches.reduce((n, m) => n + Number(m.home_goals) + Number(m.away_goals), 0) } };
 
 const browser = await launchChromium();
 try {

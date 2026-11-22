@@ -47,7 +47,7 @@ higgsfield-football-league/
   scripts/graphic.mjs           fulltime | potw | fixtures | announcement
   scripts/transfers.mjs         squad changes video (transfers, new signings)
   scripts/fixtures.mjs          weekly fixture list PDFs (rotating round-robin)
-  scripts/report.mjs            weekly overview / standings PDF (table, scorer and assist lists, every score)
+  scripts/report.mjs            weekly overview / standings PDF (table, scorer and assist lists, the week's scores)
   templates/                    weekly.html, graphic.html, common.{css,js}: the house style
   assets/fonts/                 Barlow Condensed and Amiri (bundled, OFL)
 ```
@@ -153,7 +153,7 @@ available. Mention anything you assumed (e.g. "no assists given for the 2nd goal
 | "New player joined X" / "the teams have changed" | Diff the new team sheet against `data/squads.json`. Mid-season, give each moved or new row `from_week: N` (first week it applies) and, for a move, `before: "<old team>"`, so earlier weeks keep their old line-ups in the fantasy app. Mirror it in the fantasy repo's `players.json` (team, plus pos/price for new players), sync squads to the dashboard, commit with `[skip render]`. |
 | "Make a video of the team change" | `transfers.mjs --spec changes.json` (+ `--whatsapp`): ~5s "Squad changes" story video and a feed card in `league/graphics/`. No fantasy prices or positions; a transfer `fee` (e.g. "100 dinaar") only if the user gives one ([video-and-graphics.md](references/video-and-graphics.md)) |
 | "Show the table" | `league.mjs status` |
-| "Weekly overview PDF" / "PDF of the table, scorers, assists, scores" | `report.mjs [--week N]`: A4 PDF `weeks/week-NN/week-NN-standings.pdf`: table, full scorer and assist lists, then every score with scorers and assists. Make it every week with the results. |
+| "Weekly overview PDF" / "PDF of the table, scorers, assists, scores" | `report.mjs [--week N]`: A4 PDF `weeks/week-NN/week-NN-standings.pdf`: table, then the full scorer and assist lists on their own page, then that week's scores with scorers and assists (earlier weeks are left off). Make it every week with the results. |
 
 ## Rules
 
