@@ -170,6 +170,10 @@ available. Mention anything you assumed (e.g. "no assists given for the 2nd goal
   shapes, a very faint field of tiny Darul Uloom logos behind everything) comes from the user's dashboard and logo. Keep new graphics in it. Colours live in
   `league.json → brand`.
 - Commit outputs every week; this repo is the archive.
+- Motion (user's instruction, Week 2): every video must move like the Week 1 recap. Numbers **roll**
+  like a scoreboard (`roller()` slides a column of digits), table rows glide and cross over, cards
+  slide in. Don't swap these for crossfades or "calm" variants: the user rejected that as not smooth.
+  Both the HD and the WhatsApp version render at 60fps.
 - Talking points (user's instruction, from Week 2 on): show only **the gameweek's top
   scorer**, the player with the most goals that week. Never call it a "hat-trick" when the
   goals came across different matches: a hat-trick means 3+ goals in **one** match.
