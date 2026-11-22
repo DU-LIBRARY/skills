@@ -71,6 +71,7 @@ td svg { width: 4.4vw; vertical-align: middle; margin-right: 1.4vw; }
 .goals .as { color: #a89d8c; }
 .goals .as b { color: var(--crimson-lt); font-weight: 700; margin-left: .6vw; }
 .goals .og { color: #a89d8c; }
+.goals .pm { color: #a89d8c; font-style: italic; }
 
 .lists { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 3vw; align-items: start; }
 .lists > section { min-width: 0; }
@@ -180,7 +181,7 @@ window.init = (R) => {
       const score = el('div', 'score num'); score.append(String(m.home_goals), el('em', null, '–'), String(m.away_goals));
       mr.append(side(m.home, 'home'), score, side(m.away, 'away'));
       c.append(mr);
-      if (m.goals.length) {
+      if (m.goals.length || m.pen_missed?.length) {
         const g = el('div', 'goals');
         for (const t of [m.home, m.away]) {
           const col = el('div', `gside ${t === m.home ? 'home' : 'away'}`);
@@ -190,6 +191,7 @@ window.init = (R) => {
             if (x.assist) { a.append(short(x.assist)); a.append(el('b', null, '(A)')); }
             col.append(el('span', null, short(x.scorer)), a);
           }
+          for (const x of (m.pen_missed || []).filter((y) => y.team === t)) col.append(el('span', 'pm', short(x.player)), el('span', 'pm', 'Penalty missed'));
           g.append(col);
         }
         c.append(g);

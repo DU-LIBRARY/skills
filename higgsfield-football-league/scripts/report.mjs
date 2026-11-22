@@ -25,9 +25,18 @@ const allMatches = L.matches.filter((m) => Number(m.week) <= week);
 // in fixture order (round 1 pitch 1, round 1 pitch 2, round 2 …); a match not in the fixtures goes last
 const slots = weekFixtures(L, week).flatMap((r) => r.games.map((g) => [...g.teams].sort().join('|')));
 const slotOf = (m) => { const i = slots.indexOf([m.home, m.away].sort().join('|')); return i < 0 ? 99 : i; };
+// missed penalties come from the fantasy match sheets (data/appearances.json, keyed w<week>-<SHORT>-<SHORT>)
+const sheets = (() => { try { return JSON.parse(fs.readFileSync(path.join(root, 'data', 'appearances.json'), 'utf8')); } catch { return []; } })();
+const shortOf = (t) => (L.config.teams.find((x) => x.name === t) || {}).short || t;
+const teamOfPlayer = (n, m) => (L.squads.filter((r) => r.player === n && (r.from_week ?? 0) <= m.week)[0] || L.squads.find((r) => r.player === n) || {}).team;
+const penMissed = (m) => {
+  const key = `w${m.week}-${[shortOf(m.home), shortOf(m.away)].sort().join('-')}`;
+  const sh = sheets.find((x) => x && x.key === key);
+  return Object.entries(sh?.penMissed || {}).flatMap(([n, k]) => Array(Number(k) || 0).fill({ player: n, team: teamOfPlayer(n, m) }));
+};
 const matches = allMatches.filter((m) => Number(m.week) === week)
   .sort((a, b) => slotOf(a) - slotOf(b) || String(a.date).localeCompare(String(b.date)) || a.match - b.match)
-  .map((m) => ({ ...m, goals: L.goals.filter((g) => g.match === m.match) }));
+  .map((m) => ({ ...m, goals: L.goals.filter((g) => g.match === m.match), pen_missed: penMissed(m) }));
 
 const data = { league: L.config.name, title_lines: L.config.title_lines, teams: L.config.teams, brand: L.config.brand, logo: logoDataURL(L),
   week, first_week: snap.first_week, table: snap.table, scorers: snap.scorers, assists: snap.assists, assists_recorded: snap.stats.assists_recorded,
