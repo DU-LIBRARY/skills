@@ -7,9 +7,9 @@ const easeOut = (p) => 1 - Math.pow(1 - p, 3);
 // quintic ease-in-out: zero velocity AND acceleration at both ends, so motion never jerks
 const smooth = (p) => { p = clamp(p); return p * p * p * (p * (p * 6 - 15) + 10); };
 const expoOut = (p) => (p >= 1 ? 1 : 1 - Math.pow(2, -10 * p));
-// gentle settle with a little overshoot, for things arriving on screen
-const settle = (p) => { p = clamp(p); return p >= 1 ? 1 : 1 - Math.exp(-6.5 * p) * Math.cos(5.2 * p); };
-const back = (p) => { const c = 1.4, d = c + 1; return 1 + d * Math.pow(p - 1, 3) + c * Math.pow(p - 1, 2); };
+// things arriving on screen ease in and stop: no overshoot or bounce (it read as bopping)
+const settle = (p) => { p = clamp(p); return 1 - Math.pow(1 - p, 4); };
+const back = settle;
 const prog = (t, start, dur) => clamp((t - start) / dur);
 const disp = (x) => String(x).replace(/ʾ/g, '’').replace(/ʿ/g, '‘');
 // Arabic without harakat: the vowel marks collide with neighbouring lines at display sizes
@@ -20,20 +20,24 @@ let uid = 0;
 // Make crossings readable: risers lift over the top, fallers sink back and fade a touch.
 // Returns the parts so callers can fold them into one transform.
 function overtake(rise, p) {
+  // rows move straight up or down only: no sideways shift or scaling, so text stays steady.
+  // The riser passes over the top; the faller dims a little so the two never read on top of each other.
   const k = Math.sin(Math.PI * clamp(p));
-  if (rise > 0) return { x: -1.2 * k, s: 1 + .04 * k, o: 1, z: 30 + rise, shadow: `0 ${2 * k}vw ${4 * k}vw rgba(23,20,18,${(.3 * k).toFixed(3)})` };
-  if (rise < 0) return { x: 1.6 * k, s: 1 - .05 * k, o: 1 - .4 * k, z: 10, shadow: 'none' };
+  if (rise > 0) return { x: 0, s: 1, o: 1, z: 30 + rise, shadow: `0 ${(1.2 * k).toFixed(3)}vw ${(2.4 * k).toFixed(3)}vw rgba(23,20,18,${(.18 * k).toFixed(3)})` };
+  if (rise < 0) return { x: 0, s: 1, o: 1 - .4 * k, z: 10, shadow: 'none' };
   return { x: 0, s: 1, o: 1, z: 20, shadow: 'none' };
 }
 
 // A rolling number, like a stadium scoreboard: a column of digits slides, so a
 // count from 1 to 4 moves continuously instead of stepping.
 function roller(from, to, cls = '') {
+  // A changing number: each value sits in the same spot and the next one fades in over it,
+  // so counts change without anything moving up or down.
   const lo = Math.min(from, to), hi = Math.max(from, to);
-  const box = el('span', `roller ${cls}`), col = el('span', 'roller-col');
-  for (let v = lo; v <= hi; v++) col.append(el('span', null, String(v)));
+  const box = el('span', `roller ${cls}`), col = el('span', 'roller-col'), digits = [];
+  for (let v = lo; v <= hi; v++) { const d = el('span', null, String(v)); digits.push(d); col.append(d); }
   box.append(col);
-  return { node: box, set(v) { col.style.transform = `translate3d(0, ${-(clamp(v, lo, hi) - lo)}em, 0)`; } };
+  return { node: box, set(v) { v = clamp(v, lo, hi); digits.forEach((d, i) => { d.style.opacity = clamp(1 - Math.abs(v - (lo + i))).toFixed(3); }); } };
 }
 
 // The four crest shapes from the dashboard's team sheets.

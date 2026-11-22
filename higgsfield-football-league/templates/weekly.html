@@ -105,6 +105,10 @@
 .tp-card .k { color: var(--crimson); font-weight: 700; text-transform: uppercase; letter-spacing: .3vw; font-size: 3.2vw; }
 .tp-card .v { font-weight: 800; font-size: 6.6vw; line-height: 1.05; }
 .tp-card .s { color: var(--ink2); font-size: 3.6vw; margin-top: .4vw; }
+.tp-card .htl { display: grid; grid-template-columns: max-content max-content; column-gap: 3vw; row-gap: .4vw; margin-top: .6vw; align-items: baseline; }
+.tp-card .ht { display: contents; }
+.tp-card .ht b { font-weight: 800; font-size: 4.6vw; line-height: 1.1; }
+.tp-card .ht span { color: var(--ink2); font-size: 3.4vw; }
 
 /* outro */
 .outro .line1 { text-align: center; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2vw; font-size: 7vw; color: var(--crimson); line-height: 1.05; }
@@ -162,8 +166,9 @@ function fitOf(s) {
 window.renderAt = (t) => {
   // the logo field drifts slowly up and to the left, so the frame is never fully static
   // calm (--whatsapp): a still background, so messaging apps' re-encoding spends its bits on the text
-  if (wm && !D.calm) wm.style.transform = tf(-((t * .9) % (LOGO_TILE * 2)), -((t * 1.5) % (LOGO_TILE * 2)));
-  if (!D.calm) glow.style.transform = tf(Math.sin(t * .35) * 8, Math.cos(t * .27) * 5);
+  // the logo field and glow stay still: slow drift shimmered on the fine logo pattern
+  if (wm && D.drift) wm.style.transform = tf(-((t * .9) % (LOGO_TILE * 2)), -((t * 1.5) % (LOGO_TILE * 2)));
+  if (D.drift) glow.style.transform = tf(Math.sin(t * .35) * 8, Math.cos(t * .27) * 5);
   bar.style.transform = `scaleX(${clamp(t / TOTAL).toFixed(5)})`;
   for (const s of SCENES) {
     const lt = t - s.start, on = lt >= 0 && lt < s.dur;
@@ -185,7 +190,8 @@ window.renderAt = (t) => {
       const pin = first ? 1 : smooth((qin - .35) / .65), mvin = first ? 1 : smooth(qin);
       const pout = last ? 0 : smooth(qout / .6), mvout = last ? 0 : smooth(qout);
       s.node.style.opacity = (pin * (1 - pout)).toFixed(4);
-      s.node.style.transform = tf(0, (1 - mvin) * 8 - mvout * 7, s.fit * (1 - mvout * .03 + (1 - mvin) * .02));
+      // a plain crossfade: scenes don't slide up or down
+      s.node.style.transform = tf(0, 0, s.fit); void mvin; void mvout;
     }
     s.draw(lt);
   }
@@ -282,7 +288,7 @@ function buildResultsScreen(results, id, round) {
       x.c.style.transform = tf((1 - expoOut(p)) * 34 * x.dir, 0, 1);
       const q = smooth((t - x.at - .45) / 1.1);
       x.hg.set(q * x.m.home_goals); x.ag.set(q * x.m.away_goals);
-      x.gl.forEach((g, j) => { const r = clamp((t - x.at - .9 - j * .12) / .6); g.style.opacity = smooth(r).toFixed(3); g.style.transform = tf(0, (1 - expoOut(r)) * 2); });
+      x.gl.forEach((g, j) => { const r = clamp((t - x.at - .9 - j * .12) / .6); g.style.opacity = smooth(r).toFixed(3); });
     }
   } };
 }
@@ -468,7 +474,14 @@ function buildTalkingPoints() {
   // season golden boot, only when it isn't already the week's top scorer
   if (H.top_scorer && !wk.some((s) => s.player === H.top_scorer.player)) card('Golden boot', H.top_scorer.player, `${H.top_scorer.goals} goal${H.top_scorer.goals === 1 ? '' : 's'} · ${H.top_scorer.team}`, H.top_scorer.team);
   // hat-tricks: 3+ goals in a single match only
-  for (const h of H.hat_tricks) card('Hat-trick', h.player, `${h.goals} goals v ${h.opponent}`, h.team);
+  // one hat-trick gets its own card; several share one card so they don't push the other points off
+  const hts = [...H.hat_tricks].sort((a, b) => b.goals - a.goals);
+  if (hts.length === 1) card('Hat-trick', hts[0].player, `${hts[0].goals} goals v ${hts[0].opponent}`, hts[0].team);
+  else if (hts.length > 1) {
+    const c = el('div', 'tp-card'), d = el('div'), list = el('div', 'htl');
+    for (const h of hts) { const r = el('div', 'ht'); r.append(el('b', null, h.player), el('span', null, `${h.goals} v ${h.opponent}`)); list.append(r); }
+    d.append(el('div', 'k', `${hts.length} hat-tricks`), list); c.append(d); cards.push(c);
+  }
   if (H.top_assist && D.stats.assists_recorded) card('Most assists', H.top_assist.player, `${H.top_assist.assists} assist${H.top_assist.assists === 1 ? '' : 's'} · ${H.top_assist.team}`, H.top_assist.team);
   if (H.biggest_win) { const w = H.biggest_win, winner = w.home_goals > w.away_goals ? w.home : w.away; card('Biggest win', `${w.home} ${w.home_goals}–${w.away_goals} ${w.away}`, `${winner} by ${w.margin}`, winner); }
   const shown = cards.slice(0, 5);
@@ -488,9 +501,9 @@ function buildOutro() {
   const subs = [el('div', 'sub', `${D.stats.matches_played} matches · ${D.stats.total_goals} goals so far`), el('div', 'sub', 'See you next matchweek')];
   n.append(...[crests, l1?.node, l2.node, starRule(), ...subs].filter(Boolean));
   return { id: 'outro', node: n, dur: 3.8, still: 2.6, draw(t) {
-    cs.forEach((c, i) => { const p = clamp((t - .15 - i * .12) / .9); c.style.opacity = smooth(p * 1.6).toFixed(3); c.style.transform = tf(0, (1 - settle(p)) * 7); });
-    if (l1) l1.inner.style.transform = tf(0, (1 - expoOut(clamp((t - .5) / .9))) * 10);
-    l2.inner.style.transform = tf(0, (1 - expoOut(clamp((t - .62) / 1))) * 16);
+    cs.forEach((c, i) => { const p = clamp((t - .15 - i * .12) / .9); c.style.opacity = smooth(p * 1.6).toFixed(3); });
+    if (l1) l1.inner.style.opacity = smooth((t - .5) / .8).toFixed(3);
+    l2.inner.style.opacity = smooth((t - .62) / .8).toFixed(3);
     subs.forEach((s, i) => { s.style.opacity = smooth((t - 1.1 - i * .2) / .7).toFixed(3); });
   } };
 }
