@@ -6,7 +6,7 @@
 import path from 'node:path';
 import fs from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { loadLeague, weeksOf, snapshot, weekDir, pad2, launchChromium, logoDataURL } from './lib.mjs';
+import { loadLeague, weeksOf, snapshot, weekDir, pad2, launchChromium, logoDataURL, weekFixtures } from './lib.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const argv = process.argv.slice(2);
@@ -22,8 +22,11 @@ const snap = snapshot(L, week);
 
 // season totals count every match so far; the scores pages show only this week's matches
 const allMatches = L.matches.filter((m) => Number(m.week) <= week);
+// in fixture order (round 1 pitch 1, round 1 pitch 2, round 2 …); a match not in the fixtures goes last
+const slots = weekFixtures(L, week).flatMap((r) => r.games.map((g) => [...g.teams].sort().join('|')));
+const slotOf = (m) => { const i = slots.indexOf([m.home, m.away].sort().join('|')); return i < 0 ? 99 : i; };
 const matches = allMatches.filter((m) => Number(m.week) === week)
-  .sort((a, b) => Number(a.week) - Number(b.week) || String(a.date).localeCompare(String(b.date)) || a.match - b.match)
+  .sort((a, b) => slotOf(a) - slotOf(b) || String(a.date).localeCompare(String(b.date)) || a.match - b.match)
   .map((m) => ({ ...m, goals: L.goals.filter((g) => g.match === m.match) }));
 
 const data = { league: L.config.name, title_lines: L.config.title_lines, teams: L.config.teams, brand: L.config.brand, logo: logoDataURL(L),
