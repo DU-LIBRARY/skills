@@ -10,7 +10,7 @@
   font-weight: 700; letter-spacing: .3vw; text-transform: uppercase; font-size: 3.4vw; flex: none; }
 .band b { color: var(--crimson-lt); font-weight: 800; }
 .body { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 4vw 6vw; min-height: 0; }
-.foot { flex: none; text-align: center; padding: 0 0 4vw; color: var(--crimson); font-size: 4.6vw; }
+.foot { flex: none; text-align: center; padding: 3.4vw 0 0; color: var(--crimson); font-size: 4.6vw; line-height: 1.6; }
 
 /* full time */
 .ft-big { text-align: center; font-weight: 800; font-size: min(20vw, 11vh); line-height: .9; letter-spacing: .4vw; text-transform: uppercase; }
@@ -62,8 +62,8 @@ window.init = (G) => {
   const f = el('div', 'frame'), band = el('div', 'band'), body = el('div', 'body');
   const right = el('span'); if (G.week) { right.append('Matchweek '); right.append(el('b', null, String(G.week))); } else right.append(G.band_right || '');
   band.append(el('span', null, G.league), right);
-  f.append(band, body);
-  if (G.brand?.bismillah && G.type !== 'fulltime') f.append(el('div', 'foot ar', G.brand.bismillah));
+  // the bismillah opens every graphic (under the top band), not at the foot (user's instruction, Week 2)
+  f.append(...[band, G.brand?.bismillah && G.type !== 'fulltime' ? el('div', 'foot ar', G.brand.bismillah) : null, body].filter(Boolean));
   stage.replaceChildren(...[logoField(G.logo, G.brand?.watermark_opacity ?? .07), f].filter(Boolean));
 
   const BUILD = {

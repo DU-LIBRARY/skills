@@ -170,6 +170,10 @@ available. Mention anything you assumed (e.g. "no assists given for the 2nd goal
   shapes, a very faint field of tiny Darul Uloom logos behind everything) comes from the user's dashboard and logo. Keep new graphics in it. Colours live in
   `league.json → brand`.
 - Commit outputs every week; this repo is the archive.
+- **Final template (user's sign-off, Week 2):** the Week 2 video is the house template. Keep its look,
+  layout and motion for every week: bismillah at the top of the cover, results by fixture round with
+  assists on their own line, hat-tricks on one card. By default render and send only the WhatsApp
+  version (`render.mjs --whatsapp`, 60fps), unless the user asks for HD.
 - Motion (user's instruction, Week 2): every video must move like the Week 1 recap. Numbers **roll**
   like a scoreboard (`roller()` slides a column of digits), table rows glide and cross over, cards
   slide in. Don't swap these for crossfades or "calm" variants: the user rejected that as not smooth.
