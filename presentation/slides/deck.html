@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mawlānā Madanī’s ten applications, and Britain today</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Source Serif 4 carries all transliterated text (it has ḥ, ṣ, ẓ, ʿ, ʾ).
+     DM Sans and IBM Plex Mono lack those glyphs: use them for plain-ASCII labels only. -->
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&family=DM+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* === FIXED 16:9 STAGE: MANDATORY BASE STYLES (viewport-base.css) === */
+html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: var(--stage-bg, #000); }
+.deck-viewport { position: fixed; inset: 0; overflow: hidden; background: var(--stage-bg, #000); }
+.deck-stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; transform-origin: 0 0; background: var(--slide-bg, #fff); }
+.slide { position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: hidden; display: block; visibility: hidden; opacity: 0; pointer-events: none; background: var(--slide-bg, #fff); }
+.slide.active, .slide.visible { visibility: visible; opacity: 1; pointer-events: auto; z-index: 1; }
+img, video, canvas, svg { max-width: 100%; max-height: 100%; }
+.deck-controls { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); z-index: 1000; }
+@media print {
+  html, body { width: 1920px; height: auto; overflow: visible; background: #fff; }
+  .deck-viewport { position: static; overflow: visible; background: #fff; }
+  .deck-stage { position: static; width: auto; height: auto; transform: none !important; background: none; }
+  .slide { position: relative; display: block !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; width: 1920px; height: 1080px; break-after: page; page-break-after: always; }
+  .slide:last-child { break-after: auto; page-break-after: auto; }
+  .deck-controls { display: none !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; }
+}
+
+/* === THEME TOKENS (Signal: navy, cream, one antique-gold accent) === */
+:root {
+  --navy: #1C2644;
+  --navy-alt: #232F55;
+  --cream: #F0ECE3;
+  --text-warm: #E2DCD0;
+  --muted: #8A96A8;
+  --hint: #4E5A6E;
+  --gold: #C8A870;
+  --border-dark: rgba(226, 220, 208, 0.14);
+  --stage-bg: #11182c;
+  --slide-bg: var(--navy);
+  --serif: "Source Serif 4", Georgia, serif;
+  --sans: "DM Sans", sans-serif;
+  --mono: "IBM Plex Mono", monospace;
+}
+
+/* === DARK SURFACE: faint 80px grid fingerprint === */
+.slide.dark {
+  background-color: var(--navy);
+  background-image:
+    linear-gradient(rgba(226,220,208,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(226,220,208,0.035) 1px, transparent 1px);
+  background-size: 80px 80px;
+  color: var(--text-warm);
+}
+
+/* === CHROME: top and bottom rows, plain-ASCII mono labels only === */
+.chrome {
+  position: absolute; left: 160px; right: 160px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--mono); font-size: 20px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted);
+}
+.chrome.top { top: 80px; padding-bottom: 28px; border-bottom: 1px solid var(--border-dark); }
+.chrome.bottom { bottom: 80px; padding-top: 28px; border-top: 1px solid var(--border-dark); }
+.chrome .num { color: var(--gold); }
+.chrome .name { font-family: var(--serif); font-size: 24px; letter-spacing: 0.01em; text-transform: none; color: var(--text-warm); }
+.chrome .name i { color: var(--muted); }
+
+/* === TITLE SLIDE === */
+.title-block { position: absolute; left: 160px; right: 160px; top: 270px; }
+.kicker {
+  font-family: var(--mono); font-size: 22px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--gold);
+  display: flex; align-items: center; gap: 24px; margin-bottom: 44px;
+}
+.kicker::before { content: ""; width: 72px; height: 1px; background: var(--gold); }
+h1 {
+  font-family: var(--serif); font-weight: 400; font-optical-sizing: auto;
+  font-size: 112px; line-height: 1.08; letter-spacing: -0.015em;
+  color: var(--cream); margin: 0; white-space: nowrap;
+}
+h1 em { font-style: italic; color: var(--gold); }
+
+/* Agenda row: the two halves of the talk plus the source, all in serif */
+.agenda {
+  position: absolute; left: 160px; right: 160px; bottom: 200px;
+  display: grid; grid-template-columns: 1.25fr 1fr 1fr; gap: 64px;
+}
+.agenda div { border-top: 1px solid var(--gold); padding-top: 26px; }
+.agenda .label {
+  display: block; font-family: var(--mono); font-size: 18px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 14px;
+}
+.agenda p { font-family: var(--serif); font-size: 32px; line-height: 1.3; margin: 0; color: var(--text-warm); }
+.agenda p i { color: var(--cream); }
+
+/* === ENTRANCE: one staggered reveal on load === */
+.reveal { opacity: 0; transform: translateY(22px); }
+.slide.active .reveal { animation: rise 0.9s cubic-bezier(.2,.7,.2,1) forwards; }
+.slide.active .reveal.d1 { animation-delay: 0.10s; }
+.slide.active .reveal.d2 { animation-delay: 0.28s; }
+.slide.active .reveal.d3 { animation-delay: 0.55s; }
+.slide.active .reveal.d4 { animation-delay: 0.75s; }
+@keyframes rise { to { opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+<div class="deck-viewport">
+  <div class="deck-stage" id="stage">
+
+    <!-- === SLIDE 1: TITLE === -->
+    <section class="slide dark active" data-notes="Opening: introduce the letter and the two halves of the talk.">
+      <div class="chrome top reveal d1"><span>Composite nationalism</span><span>India and Britain</span></div>
+
+      <div class="title-block">
+        <div class="kicker reveal d1">Ten applications, two contexts</div>
+        <h1 class="reveal d2">Mawlānā Madanī’s ten applications,<br><em>and Britain today</em></h1>
+      </div>
+
+      <div class="agenda reveal d3">
+        <div><span class="label">The source</span><p>His letter to Ḥāfiẓ Muḥammad Ṣiddīq, printed in <i>Naqsh-e-Hayat</i></p></div>
+        <div><span class="label">Part one</span><p>How he applied it to India</p></div>
+        <div><span class="label">Part two</span><p>What this looks like in Britain today</p></div>
+      </div>
+
+      <div class="chrome bottom reveal d4"><span class="name">Mawlānā Ḥusayn Aḥmad Madanī <i>raḥimahullāh</i></span><span class="num">01</span></div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+/* === STAGE SCALING: fit the 1920x1080 stage to the window, letterboxed === */
+(function () {
+  const stage = document.getElementById('stage');
+  function fit() {
+    const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    const x = (window.innerWidth - 1920 * s) / 2, y = (window.innerHeight - 1080 * s) / 2;
+    stage.style.transform = `translate(${x}px, ${y}px) scale(${s})`;
+  }
+  window.addEventListener('resize', fit); fit();
+})();
+</script>
+</body>
+</html>
