@@ -1,0 +1,139 @@
+/* ==== Palette: letterpress on cream paper ==== */
+:root {
+  --paper: #EDE3CC;
+  --ink: #221C15;
+  --ink-soft: #3A3027;
+  --mute: #6B5A48;
+  --red: #8E2A1B;
+  --charter: #E4D6B8;
+  --night: #1B1611;
+}
+
+body { font-family: 'EB Garamond', 'Amiri', Georgia, serif; color: var(--ink); }
+
+section { background: var(--paper); color: var(--ink); padding: 128px; counter-increment: page; }
+section.red { background: var(--paper); }
+section.ink { background: var(--paper); }
+
+/* ==== Page furniture shared by every slide ==== */
+.grain { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; opacity: 0.3; }
+.frame-o { position: absolute; left: 56px; top: 56px; width: 1808px; height: 968px; box-sizing: border-box; border: 5px solid var(--ink); }
+.frame-i { position: absolute; left: 70px; top: 70px; width: 1780px; height: 940px; box-sizing: border-box; border: 2px solid var(--ink); }
+.corner { position: absolute; width: 34px; height: 34px; }
+.c1 { left: 41px; top: 41px; }
+.c2 { left: 1845px; top: 41px; }
+.c3 { left: 41px; top: 1005px; }
+.c4 { left: 1845px; top: 1005px; }
+
+.rh { position: absolute; left: 150px; top: 100px; width: 1620px; display: flex; justify-content: space-between; }
+.rh-l, .rh-r { font-size: 24px; letter-spacing: 4px; margin: 0; }
+.rh-l { color: var(--red); }
+.rh-r { color: var(--mute); }
+.folio { position: absolute; left: 860px; top: 950px; width: 200px; display: flex; justify-content: center; align-items: center; gap: 16px; }
+.num { font-size: 26px; color: var(--mute); }
+.num::after { content: counter(page); }
+
+/* ==== Shared type ==== */
+h2 { font-size: 76px; font-weight: 500; line-height: 1.08; margin: 0; color: var(--ink); }
+h2 i { color: var(--red); }
+h3 { font-size: 40px; font-weight: 500; margin: 0; }
+.kick { font-size: 24px; letter-spacing: 4px; color: var(--red); margin: 0 0 16px; }
+.body { font-size: 34px; line-height: 1.45; color: var(--ink-soft); margin: 0 0 20px; }
+.ar { font-family: 'Amiri', serif; direction: rtl; text-align: right; }
+.hl { color: var(--red); }
+.tr { font-size: 28px; font-style: italic; line-height: 1.4; margin: 8px 0 0; }
+.tr b { color: var(--red); font-weight: 600; }
+.ref { font-size: 24px; letter-spacing: 3px; color: var(--mute); margin: 10px 0 0; }
+.top { position: absolute; left: 150px; top: 165px; width: 1620px; }
+.top.center { text-align: center; }
+
+/* ==== Cover ==== */
+.c-bism { position: absolute; left: 160px; top: 110px; width: 1600px; text-align: center; font-size: 50px; margin: 0; }
+.c-urdu { position: absolute; left: 160px; top: 190px; width: 1600px; text-align: center; direction: rtl; font-family: 'Noto Nastaliq Urdu', 'Amiri', serif; font-weight: 700; font-size: 150px; line-height: 1.9; color: var(--red); margin: 0; }
+.c-orn { position: absolute; left: 660px; top: 585px; width: 600px; display: flex; justify-content: center; align-items: center; gap: 22px; }
+.c-rule { width: 240px; height: 6px; border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
+.c-en { position: absolute; left: 160px; top: 625px; width: 1600px; text-align: center; font-family: 'IM Fell English', 'EB Garamond', serif; font-size: 96px; line-height: 1.1; margin: 0; }
+.c-sub { position: absolute; left: 330px; top: 770px; width: 1260px; text-align: center; font-size: 33px; font-style: italic; line-height: 1.4; margin: 0; }
+.c-foot { position: absolute; left: 160px; top: 905px; width: 1600px; text-align: center; font-size: 24px; letter-spacing: 5px; margin: 0; }
+
+/* ==== Slide: why not "nationalism" (red half-panel) ==== */
+.half { position: absolute; left: 84px; top: 84px; width: 810px; height: 912px; background: var(--red); }
+.half-in { position: absolute; left: 160px; top: 270px; width: 664px; }
+.q-verse { font-size: 68px; line-height: 2; color: var(--paper); margin: 0; }
+.q-verse .hl { color: var(--ink); }
+.tr-light { font-size: 32px; font-style: italic; line-height: 1.4; color: var(--paper); margin: 10px 0 0; }
+.tr-light b { color: var(--ink); font-weight: 600; }
+.ref-light { font-size: 24px; letter-spacing: 3px; color: #E6C9BE; margin: 18px 0 0; }
+.s1-r { position: absolute; left: 1010px; top: 290px; width: 760px; }
+.s1-r h2 { margin: 0 0 40px; }
+
+/* ==== Slide: dictionaries ==== */
+.srcs { font-size: 30px; font-style: italic; color: var(--ink-soft); margin: 14px 0 0; }
+.hero-word { position: absolute; left: 150px; top: 365px; width: 520px; text-align: center; font-family: 'Amiri', serif; font-weight: 700; font-size: 250px; line-height: 1.6; color: var(--red); margin: 0; }
+.meanings { position: absolute; left: 760px; top: 395px; width: 1010px; }
+.mrow { display: flex; align-items: center; gap: 34px; padding: 8px 0; border-bottom: 2px solid #B9AB90; }
+.mnum { font-family: 'Amiri', serif; font-weight: 700; font-size: 54px; color: var(--red); width: 44px; text-align: center; margin: 0; }
+.mtxt { font-size: 40px; margin: 0; }
+.verdict { position: absolute; left: 150px; top: 790px; width: 1620px; box-sizing: border-box; padding: 24px 0; text-align: center; border-top: 4px solid var(--ink); border-bottom: 4px solid var(--ink); font-size: 40px; font-weight: 500; margin: 0; }
+
+/* ==== Slide: three verses ==== */
+.trio { position: absolute; left: 150px; top: 380px; width: 1620px; display: grid; grid-template-columns: 1fr 1fr 1fr; }
+.cell { padding: 0 30px; text-align: center; border-left: 2px solid #B9AB90; }
+.cell.first { border-left: none; }
+.who { font-size: 24px; letter-spacing: 4px; color: var(--red); margin: 0; }
+.cell-ar { font-size: 58px; line-height: 2; text-align: center; margin: 6px 0 0; }
+.band { position: absolute; left: 84px; top: 735px; width: 1752px; height: 170px; background: var(--red); display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 12px; }
+.band-q { font-size: 40px; font-style: italic; color: var(--paper); margin: 0; }
+.band-ws { display: flex; align-items: center; gap: 30px; }
+.band-ws p { font-size: 46px; font-weight: 500; color: var(--paper); margin: 0; }
+
+/* ==== Slide: four degrees ==== */
+.arcs { position: absolute; left: 110px; top: 565px; width: 770px; height: 431px; }
+.arc-l { position: absolute; left: 345px; width: 300px; text-align: center; font-family: 'Amiri', serif; font-size: 38px; line-height: 1.5; margin: 0; color: var(--ink); }
+.arc-l.inner { color: var(--paper); font-size: 42px; }
+.legend { position: absolute; left: 1010px; top: 250px; width: 760px; }
+.lrow { padding: 14px 0 16px; border-top: 2px solid #B9AB90; }
+.ltl { font-size: 38px; font-weight: 500; margin: 0; }
+.ltx { font-size: 28px; line-height: 1.3; color: var(--ink-soft); margin: 6px 0 0; }
+.ltx b { color: var(--ink); font-weight: 600; }
+.lrow.kept .ltl, .lrow.kept .ltx b { color: var(--red); }
+
+/* ==== Ink plate: Jawhar ==== */
+.plate { position: absolute; left: 84px; top: 84px; width: 1752px; height: 912px; }
+section.ink .plate { background: var(--night); }
+section.red .plate { background: var(--red); }
+section.ink .rh-l, section.ink .rh-r, section.ink .num { color: #B5A68E; }
+section.red .rh-l, section.red .rh-r, section.red .num { color: #E6C9BE; }
+.s6 { position: absolute; left: 180px; top: 300px; width: 1560px; }
+.s6-lead { font-size: 32px; font-style: italic; color: #CDBFA6; margin: 0 0 60px; }
+.twin { display: grid; grid-template-columns: 1fr 1fr; gap: 110px; }
+.when { font-size: 24px; letter-spacing: 4px; color: #E07A5F; margin: 0 0 26px; }
+.quote { font-size: 68px; line-height: 1.16; color: var(--paper); margin: 0; }
+.attr { font-size: 32px; font-style: italic; color: #CDBFA6; margin: 70px 0 0; }
+
+/* ==== Slide: Constitution of Madinah ==== */
+.s7l { position: absolute; left: 150px; top: 200px; width: 540px; }
+.s7l h2 { font-size: 84px; margin: 0 0 30px; }
+.charter { position: absolute; left: 760px; top: 150px; width: 1010px; height: 780px; box-sizing: border-box; background: var(--charter); border: 4px solid var(--ink); padding: 40px 60px; display: flex; flex-direction: column; justify-content: space-evenly; }
+.art { border-top: 2px solid #B9AB90; padding-top: 6px; }
+.art.first { border-top: none; }
+.artno { font-size: 24px; letter-spacing: 4px; color: var(--red); margin: 0; }
+.art-ar { font-size: 52px; line-height: 1.8; margin: 0; }
+.art .tr { font-size: 26px; margin: 0; }
+
+/* ==== Red plate: summary ==== */
+.s8 { position: absolute; left: 180px; top: 200px; width: 1560px; }
+.kick-light { font-size: 24px; letter-spacing: 4px; color: #E6C9BE; margin: 0 0 16px; }
+.s8 h2 { font-size: 84px; color: var(--paper); margin: 0 0 64px; }
+.s8 h2 i { color: var(--ink); }
+.srow { display: grid; grid-template-columns: 200px 260px 1fr; align-items: center; padding: 20px 0; border-top: 2px solid #C47C6E; }
+.s-ar { font-size: 54px; line-height: 1.4; color: var(--paper); padding-right: 50px; margin: 0; }
+.srow h3 { color: var(--paper); }
+.s-tx { font-size: 34px; line-height: 1.35; color: var(--paper); margin: 0; }
+
+/* ==== Motion: staged arrival (plain rules are the finished look) ==== */
+.d1, .d2, .d3, .d4 { animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.d2 { animation-delay: 0.15s; }
+.d3 { animation-delay: 0.3s; }
+.d4 { animation-delay: 0.45s; }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0px); } }

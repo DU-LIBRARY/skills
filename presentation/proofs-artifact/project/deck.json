@@ -1,0 +1,55 @@
+{
+ "v": 5,
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-11-23T16:48:18Z"
+ },
+ "lists": "css",
+ "format": {
+  "v": 1,
+  "shared": [
+   "project/deck.css"
+  ]
+ },
+ "title": "Composite Nationalism and Islam — The Proofs",
+ "cover": "cover",
+ "order": [
+  "cover",
+  "qawm",
+  "lughah",
+  "quran",
+  "degrees",
+  "jawhar",
+  "madinah",
+  "summary"
+ ],
+ "sections": {
+  "s1": {
+   "description": "Cover.",
+   "start": "cover"
+  },
+  "s2": {
+   "description": "The Islamic proofs for muttaḥidah qawmiyyat: language, Qur’an and Sunnah.",
+   "start": "qawm"
+  }
+ },
+ "faces": {
+  "eb-garamond": {
+   "family": "EB Garamond",
+   "href": "https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
+  },
+  "amiri": {
+   "family": "Amiri",
+   "href": "https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap"
+  },
+  "noto-nastaliq-urdu": {
+   "family": "Noto Nastaliq Urdu",
+   "href": "https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@700&display=swap"
+  },
+  "im-fell-english": {
+   "family": "IM Fell English",
+   "href": "https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap"
+  }
+ },
+ "designSystems": []
+}
