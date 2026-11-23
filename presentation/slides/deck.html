@@ -1,5 +1,7 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Composite Nationalism and Islam</title><link href="https://fonts.googleapis.com/css2?family=Amiri&family=Noto+Nastaliq+Urdu:wght@700&family=IM+Fell+English:ital@0;1&family=EB+Garamond:ital,wght@0,500;1,400&display=swap" rel="stylesheet">
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Composite Nationalism and Islam</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Amiri+Quran&family=Noto+Nastaliq+Urdu:wght@700&family=IM+Fell+English:ital@0;1&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
 <style>/* ===========================================
    FIXED 16:9 STAGE: MANDATORY BASE STYLES
    Include this ENTIRE file in every presentation.
@@ -133,8 +135,6 @@ svg {
         transition-duration: 0.2s !important;
     }
 }
-
-
 :root{--stage-bg:#d9cdb4;--slide-bg:#EDE3CC;--ink:#221c15;--red:#8E2A1B}
 .slide{background:#EDE3CC;color:var(--ink)}
 .paper{position:absolute;inset:0;opacity:.35;mix-blend-mode:multiply;pointer-events:none}
@@ -151,13 +151,313 @@ svg {
 .sub{position:absolute;top:770px;left:330px;right:330px;text-align:center;font:italic 400 33px/1.4 "EB Garamond"}
 .foot{position:absolute;bottom:112px;left:0;right:0;text-align:center;font:500 25px/1 "EB Garamond";letter-spacing:.2em;font-variant:small-caps;text-transform:lowercase}
 
-.r{opacity:0;transform:translateY(16px);animation:rise 1s cubic-bezier(.2,.7,.2,1) forwards}.r2{animation-delay:.25s}.r3{animation-delay:.5s}.r4{animation-delay:.8s}
-@keyframes rise{to{opacity:1;transform:none}}</style></head>
-<body><div class="deck-viewport"><div class="deck-stage" id="stage"><!-- === SLIDE 1: COVER (lithograph title page) === -->
-<section class="slide active" data-notes="Approx. 1 minute. Bismillah, salam, thank the MP and hosts. Introduce Mawlana Madani and muttahidah qawmiyyat. Say plainly: we present a body of thought, not a political programme; the last part is Britain today and questions."><svg class="paper" width="1920" height="1080"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .4  0 0 0 0 .3  0 0 0 0 .2  0 0 0 .55 0"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg><div class="frame"></div><div class="corner c1"><svg viewBox="-50 -50 100 100" width="40" height="40"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div><div class="corner c2"><svg viewBox="-50 -50 100 100" width="40" height="40"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div><div class="corner c3"><svg viewBox="-50 -50 100 100" width="40" height="40"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div><div class="corner c4"><svg viewBox="-50 -50 100 100" width="40" height="40"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div>
+
+/* === SHARED PAGE FURNITURE (content slides) === */
+.grain{position:absolute;inset:0;opacity:.35;mix-blend-mode:multiply;pointer-events:none;z-index:5}
+.rh{position:absolute;left:150px;right:150px;top:104px;display:flex;justify-content:space-between;font:500 23px/1 "EB Garamond";letter-spacing:.16em;font-variant:small-caps;text-transform:lowercase;color:#6b5a48;z-index:3}
+.rh span:first-child{color:var(--red)}
+.folio{position:absolute;left:0;right:0;bottom:92px;display:flex;justify-content:center;align-items:center;gap:16px;font:500 26px/1 "EB Garamond";color:#6b5a48;z-index:3}
+.folio svg{color:var(--red);--hole:#EDE3CC}
+.kick{font:500 25px/1 "EB Garamond";letter-spacing:.16em;font-variant:small-caps;text-transform:lowercase;color:var(--red)}
+h2{margin:0;font:500 78px/1.08 "EB Garamond";letter-spacing:-.01em}
+h2 i{color:var(--red)}
+.ar{direction:rtl}
+.ar.q{font-family:"Amiri Quran","Amiri",serif}
+.ar.n{font-family:"Amiri",serif}
+.hl{color:var(--red)}
+.tr{font:italic 400 30px/1.4 "EB Garamond";margin:10px 0 0}
+.tr b{font-weight:600;font-style:italic;color:var(--red)}
+.ref{font:500 22px/1 "EB Garamond";letter-spacing:.14em;font-variant:small-caps;text-transform:lowercase;color:#6b5a48;font-style:normal}
+.saw{font-family:"Amiri",serif;font-style:normal}
+/* plates: coloured panel printed inside the frame */
+.plate{position:absolute;inset:84px;z-index:0}
+.on-red .plate{background:var(--red)}
+.on-ink .plate{background:#221c15}
+.on-red,.on-ink{color:#EDE3CC}
+.on-red .rh,.on-ink .rh,.on-red .rh span:first-child,.on-ink .rh span:first-child,.on-red .folio,.on-ink .folio{color:rgba(237,227,204,.75)}
+.on-red .folio svg{color:#EDE3CC;--hole:var(--red)}
+.on-ink .folio svg{color:var(--red);--hole:#221c15}
+.on-ink .grain,.on-red .grain{opacity:.22}
+
+/* --- slide 2: split, verse on a red half-plate --- */
+.half{position:absolute;left:84px;top:84px;bottom:84px;width:810px;background:var(--red);color:#EDE3CC;z-index:0}
+.half .inner{position:absolute;left:76px;right:70px;top:250px}
+.half .ar.q{font-size:68px;line-height:2.05;color:#EDE3CC}
+.half .ar.q .hl{color:#221c15}
+.half .tr{color:#EDE3CC;font-size:32px}
+.half .tr b{color:#221c15}
+.half .ref{color:rgba(237,227,204,.75);display:block;margin-top:18px}
+.s2r{position:absolute;left:1030px;right:150px;top:300px}
+.s2r h2{margin:26px 0 40px}
+.s2r p{font:400 34px/1.45 "EB Garamond";margin:0 0 22px;color:#3a3027}
+
+/* --- slide 3: language --- */
+.s3h{position:absolute;left:150px;top:172px}
+.s3h h2{margin-top:16px}
+.srcs{margin:14px 0 0;font:italic 400 30px/1 "EB Garamond";color:#4a3d30}
+.hero-word{position:absolute;left:150px;top:350px;width:520px;text-align:center;font:700 250px/1.6 "Amiri";color:var(--red);direction:rtl}
+.meanings{position:absolute;left:760px;right:150px;top:410px;margin:0;padding:0;list-style:none}
+.meanings li{display:flex;align-items:baseline;gap:34px;padding:18px 0;border-bottom:1.5px solid rgba(34,28,21,.35);font:400 40px/1.3 "EB Garamond"}
+.meanings b{font:700 54px/1 "Amiri";color:var(--red);width:40px;text-align:center}
+.verdict{position:absolute;left:150px;right:150px;bottom:160px;padding:26px 0;text-align:center;border-top:5px double var(--ink);border-bottom:5px double var(--ink);font:500 40px/1.2 "EB Garamond"}
+
+/* --- slide 4: three verses side by side, question band --- */
+.s4h{position:absolute;left:0;right:0;top:165px;text-align:center}
+.s4h h2{margin-top:16px}
+.trio{position:absolute;left:150px;right:150px;top:380px;display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.trio > div{padding:0 34px;text-align:center;border-left:1.5px solid rgba(34,28,21,.35)}
+.trio > div:first-child{border-left:0}
+.trio .who{font:500 23px/1 "EB Garamond";letter-spacing:.16em;font-variant:small-caps;text-transform:lowercase;color:var(--red)}
+.trio .ar.q{font-size:58px;line-height:2.1;margin-top:10px}
+.trio .tr{font-size:28px}
+.trio .ref{display:block;margin-top:12px}
+.band{position:absolute;left:84px;right:84px;bottom:180px;height:170px;background:var(--red);color:#EDE3CC;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:14px}
+.band .q{font:italic 500 40px/1 "EB Garamond"}
+.band .ws{display:flex;gap:30px;align-items:center;font:500 46px/1 "EB Garamond"}
+.band svg{color:#EDE3CC;--hole:var(--red)}
+
+/* --- slide 5: four degrees as nested arcs --- */
+.s5h{position:absolute;left:150px;top:172px;width:900px}
+.s5h h2{margin-top:16px}
+.arcs{position:absolute;left:110px;bottom:84px;width:770px;height:431px}
+.legend{position:absolute;left:1090px;right:150px;top:250px}
+.legend div{padding:16px 0 18px;border-top:1.5px solid rgba(34,28,21,.35)}
+.legend .tl{font:italic 500 38px/1 "EB Garamond"}
+.legend .tl .ar{font-style:normal;font-family:"Amiri";font-size:36px;margin-left:14px;color:#6b5a48}
+.legend p{margin:8px 0 0;font:400 28px/1.3 "EB Garamond";color:#3a3027}
+.legend p b{font-weight:600;color:var(--ink)}
+.legend div:first-child .tl,.legend div:first-child p b{color:var(--red)}
+
+/* --- slide 6: ink plate quote --- */
+.s6{position:absolute;left:180px;right:180px;top:300px}
+.s6 .lead{font:italic 400 32px/1.4 "EB Garamond";color:rgba(237,227,204,.8);margin:0 0 60px}
+.s6 .twin{display:grid;grid-template-columns:1fr 1fr;gap:110px}
+.s6 .when{font:500 25px/1 "EB Garamond";letter-spacing:.16em;font-variant:small-caps;text-transform:lowercase;color:#E07A5F;margin-bottom:26px}
+.s6 blockquote{margin:0;font:400 70px/1.16 "EB Garamond";color:#EDE3CC}
+.s6 .attr{margin-top:70px;font:italic 400 32px/1 "EB Garamond";color:rgba(237,227,204,.8)}
+.s6 .attr::before{content:"";display:inline-block;width:60px;height:1.5px;background:#E07A5F;vertical-align:middle;margin-right:20px}
+
+/* --- slide 7: the document --- */
+.s7l{position:absolute;left:150px;top:200px;width:520px}
+.s7l h2{margin:18px 0 30px;font-size:84px}
+.s7l p{font:400 32px/1.45 "EB Garamond";margin:0;color:#3a3027}
+.charter{position:absolute;left:760px;right:150px;top:150px;bottom:150px;background:#E4D6B8;outline:5px double var(--ink);outline-offset:-16px;padding:46px 64px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-evenly}
+.charter .artno{font:500 23px/1 "EB Garamond";letter-spacing:.16em;font-variant:small-caps;text-transform:lowercase;color:var(--red)}
+.charter .ar.n{font-size:54px;line-height:1.8;text-align:right}
+.charter .tr{font-size:27px;margin:0}
+.charter > div + div{border-top:1.5px solid rgba(34,28,21,.3);padding-top:6px}
+
+/* --- slide 8: red plate summary --- */
+.s8{position:absolute;left:180px;right:180px;top:200px}
+.s8 .kick{color:rgba(237,227,204,.8)}
+.s8 h2{font-size:84px;margin:20px 0 70px;color:#EDE3CC}
+.s8 h2 i{color:#221c15}
+.s8 .rows > div{display:grid;grid-template-columns:200px 260px 1fr;align-items:baseline;padding:20px 0;border-top:1.5px solid rgba(237,227,204,.4)}
+.s8 .ar{font:400 54px/1 "Amiri";text-align:right;padding-right:50px}
+.s8 h3{margin:0;font:500 40px/1 "EB Garamond"}
+.s8 p{margin:0;font:400 34px/1.35 "EB Garamond"}
+/* entrance */
+.r{opacity:0;transform:translateY(14px)}
+.slide.active .r{animation:rise .9s cubic-bezier(.2,.7,.2,1) forwards}
+.slide.active .r2{animation-delay:.2s}.slide.active .r3{animation-delay:.4s}.slide.active .r4{animation-delay:.6s}.slide.active .r5{animation-delay:.8s}
+@keyframes rise{to{opacity:1;transform:none}}
+/* notes panel (press N) */
+.notes{position:fixed;left:0;right:0;bottom:0;max-height:38vh;overflow:auto;background:rgba(20,16,12,.94);color:#EDE3CC;font:400 17px/1.5 Georgia,serif;padding:18px 28px;white-space:pre-wrap;z-index:2000;display:none}
+.notes.on{display:block}
+</style></head>
+<body><svg width="0" height="0" style="position:absolute"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="3" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .4  0 0 0 0 .3  0 0 0 0 .2  0 0 0 .55 0"/></filter></svg><div class="deck-viewport"><div class="deck-stage" id="stage">
+<!-- === SLIDE 1: COVER (lithograph title page) === -->
+<section class="slide cover" data-notes="Approx. 1 minute. Bismillah, salam, thank the MP and hosts. Introduce Mawlana Madani and muttahidah qawmiyyat. Say plainly: we present a body of thought, not a political programme; the last part is Britain today and questions."><svg class="paper" width="1920" height="1080"><filter id="n0"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .4  0 0 0 0 .3  0 0 0 0 .2  0 0 0 .55 0"/></filter><rect width="100%" height="100%" filter="url(#n0)"/></svg><div class="frame"></div><div class="corner c1"><svg viewBox="-50 -50 100 100" width="40" height="40"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div><div class="corner c2"><svg viewBox="-50 -50 100 100" width="40" height="40"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div><div class="corner c3"><svg viewBox="-50 -50 100 100" width="40" height="40"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div><div class="corner c4"><svg viewBox="-50 -50 100 100" width="40" height="40"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div>
 <div class="bism r">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
 <div class="urdu r r2">متحدہ قومیت اور اسلام</div>
 <div class="orn r r3"><i></i><svg viewBox="-50 -50 100 100" width="30" height="30"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg><i></i></div>
 <div class="en r r3">Composite Nationalism <em>and</em> Islam</div>
 <div class="sub r r3">Shaykh al-Islām Mawlānā Ḥusayn Aḥmad Madanī’s vision for social cohesion, national unity and the role of Muslims in contemporary British society</div>
-<div class="foot r r4">[Presenters’ names] &nbsp;·&nbsp; [Venue] &nbsp;·&nbsp; [Date]</div></section></div></div><script>(function(){const s=document.getElementById('stage');function f(){const k=Math.min(innerWidth/1920,innerHeight/1080);s.style.transform=`translate(${(innerWidth-1920*k)/2}px,${(innerHeight-1080*k)/2}px) scale(${k})`}addEventListener('resize',f);f()})();</script></body></html>
+<div class="foot r r4">[Presenters’ names] &nbsp;·&nbsp; [Venue] &nbsp;·&nbsp; [Date]</div></section>
+
+<!-- === SLIDE 2: Before the proofs === -->
+<section class="slide " data-notes="Muttahidah Qaumiyat
+
+Now what are the Islamic proofs for this theory?
+
+Before addressing this I would like to answer one possible objection which some may have. The term muttahidah qaumiyyat is commonly translated as &quot;composite nationalism&quot;. This word &#x27;nationalism&#x27; may be misleading, since our general understanding of nationalism either reduces religion to the personal domain of an individual or abandons it altogether. So what do we actually mean by Muttahidah Qaumiyyat? To understand this we must look at the definition of qawm, and this will be the basis for the upcoming proofs as Allah says
+
+وَمَآ أَرۡسَلۡنَا مِن رَّسُولٍ إِلَّا بِلِسَانِ قَوۡمِهِۦ
+
+We did not send any messenger but (speaking) in the language of his people.
+
+Therefore whenever the word qaum is used in the Qur&#x27;an and Sunnah it will be according to the customary Arabic usage.">
+  <svg class="grain" width="1920" height="1080"><rect width="100%" height="100%" filter="url(#n)"/></svg><div class="frame"></div><div class="corner c1"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div><div class="corner c2"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div><div class="corner c3"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div><div class="corner c4"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div>
+  <div class="rh"><span>Muttaḥidah Qawmiyyat</span><span>Before the proofs</span></div>
+  
+  <div class="half r"><div class="inner">
+    <div class="ar q">وَمَآ أَرۡسَلۡنَا مِن رَّسُولٍ<br>إِلَّا بِلِسَانِ <span class="hl">قَوۡمِهِۦ</span></div>
+    <p class="tr">“We did not send any messenger except in the language of his <b>people</b>.”</p>
+    <span class="ref">Ibrāhīm 14:4</span>
+  </div></div>
+  <div class="s2r">
+    <div class="kick r">Before the proofs</div>
+    <h2 class="r r2">Why not simply call it “nationalism”?</h2>
+    <p class="r r3">Modern nationalism pushes religion into private life, or drops it.</p>
+    <p class="r r3">So we start with the word <i>qawm</i>, in its ordinary Arabic sense.</p>
+  </div>
+  <div class="folio"><svg viewBox="-50 -50 100 100" width="22" height="22"><g fill="currentColor"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" style="fill:var(--hole,#EDE3CC)"/></svg><span>2</span><svg viewBox="-50 -50 100 100" width="22" height="22"><g fill="currentColor"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" style="fill:var(--hole,#EDE3CC)"/></svg></div>
+</section>
+<!-- === SLIDE 3: The proofs · Language === -->
+<section class="slide " data-notes="Linguistic Proofs:
+
+From multiple Arabic dictionaries such as Mukhtaar al-Sihaah, Al-Qamus, Taj al-Urus and others, we can conclude that qawm has three meanings in the Arabic language:
+
+1)  A group of men, excluding women.
+
+2)  A group consisting of men, where women are automatically included
+
+3)  A group comprising both men and women
+
+As you can see, none of these definitions differentiate between muslims and non-muslims. in light of these definitions let us look at the proofs for Muttahidah Qaumiyyah from the Qur&#x27;an and Sunnah.">
+  <svg class="grain" width="1920" height="1080"><rect width="100%" height="100%" filter="url(#n)"/></svg><div class="frame"></div><div class="corner c1"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div><div class="corner c2"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div><div class="corner c3"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div><div class="corner c4"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div>
+  <div class="rh"><span>Muttaḥidah Qawmiyyat</span><span>The proofs · Language</span></div>
+  
+  <div class="s3h"><div class="kick r">The linguistic proof</div><h2 class="r r2">What the dictionaries say</h2>
+  <p class="srcs r r2">Mukhtār al-Ṣiḥāḥ · al-Qāmūs · Tāj al-ʿArūs</p></div>
+  <div class="hero-word r r2">قَوۡم</div>
+  <ol class="meanings r r3">
+    <li><b>١</b><span>Men, excluding women</span></li>
+    <li><b>٢</b><span>Men, with women included</span></li>
+    <li><b>٣</b><span>Both men and women</span></li>
+  </ol>
+  <div class="verdict r r4">None of the three separates Muslims from non-Muslims.</div>
+  <div class="folio"><svg viewBox="-50 -50 100 100" width="22" height="22"><g fill="currentColor"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" style="fill:var(--hole,#EDE3CC)"/></svg><span>3</span><svg viewBox="-50 -50 100 100" width="22" height="22"><g fill="currentColor"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" style="fill:var(--hole,#EDE3CC)"/></svg></div>
+</section>
+<!-- === SLIDE 4: The proofs · Qur’an === -->
+<section class="slide " data-notes="Qur&#x27;anic Proofs:
+The word qaum appears over 200 times in the Qur&#x27;an. The main proofs come from when the word qaum is affixed to a pronoun, whether it be 3rd person
+
+كَذَّبَتۡ قَوۡمُ نُوحٍ ٱلۡمُرۡسَلِينَ
+
+The people of Nūḥ rejected the messengers
+
+or 2nd person
+
+وَأُوحِيَ إِلَىٰ نُوحٍ أَنَّهُۥ لَن يُؤۡمِنَ مِن قَوۡمِكَ إِلَّا مَن قَدۡ ءَامَنَ فَلَا تَبۡتَئِسۡ بِمَا كَانُواْ يَفۡعَلُونَ
+
+And it was revealed to Nūḥ: None of your people would come to believe any more, except those who have already believed. So, be not distressed by what they have been doing.
+
+or 1st person
+
+وَإِذۡ قَالَ مُوسَىٰ لِقَوۡمِهِۦ يَٰقَوۡمِ لِمَ تُؤۡذُونَنِي وَقَد تَّعۡلَمُونَ أَنِّي رَسُولُ ٱللَّهِ إِلَيۡكُمۡۖ
+
+And (remember) when Mūsā said to his people, &quot;O my people, why do you hurt me, while you know that I am a messenger of Allah sent towards you.&quot;
+
+And there are many such examples like these.
+
+In all these verses, the non-muslims who rejected their respective prophets have been called the qaum of said prophet. So if it is not belief that binds people together as one qaum, what else can it be besides sharing the same land, language, kinship or professional ties?">
+  <svg class="grain" width="1920" height="1080"><rect width="100%" height="100%" filter="url(#n)"/></svg><div class="frame"></div><div class="corner c1"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div><div class="corner c2"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div><div class="corner c3"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div><div class="corner c4"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div>
+  <div class="rh"><span>Muttaḥidah Qawmiyyat</span><span>The proofs · Qur’an</span></div>
+  
+  <div class="s4h"><div class="kick r">The Qur’anic proof</div><h2 class="r r2">They rejected their prophet, yet are still his <i>qawm</i></h2></div>
+  <div class="trio"><div class="r r2"><div class="who">Third person</div><div class="ar q">كَذَّبَتۡ <span class="hl">قَوۡمُ</span> نُوحٍ</div><p class="tr">“The <b>people</b> of Nūḥ denied…”</p><span class="ref">al-Shuʿarāʾ 26:105</span></div><div class="r r3"><div class="who">Second person</div><div class="ar q">لَن يُؤۡمِنَ مِن <span class="hl">قَوۡمِكَ</span></div><p class="tr">“None of <b>your people</b> will believe…”</p><span class="ref">Hūd 11:36</span></div><div class="r r4"><div class="who">First person</div><div class="ar q">قَالَ مُوسَىٰ <span class="hl">لِقَوۡمِهِۦ</span> <span class="hl">يَٰقَوۡمِ</span></div><p class="tr">“Mūsā said to <b>his people</b>: ‘O <b>my people</b>…’”</p><span class="ref">al-Ṣaff 61:5</span></div></div>
+  <div class="band r r4"><div class="q">If not belief, what binds a qawm?</div>
+  <div class="ws"><span>Land</span><svg viewBox="-50 -50 100 100" width="22" height="22"><g fill="currentColor"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" style="fill:var(--hole,#EDE3CC)"/></svg><span>Language</span><svg viewBox="-50 -50 100 100" width="22" height="22"><g fill="currentColor"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" style="fill:var(--hole,#EDE3CC)"/></svg><span>Kinship</span><svg viewBox="-50 -50 100 100" width="22" height="22"><g fill="currentColor"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" style="fill:var(--hole,#EDE3CC)"/></svg><span>Profession</span></div></div>
+  <div class="folio"><svg viewBox="-50 -50 100 100" width="22" height="22"><g fill="currentColor"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" style="fill:var(--hole,#EDE3CC)"/></svg><span>4</span><svg viewBox="-50 -50 100 100" width="22" height="22"><g fill="currentColor"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" style="fill:var(--hole,#EDE3CC)"/></svg></div>
+</section>
+<!-- === SLIDE 5: The proofs · Qur’an === -->
+<section class="slide " data-notes="Qur&#x27;anic proofs (continued):
+
+I feel that it is fitting here to now discuss the other Quran ayaat which mention muslim non-muslim relations. There are various verses discussing this topic, at a surface level, they may seem to contradict each other and the practice of the Prophet and the rightly guided khulafa. However the truth is that there are different degrees in regards to relations with non-muslims.
+
+The first degree is muwālāt. This is having close friendships which entails affection and love which comes from the heart. This sort of relation with non-muslims is impermissible and is meant to be reserved only for fellow muslims. This is the type of relation prohibited in verses like (58:22)
+
+The second degree is muwāsāt, a relationship based on sympathy, kindness and concern which entails charitable help, consolation and well-wishing. This type of relation with non-muslims is permissible provided they are not actively at war with the muslims. This has been expressed explicitly in the verses of Surah Mumtahinah (60:8-9)
+
+The third degree is mudārāt, a relationship based on showing courtesy, politeness and friendliness. This is permissible with all non-muslims and even encouraged when the intention is to present the faith to them or when they are guests or to protect oneself from harm as Allah says (3:28).
+
+The fourth and final degree is mu&#x27;āmalāt meaning dealings, whether it be transactions, business partnerships or employment. This is permissible with non-muslims on the condition that it does not harm the general body of muslims, for example selling weapons to non-muslims who are actively in war against the muslims. The permissibility of mu&#x27;āmalāt can be seen throughout the sunnah, to the extent that when the Prophet passed away, his armour was in the possession of Jewish man as collateral.">
+  <svg class="grain" width="1920" height="1080"><rect width="100%" height="100%" filter="url(#n)"/></svg><div class="frame"></div><div class="corner c1"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div><div class="corner c2"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div><div class="corner c3"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div><div class="corner c4"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div>
+  <div class="rh"><span>Muttaḥidah Qawmiyyat</span><span>The proofs · Qur’an</span></div>
+  
+  <div class="s5h"><div class="kick r">Relations with non-Muslims</div><h2 class="r r2">Four degrees of closeness</h2></div>
+  <svg class="arcs r r3" viewBox="0 0 1000 560"><path d="M20 560 A480 480 0 0 1 980 560 Z" fill="#EDE3CC" stroke="#221c15" stroke-width="2"/><path d="M130 560 A370 370 0 0 1 870 560 Z" fill="#E9DDC4" stroke="#221c15" stroke-width="2"/><path d="M240 560 A260 260 0 0 1 760 560 Z" fill="#E4D6B8" stroke="#221c15" stroke-width="2"/><path d="M350 560 A150 150 0 0 1 650 560 Z" fill="#8E2A1B" stroke="#221c15" stroke-width="2"/><text x="500" y="525.0" text-anchor="middle" font-family="Amiri" font-size="46" fill="#EDE3CC">مُوَالَاة</text><text x="500" y="369.0" text-anchor="middle" font-family="Amiri" font-size="40" fill="#221c15">مُوَاسَاة</text><text x="500" y="259.0" text-anchor="middle" font-family="Amiri" font-size="40" fill="#221c15">مُدَارَاة</text><text x="500" y="149.0" text-anchor="middle" font-family="Amiri" font-size="40" fill="#221c15">مُعَامَلَات</text></svg><div class="legend"><div class="r r2"><div class="tl">muwālāt<span class="ar">مُوَالَاة</span></div><p>Love and close friendship from the heart. <b>Kept for Muslims.</b></p></div><div class="r r3"><div class="tl">muwāsāt<span class="ar">مُوَاسَاة</span></div><p>Sympathy, charity and consolation. <b>Permitted, unless they are at war with Muslims.</b></p></div><div class="r r4"><div class="tl">mudārāt<span class="ar">مُدَارَاة</span></div><p>Courtesy and friendliness. <b>Permitted with all.</b></p></div><div class="r r5"><div class="tl">muʿāmalāt<span class="ar">مُعَامَلَات</span></div><p>Trade, partnership and employment. <b>Permitted, if it does not harm Muslims.</b></p></div></div>
+  <div class="folio"><svg viewBox="-50 -50 100 100" width="22" height="22"><g fill="currentColor"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" style="fill:var(--hole,#EDE3CC)"/></svg><span>5</span><svg viewBox="-50 -50 100 100" width="22" height="22"><g fill="currentColor"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" style="fill:var(--hole,#EDE3CC)"/></svg></div>
+</section>
+<!-- === SLIDE 6: The proofs · Qur’an === -->
+<section class="slide on-ink" data-notes="The fact that muawalat is preserved solely for muslims and the other three are permissible with non-muslims, shows that Islamic brotherhood can coexist with human and national brotherhood, while maintaining the precedence given to the Islamic brotherhood. Human brotherhood, arising from the recognition that everyone possesses human dignity, and national brotherhood which arises from sharing a homeland and language does not at all undermine the brotherhood between Muslims which is a religious obligation. And this non-contradiction between Islamic and national brotherhood can be seen in a quote of Moulana Muhammad Ali Jawhar, an instrumental figure in the Indian independence movement, he said:
+
+Where God commands I am a Muslim first, a Muslim second, and a Muslim last, and nothing but a Muslim. If you ask me to enter into your Empire or into your nation by leaving that synthesis, that polity, that culture, that ethics, I will not do it. My first duty is to my maker, not to H.M. the King. But where India is concerned, where India&#x27;s freedom is concerned, I am an Indian first, an Indian second, an Indian last, and nothing but an Indian.">
+  <div class="plate"></div><svg class="grain" width="1920" height="1080"><rect width="100%" height="100%" filter="url(#n)"/></svg><div class="frame"></div><div class="corner c1"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div><div class="corner c2"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div><div class="corner c3"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div><div class="corner c4"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div>
+  <div class="rh"><span>Muttaḥidah Qawmiyyat</span><span>The proofs · Qur’an</span></div>
+  
+  <div class="s6">
+    <p class="lead r">Islamic brotherhood comes first, and it can live alongside national brotherhood.</p>
+    <div class="twin">
+      <div class="r r2"><div class="when">Where God commands</div><blockquote>“I am a Muslim first, a Muslim second, and a Muslim last.”</blockquote></div>
+      <div class="r r3"><div class="when">Where India’s freedom is concerned</div><blockquote>“I am an Indian first, an Indian second, an Indian last.”</blockquote></div>
+    </div>
+    <div class="attr r r4">Mawlānā Muḥammad ʿAlī Jawhar</div>
+  </div>
+  <div class="folio"><svg viewBox="-50 -50 100 100" width="22" height="22"><g fill="currentColor"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" style="fill:var(--hole,#EDE3CC)"/></svg><span>6</span><svg viewBox="-50 -50 100 100" width="22" height="22"><g fill="currentColor"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" style="fill:var(--hole,#EDE3CC)"/></svg></div>
+</section>
+<!-- === SLIDE 7: The proofs · Sunnah === -->
+<section class="slide " data-notes="Proofs from the Sunnah:
+
+I would like to address one specific part of the sunnah that is one of the clearest proofs for the theory of composite nationalism, and that is the Constitution of Madinah drawn up by the Prophet. The fact that the constitution was even drawn up establishes the fact that muslims can make agreements with non-muslims in dar al-harb or dar al-aman. And further, some articles explicitly unite muslims and non-muslims as one nation. The agreement begins with:
+
+بسم الله الرحمن الرحيم
+
+In the name of Allah, the Most Compassionate and Most Merciful
+
+هذا كتاب من محمد النبى (رسول الله - صلى الله عليه وسلم) بين المؤمنين والمسلمين من قريش وأهل يثرب ومن اتبعهم فلحق بهم وجاهد معهم
+
+This is a writing of Prophet Mohammad (the Messenger of Allah - صلى الله عليه و آله وسلم); between the Believers and Muslims of Quraish and Yathrib (Madina), and those who follow them and are attached to them, and who fight together with them in war.
+
+Article 1:
+
+إنهم أمة واحدة من دون الناس
+
+They are one community to the exclusion of (other) people
+
+Article 15:
+
+وأن يهود بني عوف أمة مع المؤمنين لليهود دينهم وللمسلمين دينهم مواليهم وأنفسهم إلا من ظلم أو أثم فإنه لا يوتغ إلا نفسه وأهل بيته
+
+The Jews of the Banu Awf are one community with the believers. The Jews are free to practice their religion and the Muslims their religion. (This applies) to their clients and to themselves with the exception of anyone who has done wrong or committed treachery, for he harms only himself and his family.
+
+Many other tribes were also mentioned thereafter as part of this agreement. Furthermore, not only did this agreement permit assisting and sympathising with non-muslims, it even guaranteed to non-muslims the assistance of muslims:
+
+Article 8:
+
+ وأنه من تبعنا من يهود فإن له النصر والأسوة غير مظلومين ولا متناصر عليهم
+
+Whoever of the Jews follow is will receive help and sympathy, without being wronged, and without one helping another against them">
+  <svg class="grain" width="1920" height="1080"><rect width="100%" height="100%" filter="url(#n)"/></svg><div class="frame"></div><div class="corner c1"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div><div class="corner c2"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div><div class="corner c3"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div><div class="corner c4"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div>
+  <div class="rh"><span>Muttaḥidah Qawmiyyat</span><span>The proofs · Sunnah</span></div>
+  
+  <div class="s7l"><div class="kick r">The proof from the Sunnah</div><h2 class="r r2">The Constitution of Madinah</h2>
+  <p class="r r3">Drawn up by the Prophet <span class="saw">ﷺ</span>, it made Muslims and non-Muslims of Madinah one community.</p></div>
+  <div class="charter"><div class="r r2"><div class="artno">Article 1</div><div class="ar n">إنهم <span class="hl">أمة واحدة</span> من دون الناس</div><p class="tr">“They are <b>one community</b>, distinct from other people.”</p></div><div class="r r3"><div class="artno">Article 15</div><div class="ar n">يهود بني عوف <span class="hl">أمة مع المؤمنين</span><br><span class="hl">لليهود دينهم وللمسلمين دينهم</span></div><p class="tr">“The Jews of Banū ʿAwf are <b>one community with the believers</b>: the Jews have their religion, the Muslims theirs.”</p></div><div class="r r4"><div class="artno">Article 8</div><div class="ar n">من تبعنا من يهود فإن له <span class="hl">النصر والأسوة</span></div><p class="tr">“Jews who follow us are owed <b>help and support</b>.”</p></div></div>
+  <div class="folio"><svg viewBox="-50 -50 100 100" width="22" height="22"><g fill="currentColor"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" style="fill:var(--hole,#EDE3CC)"/></svg><span>7</span><svg viewBox="-50 -50 100 100" width="22" height="22"><g fill="currentColor"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" style="fill:var(--hole,#EDE3CC)"/></svg></div>
+</section>
+<!-- === SLIDE 8: The proofs · Summary === -->
+<section class="slide on-red" data-notes="To sum up, the word qaum in the Arabic language can mean a group of men excluding women or a group of men where women are included automaticall or a group of men and women. The Qur&#x27;an uses the word qaum for disbelievers and attributes them to their respective prophets, showing that muslims and non-muslims can be called one qaum. The Qur&#x27;an also clarifies the different relationships muslims can have with non-muslims, namely 1) muwasat, showing sympathy, kindess and giving support 2)mudarat, acting with them in a couteous manner and 3) mu&#x27;amalat, conducting dealings and transactions with them. It also establishes the superiority of Islamic brotherhood to national brotherhood by preserving muwalat, a close relationship coming from the heart, solely for muslims. And from the sunnah, the constitution of Madinah bound all muslims and non-muslims who were part of the agreement as one qaum.">
+  <div class="plate"></div><svg class="grain" width="1920" height="1080"><rect width="100%" height="100%" filter="url(#n)"/></svg><div class="frame"></div><div class="corner c1"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div><div class="corner c2"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div><div class="corner c3"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div><div class="corner c4"><svg viewBox="-50 -50 100 100" width="34" height="34"><g fill="#8E2A1B"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" fill="#EDE3CC"/></svg></div>
+  <div class="rh"><span>Muttaḥidah Qawmiyyat</span><span>The proofs · Summary</span></div>
+  
+  <div class="s8"><div class="kick r">In sum</div><h2 class="r r2">Muslims and non-Muslims can be one <i>qawm</i></h2>
+  <div class="rows">
+    <div class="r r3"><div class="ar">اللغة</div><h3>Language</h3><p>No meaning of <i>qawm</i> separates Muslim from non-Muslim.</p></div>
+    <div class="r r3"><div class="ar">القرآن</div><h3>Qur’an</h3><p>Peoples who rejected their prophets are still “his <i>qawm</i>”; only <i>muwālāt</i> is kept for Muslims.</p></div>
+    <div class="r r4"><div class="ar">السنة</div><h3>Sunnah</h3><p>Madinah’s constitution made one community, each with its own religion.</p></div>
+  </div></div>
+  <div class="folio"><svg viewBox="-50 -50 100 100" width="22" height="22"><g fill="currentColor"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" style="fill:var(--hole,#EDE3CC)"/></svg><span>8</span><svg viewBox="-50 -50 100 100" width="22" height="22"><g fill="currentColor"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" style="fill:var(--hole,#EDE3CC)"/></svg></div>
+</section>
+</div></div><div class="notes" id="notes"></div>
+<script>
+/* === STAGE SCALING === */
+(function(){const s=document.getElementById('stage');function f(){const k=Math.min(innerWidth/1920,innerHeight/1080);s.style.transform=`translate(${(innerWidth-1920*k)/2}px,${(innerHeight-1080*k)/2}px) scale(${k})`}addEventListener('resize',f);f()})();
+/* === NAVIGATION: arrows, space, click; N toggles speaker notes; #n in URL jumps to a slide === */
+(function(){const slides=[...document.querySelectorAll('.slide')],notes=document.getElementById('notes');let i=Math.max(0,Math.min(slides.length-1,(parseInt(location.hash.slice(1))||1)-1));
+function show(n){slides.forEach(s=>s.classList.remove('active'));i=n;slides[i].classList.add('active');notes.textContent=slides[i].dataset.notes||'';history.replaceState(null,'','#'+(i+1))}
+function go(n){if(n>=0&&n<slides.length)show(n)}
+addEventListener('keydown',e=>{if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){e.preventDefault();go(i+1)}if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();go(i-1)}if(e.key==='n'||e.key==='N')notes.classList.toggle('on')});
+document.getElementById('stage').addEventListener('click',e=>go(e.clientX>innerWidth/2?i+1:i-1));show(i)})();
+</script></body></html>
