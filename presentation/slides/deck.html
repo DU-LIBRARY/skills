@@ -264,6 +264,11 @@ h2 i{color:var(--red)}
 /* notes panel (press N) */
 .notes{position:fixed;left:0;right:0;bottom:0;max-height:38vh;overflow:auto;background:rgba(20,16,12,.94);color:#EDE3CC;font:400 17px/1.5 Georgia,serif;padding:18px 28px;white-space:pre-wrap;z-index:2000;display:none}
 .notes.on{display:block}
+#editbadge{position:fixed;top:14px;left:50%;transform:translateX(-50%);background:#8E2A1B;color:#EDE3CC;font:500 15px/1 Georgia,serif;padding:10px 18px;border-radius:4px;z-index:3000;display:none}
+body.editing #editbadge{display:block}
+body.editing [contenteditable]:hover{outline:2px dashed rgba(142,42,27,.6);outline-offset:4px}
+body.editing [contenteditable]:focus{outline:2px solid #8E2A1B;outline-offset:4px}
+body.editing .r{opacity:1!important;transform:none!important;animation:none!important}
 </style></head>
 <body><svg width="0" height="0" style="position:absolute"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="3" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .4  0 0 0 0 .3  0 0 0 0 .2  0 0 0 .55 0"/></filter></svg><div class="deck-viewport"><div class="deck-stage" id="stage">
 <!-- === SLIDE 1: COVER (lithograph title page) === -->
@@ -450,14 +455,34 @@ Whoever of the Jews follow is will receive help and sympathy, without being wron
   </div></div>
   <div class="folio"><svg viewBox="-50 -50 100 100" width="22" height="22"><g fill="currentColor"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" style="fill:var(--hole,#EDE3CC)"/></svg><span>8</span><svg viewBox="-50 -50 100 100" width="22" height="22"><g fill="currentColor"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="11" style="fill:var(--hole,#EDE3CC)"/></svg></div>
 </section>
-</div></div><div class="notes" id="notes"></div>
+</div></div><div class="notes" id="notes"></div><div id="editbadge">Editing · click text to change it · Ctrl+S saves · E to stop</div>
 <script>
 /* === STAGE SCALING === */
 (function(){const s=document.getElementById('stage');function f(){const k=Math.min(innerWidth/1920,innerHeight/1080);s.style.transform=`translate(${(innerWidth-1920*k)/2}px,${(innerHeight-1080*k)/2}px) scale(${k})`}addEventListener('resize',f);f()})();
 /* === NAVIGATION: arrows, space, click; N toggles speaker notes; #n in URL jumps to a slide === */
-(function(){const slides=[...document.querySelectorAll('.slide')],notes=document.getElementById('notes');let i=Math.max(0,Math.min(slides.length-1,(parseInt(location.hash.slice(1))||1)-1));
+/* === EDIT MODE: E toggles editing, click any text to change it, Ctrl/Cmd+S saves a copy of the deck === */
+(function(){
+const slides=[...document.querySelectorAll('.slide')],notes=document.getElementById('notes'),badge=document.getElementById('editbadge');
+let i=Math.max(0,Math.min(slides.length-1,(parseInt(location.hash.slice(1))||1)-1)),editing=false;
 function show(n){slides.forEach(s=>s.classList.remove('active'));i=n;slides[i].classList.add('active');notes.textContent=slides[i].dataset.notes||'';history.replaceState(null,'','#'+(i+1))}
 function go(n){if(n>=0&&n<slides.length)show(n)}
-addEventListener('keydown',e=>{if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){e.preventDefault();go(i+1)}if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();go(i-1)}if(e.key==='n'||e.key==='N')notes.classList.toggle('on')});
-document.getElementById('stage').addEventListener('click',e=>go(e.clientX>innerWidth/2?i+1:i-1));show(i)})();
+function textEls(){return [...document.querySelectorAll('.slide *')].filter(el=>!el.closest('svg')&&[...el.childNodes].some(c=>c.nodeType===3&&c.textContent.trim()))}
+function setEditing(on){editing=on;document.body.classList.toggle('editing',on);
+  textEls().forEach(el=>{if(on){el.setAttribute('contenteditable','true');el.spellcheck=false}else el.removeAttribute('contenteditable')});
+  notes.contentEditable=on?'true':'false';if(on)notes.classList.add('on');}
+notes.addEventListener('input',()=>{slides[i].dataset.notes=notes.innerText});
+function save(){const was=editing;setEditing(false);notes.classList.remove('on');
+  const html='<!DOCTYPE html>\n'+document.documentElement.outerHTML.replace(/ class="editing"/,'');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([html],{type:'text/html'}));a.download='deck.html';a.click();
+  badge.textContent='Saved a copy as deck.html';setTimeout(()=>{badge.textContent='Editing · click text to change it · Ctrl+S saves · E to stop'},2500);
+  if(was)setEditing(true)}
+addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){e.preventDefault();save();return}
+  if(e.target.isContentEditable){if(e.key==='Escape'){e.target.blur()}return}
+  if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){e.preventDefault();go(i+1)}
+  if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();go(i-1)}
+  if(e.key==='n'||e.key==='N')notes.classList.toggle('on');
+  if(e.key==='e'||e.key==='E')setEditing(!editing)});
+document.getElementById('stage').addEventListener('click',e=>{if(!editing)go(e.clientX>innerWidth/2?i+1:i-1)});
+show(i)})();
 </script></body></html>
