@@ -9,6 +9,11 @@ const E = __dirname;
       const k = [...sec.querySelectorAll('p')].find(e => /^THE IMAM MUHAMMAD ADAM INSTITUTE/i.test(e.innerText.trim()));
       const img = document.createElement('img'); img.src = src; img.alt = 'Imam Muhammad Adam Institute logo';
       img.style.position = 'absolute'; img.style.height = 'auto'; img.style.zIndex = 5;
+      if (d === 'mosaic') {
+        const terra = sec.querySelector('.tile.terra'); const teal = sec.querySelector('.tile.teal');
+        terra.className = teal.className.replace('teal', 'terra');
+        terra.innerHTML = '<p class="dsp t60">1 UMMAH</p><p class="k">MANY BACKGROUNDS</p>';
+      }
       if (d === 'playbill') { img.style.width = '150px'; img.style.left = '118px'; img.style.top = '112px'; sec.appendChild(img); return; }
       const W = { workshop: 116, mosaic: 132, zine: 128 }[d]; const H = W * 649 / 659, gap = 26;
       const r = k.getBoundingClientRect();
