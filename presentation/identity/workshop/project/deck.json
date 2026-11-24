@@ -1,0 +1,71 @@
+{
+ "v": 5,
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-11-24T22:33:27Z"
+ },
+ "lists": "css",
+ "format": {
+  "v": 1,
+  "shared": [
+   "project/deck.css"
+  ]
+ },
+ "title": "Our Identity as Young Muslims — Workshop",
+ "cover": "cover",
+ "order": [
+  "cover",
+  "question",
+  "grades",
+  "continents",
+  "overview",
+  "faith",
+  "knowledge",
+  "cabinet",
+  "numbers",
+  "room",
+  "balance",
+  "character",
+  "society",
+  "journey",
+  "service",
+  "excellence",
+  "chapter",
+  "heritage",
+  "six",
+  "final"
+ ],
+ "sections": {
+  "s1": {
+   "description": "Opening: who are we, and where do we come from?",
+   "start": "cover"
+  },
+  "s2": {
+   "description": "The six qualities, with the stories behind them.",
+   "start": "faith"
+  },
+  "s3": {
+   "description": "Heritage, the six together, and a final thought.",
+   "start": "chapter"
+  }
+ },
+ "faces": {
+  "stardos-stencil": {
+   "family": "Stardos Stencil",
+   "href": "https://fonts.googleapis.com/css2?family=Stardos+Stencil:wght@400;700&display=swap"
+  },
+  "barlow-condensed": {
+   "family": "Barlow Condensed",
+   "href": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800&display=swap"
+  },
+  "noto-sans": {
+   "family": "Noto Sans",
+   "href": "https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,600;1,400&display=swap"
+  },
+  "amiri": {
+   "family": "Amiri",
+   "href": "https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap"
+  }
+ },
+ "designSystems": []
+}
