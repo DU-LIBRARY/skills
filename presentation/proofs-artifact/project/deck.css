@@ -137,3 +137,36 @@ section.red .rh-l, section.red .rh-r, section.red .num { color: #E6C9BE; }
 .d3 { animation-delay: 0.3s; }
 .d4 { animation-delay: 0.45s; }
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0px); } }
+
+/* ==== Split: Jawhar (ink left, paper right) ==== */
+.jw-half { position: absolute; left: 84px; top: 84px; width: 916px; height: 912px; background: var(--night); }
+section.split-ink .rh-l { color: #B5A68E; }
+section.split-ink .folio { left: 1318px; }
+.jw-lead { position: absolute; left: 1090px; top: 210px; width: 680px; font-size: 30px; font-style: italic; line-height: 1.4; color: var(--ink-soft); margin: 0; }
+.jw-l { position: absolute; left: 170px; top: 400px; width: 740px; }
+.jw-r { position: absolute; left: 1090px; top: 400px; width: 680px; }
+.jw-when-r { color: var(--red); }
+.jw-quote-r { color: var(--ink); }
+.jw-attr { font-size: 30px; font-style: italic; color: #CDBFA6; margin: 70px 0 0; }
+
+/* ==== Split: summary (red left, paper right) ==== */
+.sm-half { position: absolute; left: 84px; top: 84px; width: 676px; height: 912px; background: var(--red); }
+section.split-red .rh-l { color: #E6C9BE; }
+.sm-l { position: absolute; left: 160px; top: 300px; width: 540px; }
+.sm-l h2 { font-size: 80px; color: var(--paper); margin: 0; }
+.sm-l h2 i { color: var(--ink); }
+.sm-r { position: absolute; left: 830px; top: 215px; width: 940px; }
+.sm-row { display: grid; grid-template-columns: 200px 1fr; gap: 30px; padding: 28px 0 32px; border-top: 2px solid #B9AB90; }
+.sm-row.first { border-top: none; }
+.sm-ar { font-size: 44px; line-height: 1.3; color: var(--red); text-align: left; margin: 0; }
+.sm-lab h3 { font-size: 36px; margin: 0; }
+.sm-tx { font-size: 32px; line-height: 1.35; margin: 0; }
+.sm-n { color: var(--red); font-weight: 600; }
+.sm-gap { margin-top: 18px; }
+.sm-deg { display: flex; gap: 16px; margin-top: 14px; }
+.sm-kept { width: 210px; box-sizing: border-box; padding: 16px 20px; background: var(--red); }
+.sm-open { flex: 1; box-sizing: border-box; padding: 14px 20px; border: 2px solid var(--red); }
+.sm-term { font-size: 32px; color: var(--paper); margin: 0; }
+.sm-note { font-size: 24px; color: #E6C9BE; margin: 4px 0 0; }
+.sm-term-o { font-size: 30px; color: var(--red); margin: 0; }
+.sm-note-o { font-size: 24px; color: var(--mute); margin: 4px 0 0; }
