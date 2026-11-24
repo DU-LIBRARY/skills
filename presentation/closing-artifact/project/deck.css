@@ -1,0 +1,155 @@
+/* ==== Palette: letterpress on cream paper ==== */
+:root {
+  --paper: #EDE3CC;
+  --ink: #221C15;
+  --ink-soft: #3A3027;
+  --mute: #6B5A48;
+  --acc: #2D5646;
+  --acc-soft: #C9D8CE;
+  --charter: #E4D6B8;
+  --night: #1B1611;
+}
+
+body { font-family: 'EB Garamond', 'Amiri', Georgia, serif; color: var(--ink); }
+
+section { background: var(--paper); color: var(--ink); padding: 128px; counter-increment: page; }
+section.acc { background: var(--paper); }
+section.ink { background: var(--paper); }
+
+/* ==== Page furniture shared by every slide ==== */
+.grain { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; opacity: 0.3; }
+.frame-o { position: absolute; left: 56px; top: 56px; width: 1808px; height: 968px; box-sizing: border-box; border: 5px solid var(--ink); }
+.frame-i { position: absolute; left: 70px; top: 70px; width: 1780px; height: 940px; box-sizing: border-box; border: 2px solid var(--ink); }
+.corner { position: absolute; width: 34px; height: 34px; }
+.c1 { left: 41px; top: 41px; }
+.c2 { left: 1845px; top: 41px; }
+.c3 { left: 41px; top: 1005px; }
+.c4 { left: 1845px; top: 1005px; }
+
+.rh { position: absolute; left: 150px; top: 100px; width: 1620px; display: flex; justify-content: space-between; }
+.rh-l, .rh-r { font-size: 24px; letter-spacing: 4px; margin: 0; }
+.rh-l { color: var(--acc); }
+.rh-r { color: var(--mute); }
+.folio { position: absolute; left: 860px; top: 950px; width: 200px; display: flex; justify-content: center; align-items: center; gap: 16px; }
+.num { font-size: 26px; color: var(--mute); }
+.num::after { content: counter(page); }
+
+/* ==== Shared type ==== */
+h2 { font-size: 76px; font-weight: 500; line-height: 1.08; margin: 0; color: var(--ink); }
+h2 i { color: var(--acc); }
+h3 { font-size: 40px; font-weight: 500; margin: 0; }
+.kick { font-size: 24px; letter-spacing: 4px; color: var(--acc); margin: 0 0 16px; }
+.body { font-size: 34px; line-height: 1.45; color: var(--ink-soft); margin: 0 0 20px; }
+.ar { font-family: 'Amiri', serif; direction: rtl; text-align: right; }
+.hl { color: var(--acc); }
+.tr { font-size: 28px; font-style: italic; line-height: 1.4; margin: 8px 0 0; }
+.tr b { color: var(--acc); font-weight: 600; }
+.ref { font-size: 24px; letter-spacing: 3px; color: var(--mute); margin: 10px 0 0; }
+.top { position: absolute; left: 150px; top: 165px; width: 1620px; }
+.top.center { text-align: center; }
+
+
+/* ==== Plates (coloured panel inside the frame) ==== */
+.plate { position: absolute; left: 84px; top: 84px; width: 1752px; height: 912px; }
+section.acc .plate { background: var(--acc); }
+section.ink .plate { background: var(--night); }
+section.acc .rh-l, section.acc .rh-r, section.acc .num { color: var(--acc-soft); }
+section.ink .rh-l, section.ink .rh-r, section.ink .num { color: #B5A68E; }
+.kick-light { font-size: 24px; letter-spacing: 4px; color: var(--acc-soft); margin: 0 0 16px; }
+h1 { font-size: 112px; font-weight: 500; line-height: 1.05; margin: 0; }
+
+/* ==== Opening ==== */
+.open { position: absolute; left: 200px; top: 260px; width: 1520px; }
+.open h1 { color: var(--paper); margin: 10px 0 40px; }
+.open h1 i { color: var(--acc-soft); }
+.open-sub { font-size: 38px; font-style: italic; line-height: 1.35; color: var(--paper); width: 1100px; margin: 0; }
+.open-foot { font-size: 24px; letter-spacing: 5px; color: var(--acc-soft); margin: 90px 0 0; }
+
+/* ==== Nine principles grid ==== */
+.top h2 { margin-top: 4px; }
+.grid9 { position: absolute; left: 150px; top: 340px; width: 1620px; display: grid; grid-template-columns: 1fr 1fr 1fr; column-gap: 50px; }
+.g-cell { display: flex; align-items: center; gap: 26px; padding: 30px 0; border-top: 2px solid #B9AB90; }
+.g-num { font-family: 'Amiri', serif; font-weight: 700; font-size: 60px; line-height: 1.2; color: var(--acc); width: 50px; text-align: center; margin: 0; }
+.g-name { font-size: 38px; line-height: 1.2; margin: 0; }
+section.nine h2 { font-family: 'IM Fell English', 'EB Garamond', serif; font-weight: 400; font-size: 88px; }
+
+/* ==== Part dividers ==== */
+.dv-urdu { position: absolute; left: 150px; top: 250px; width: 780px; text-align: center; direction: rtl; font-family: 'Noto Nastaliq Urdu', 'Amiri', serif; font-weight: 700; font-size: 150px; line-height: 2.2; color: var(--acc); margin: 0; }
+section.acc .dv-urdu { left: 990px; color: var(--paper); }
+.dv-text { position: absolute; left: 1000px; top: 380px; width: 770px; }
+section.acc .dv-text { left: 200px; }
+.dv-text h2 { font-size: 80px; margin: 0 0 24px; }
+section.acc .dv-text h2 { color: var(--paper); }
+.dv-sub { font-size: 34px; font-style: italic; color: var(--ink-soft); margin: 0; }
+section.acc .dv-sub { color: var(--acc-soft); }
+
+/* ==== Triptych (three principles) ==== */
+.trio { position: absolute; left: 150px; top: 245px; width: 1620px; display: grid; grid-template-columns: 1fr 1fr 1fr; }
+.t-col { padding: 0 44px; border-left: 2px solid #B9AB90; }
+.t-col.first { padding-left: 0; border-left: none; }
+.t-num { font-family: 'Amiri', serif; font-weight: 700; font-size: 130px; line-height: 1.3; color: var(--acc); margin: 0; }
+.t-col h3 { font-size: 50px; margin: 0 0 30px; }
+.t-key { font-size: 46px; line-height: 1.25; font-weight: 500; color: var(--acc); margin: 0 0 22px; }
+.t-more { font-size: 34px; line-height: 1.4; color: var(--ink-soft); margin: 0; }
+
+/* ==== Shared pressures chart ==== */
+.bars { position: absolute; left: 150px; top: 380px; width: 1000px; }
+.b-row { display: grid; grid-template-columns: 250px 1fr 120px; align-items: center; gap: 24px; margin: 0 0 30px; }
+.b-lab { font-size: 34px; margin: 0; }
+.b-track { height: 56px; background: #E0D3B6; }
+.b-fill { height: 56px; background: var(--acc); }
+.b-val { font-size: 44px; font-weight: 600; color: var(--acc); margin: 0; }
+.b-note { font-size: 26px; font-style: italic; color: var(--mute); margin: 6px 0 0 274px; }
+.groups { position: absolute; left: 1250px; top: 360px; width: 520px; }
+.gp { padding: 16px 0; border-top: 2px solid #B9AB90; }
+.gp-h { font-size: 24px; letter-spacing: 4px; color: var(--acc); margin: 0 0 4px; }
+.gp-t { font-size: 30px; line-height: 1.3; margin: 0; }
+.src { position: absolute; left: 150px; top: 880px; width: 1000px; font-size: 24px; color: var(--mute); margin: 0; }
+
+/* ==== Partners and action ==== */
+.tg { position: absolute; left: 150px; top: 330px; width: 1620px; display: grid; grid-template-columns: 1fr 1fr; gap: 90px; }
+.tg-col { border-top: 4px solid var(--ink); padding-top: 16px; }
+.tg-col.act { border-top-color: var(--acc); }
+.tg-h { font-size: 24px; letter-spacing: 4px; color: var(--acc); margin: 0 0 14px; }
+.tg-i { font-size: 38px; line-height: 1.25; padding: 12px 0; border-bottom: 2px solid #D6C8AA; margin: 0; }
+
+/* ==== UK and France ==== */
+.fr-uk { position: absolute; left: 150px; top: 200px; width: 900px; }
+.fr-uk h2 { margin: 0 0 34px; }
+.fr-p { font-size: 32px; line-height: 1.4; color: var(--ink-soft); margin: 0 0 18px; }
+.fr-i { font-size: 44px; font-weight: 500; color: var(--acc); padding: 10px 0; border-top: 2px solid #B9AB90; margin: 0; }
+.fr-fr { position: absolute; left: 1150px; top: 300px; width: 620px; box-sizing: border-box; padding: 50px; background: var(--night); }
+.fr-h { font-size: 44px; font-style: italic; color: var(--paper); margin: 0 0 20px; }
+.fr-t { font-size: 32px; line-height: 1.4; color: #CDBFA6; margin: 0; }
+
+/* ==== Two statements ==== */
+.pair { position: absolute; left: 150px; top: 230px; width: 1620px; display: grid; grid-template-columns: 1fr 1fr; gap: 110px; }
+.pr-n { font-family: 'Amiri', serif; font-weight: 700; font-size: 120px; line-height: 1.3; color: var(--acc); margin: 0; }
+.pr h2 { font-size: 76px; margin: 0 0 34px; }
+.pr-t { font-size: 36px; line-height: 1.4; color: var(--ink-soft); margin: 0; }
+
+/* ==== 8 and 9: split, 9 on a green half ==== */
+.half { position: absolute; left: 1080px; top: 84px; width: 756px; height: 912px; background: var(--acc); }
+.pl-l { position: absolute; left: 150px; top: 200px; width: 800px; }
+.pl-r { position: absolute; left: 1170px; top: 200px; width: 600px; }
+.pl-l h2, .pl-r h2 { font-size: 66px; margin: 0 0 28px; }
+section.policy .rh-r { color: var(--acc-soft); }
+section.policy .folio { left: 500px; }
+.light { color: var(--paper); }
+.t-num.light { color: var(--acc-soft); }
+.pr-t.light { color: var(--acc-soft); }
+
+/* ==== Closing ==== */
+.cl { position: absolute; left: 200px; top: 230px; width: 1520px; text-align: center; }
+.cl-path { font-size: 28px; letter-spacing: 3px; color: #B5A68E; margin: 0 0 40px; }
+.cl h1 { font-family: 'IM Fell English', 'EB Garamond', serif; font-weight: 400; font-size: 104px; color: var(--paper); margin: 0 0 50px; }
+.cl h1 i { color: #8FB8A3; }
+.cl-ar { font-family: 'Amiri', serif; font-size: 72px; line-height: 1.6; color: #8FB8A3; margin: 0; }
+.cl-q { font-size: 32px; font-style: italic; color: #CDBFA6; margin: 20px 0 0; }
+
+/* ==== Motion: staged arrival ==== */
+.d1, .d2, .d3, .d4 { animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.d2 { animation-delay: 0.15s; }
+.d3 { animation-delay: 0.3s; }
+.d4 { animation-delay: 0.45s; }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0px); } }
