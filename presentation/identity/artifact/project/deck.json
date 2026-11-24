@@ -1,0 +1,58 @@
+{
+ "v": 5,
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-11-24T22:18:56Z"
+ },
+ "lists": "css",
+ "format": {
+  "v": 1,
+  "shared": [
+   "project/deck.css"
+  ]
+ },
+ "title": "Our Identity as Young Muslims",
+ "cover": "cover",
+ "order": [
+  "cover",
+  "grades",
+  "faith",
+  "knowledge",
+  "character",
+  "society",
+  "service",
+  "excellence",
+  "heritage",
+  "six",
+  "final"
+ ],
+ "sections": {
+  "s1": {
+   "description": "Opening: who are we?",
+   "start": "cover"
+  },
+  "s2": {
+   "description": "The six qualities, one by one.",
+   "start": "faith"
+  },
+  "s3": {
+   "description": "Heritage, the six qualities together, and a final thought.",
+   "start": "heritage"
+  }
+ },
+ "faces": {
+  "eb-garamond": {
+   "family": "EB Garamond",
+   "href": "https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
+  },
+  "amiri": {
+   "family": "Amiri",
+   "href": "https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap"
+  },
+  "im-fell-english": {
+   "family": "IM Fell English",
+   "href": "https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap"
+  }
+ },
+ "designSystems": []
+}

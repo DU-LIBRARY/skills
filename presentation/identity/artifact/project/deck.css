@@ -1,0 +1,132 @@
+/* ==== Palette: the Institute's green and gold, printed on cream paper ==== */
+:root {
+  --paper: #F2EBDC;
+  --ink: #1F1D19;
+  --soft: #4A453B;
+  --mute: #7A7060;
+  --green: #17433A;
+  --gold: #B8913F;
+  --gold-l: #E2C478;
+  --rule: #CDBFA2;
+}
+
+body { font-family: 'EB Garamond', 'Amiri', Georgia, serif; color: var(--ink); }
+section { background: var(--paper); color: var(--ink); padding: 128px; }
+
+/* ==== Page furniture ==== */
+.grain { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; opacity: 0.28; }
+.frame-o { position: absolute; left: 56px; top: 56px; width: 1808px; height: 968px; box-sizing: border-box; border: 5px solid var(--green); }
+.frame-i { position: absolute; left: 70px; top: 70px; width: 1780px; height: 940px; box-sizing: border-box; border: 2px solid var(--green); }
+.corner { position: absolute; width: 34px; height: 34px; }
+.c1 { left: 41px; top: 41px; }
+.c2 { left: 1845px; top: 41px; }
+.c3 { left: 41px; top: 1005px; }
+.c4 { left: 1845px; top: 1005px; }
+.rh { position: absolute; left: 150px; top: 100px; width: 1620px; display: flex; justify-content: space-between; }
+.rh-l, .rh-r { font-size: 24px; letter-spacing: 4px; margin: 0; color: var(--mute); }
+.rh-l { color: var(--green); }
+.folio { position: absolute; left: 860px; top: 950px; width: 200px; display: flex; justify-content: center; align-items: center; gap: 16px; }
+.num { font-size: 26px; color: var(--mute); margin: 0; }
+
+/* ==== Shared type ==== */
+h1, h2, h3 { margin: 0; font-weight: 500; }
+h2 { font-size: 76px; line-height: 1.08; color: var(--ink); }
+.kick-l { font-size: 24px; letter-spacing: 4px; color: var(--gold-l); margin: 0 0 16px; }
+.ar { font-family: 'Amiri', serif; direction: rtl; text-align: right; }
+.top { position: absolute; left: 150px; top: 165px; width: 1620px; }
+.lede { font-size: 34px; font-style: italic; line-height: 1.4; color: var(--soft); margin: 18px 0 0; }
+.band { position: absolute; left: 84px; top: 770px; width: 1752px; height: 150px; background: var(--green); display: flex; align-items: center; justify-content: center; }
+.band-t { width: 1500px; text-align: center; font-size: 38px; font-style: italic; line-height: 1.3; color: var(--paper); margin: 0; }
+
+/* ==== Cover ==== */
+.cv-callig { position: absolute; left: 480px; top: 130px; }
+.cv-orn { position: absolute; left: 660px; top: 380px; width: 600px; display: flex; justify-content: center; align-items: center; gap: 22px; }
+.cv-rule { width: 240px; height: 6px; border-top: 2px solid var(--green); border-bottom: 2px solid var(--green); }
+.cv-title { position: absolute; left: 160px; top: 420px; width: 1600px; text-align: center; font-family: 'IM Fell English', 'EB Garamond', serif; font-weight: 400; font-size: 104px; line-height: 1.1; color: var(--green); }
+.cv-sub { position: absolute; left: 260px; top: 560px; width: 1400px; text-align: center; font-size: 38px; font-style: italic; color: var(--soft); margin: 0; }
+.cv-logo { position: absolute; left: 885px; top: 670px; }
+.cv-foot { position: absolute; left: 160px; top: 880px; width: 1600px; text-align: center; font-size: 24px; letter-spacing: 4px; color: var(--green); margin: 0; }
+
+/* ==== Ornaments: rules, stars and double rules, never boxes ==== */
+.orn { position: absolute; left: 560px; width: 800px; display: flex; justify-content: center; align-items: center; gap: 18px; }
+.orn-r { width: 220px; height: 6px; border-top: 2px solid var(--green); border-bottom: 2px solid var(--green); }
+.orn-n { font-family: 'Amiri', serif; font-weight: 700; font-size: 56px; line-height: 1; color: var(--gold); margin: 0; }
+.dbl { height: 7px; border-top: 2px solid var(--green); border-bottom: 2px solid var(--green); }
+
+/* ==== Centred title-page openings ==== */
+.cen { position: absolute; left: 160px; top: 160px; width: 1600px; text-align: center; }
+.disp { font-family: 'IM Fell English', 'EB Garamond', serif; font-weight: 400; font-size: 96px; line-height: 1.1; color: var(--green); }
+.cen-sub { font-size: 36px; font-style: italic; line-height: 1.35; color: var(--soft); margin: 18px 0 0; }
+.colo { position: absolute; left: 260px; top: 790px; width: 1400px; display: flex; flex-direction: column; gap: 18px; }
+.colo-t { font-size: 36px; font-style: italic; line-height: 1.3; text-align: center; color: var(--green); margin: 0; }
+
+/* ==== More than grades ==== */
+.verbs { position: absolute; left: 160px; top: 455px; width: 1600px; display: flex; justify-content: center; align-items: center; gap: 46px; }
+.vb { text-align: center; }
+.vb-v { font-family: 'IM Fell English', 'EB Garamond', serif; font-size: 84px; line-height: 1.1; color: var(--green); margin: 0; }
+.vb-o { font-size: 34px; font-style: italic; color: var(--soft); margin: 6px 0 0; }
+
+/* ==== Quality, layout A: centred title page (stacked, so the Arabic pushes the rest down) ==== */
+.a-col { position: absolute; left: 260px; top: 140px; width: 1400px; display: flex; flex-direction: column; align-items: center; }
+.a-orn { position: static; width: 800px; }
+.a-word { width: 1400px; text-align: center; font-weight: 700; font-size: 150px; line-height: 1.75; color: var(--green); margin: 0; }
+.a-title { width: 1400px; text-align: center; font-family: 'IM Fell English', 'EB Garamond', serif; font-weight: 400; font-size: 76px; line-height: 1.1; color: var(--ink); margin: 0 0 22px; }
+.a-quote { width: 1400px; text-align: center; }
+.a-ar { font-size: 44px; line-height: 1.9; text-align: center; color: var(--green); margin: 0; }
+.a-tr { font-size: 30px; font-style: italic; line-height: 1.35; color: var(--soft); margin: 0; }
+.ref-i { color: var(--gold); }
+.a-lead { font-size: 40px; font-style: italic; line-height: 1.35; color: var(--green); margin: 10px 0 0; }
+.aims { position: absolute; left: 200px; top: 750px; width: 1520px; display: flex; flex-direction: column; gap: 16px; }
+.aims-row { display: flex; justify-content: center; align-items: center; gap: 28px; }
+.aim { font-size: 38px; font-weight: 500; color: var(--green); margin: 0; }
+.a-foot { position: absolute; left: 260px; top: 880px; width: 1400px; text-align: center; font-size: 28px; font-style: italic; color: var(--soft); margin: 0; }
+
+/* ==== Quality, layout B: the word on a green panel ==== */
+.b-panel { position: absolute; left: 84px; top: 84px; width: 760px; height: 912px; background: var(--green); }
+section.qb .rh-l { color: var(--gold-l); }
+.b-panel-in { position: absolute; left: 120px; top: 150px; width: 680px; text-align: center; }
+.b-num { font-family: 'Amiri', serif; font-weight: 700; font-size: 60px; line-height: 1.2; color: var(--gold-l); margin: 0; }
+.b-word { font-weight: 700; font-size: 160px; line-height: 1.75; text-align: center; color: var(--gold-l); margin: 0 0 30px; }
+.b-title { font-family: 'IM Fell English', 'EB Garamond', serif; font-weight: 400; font-size: 72px; line-height: 1.1; color: var(--paper); margin: 0 0 14px; }
+.b-sub { font-size: 32px; font-style: italic; color: var(--gold-l); margin: 0; }
+.b-right { position: absolute; left: 920px; top: 170px; width: 850px; }
+.b-ar { font-size: 54px; line-height: 1.9; color: var(--green); margin: 0; }
+.b-tr { font-size: 32px; font-style: italic; line-height: 1.35; margin: 4px 0 0; }
+.b-ref { font-size: 24px; letter-spacing: 3px; color: var(--gold); margin: 10px 0 0; }
+.b-lead { font-size: 44px; font-style: italic; line-height: 1.3; color: var(--green); margin: 10px 0 0; }
+.b-aims { margin-top: 44px; }
+.b-aim { display: flex; align-items: baseline; gap: 26px; padding: 10px 0; }
+.b-aim-n { font-family: 'Amiri', serif; font-weight: 700; font-size: 40px; color: var(--gold); width: 30px; margin: 0; }
+.b-aim-t { font-size: 42px; font-weight: 500; color: var(--green); margin: 0; }
+.b-foot { position: absolute; left: 920px; top: 830px; width: 850px; }
+.b-foot-l { font-size: 24px; letter-spacing: 4px; color: var(--gold); margin: 0 0 4px; }
+.b-foot-t { font-size: 26px; font-style: italic; line-height: 1.35; color: var(--soft); margin: 0; }
+
+/* ==== Heritage: set as couplets ==== */
+.couplets { position: absolute; left: 160px; top: 420px; width: 1600px; }
+.cp { display: grid; grid-template-columns: 1fr 180px 1fr; align-items: baseline; }
+.cp-a { font-family: 'IM Fell English', 'EB Garamond', serif; font-size: 52px; color: var(--green); text-align: right; margin: 0; }
+.cp-w { font-size: 34px; font-style: italic; color: var(--gold); text-align: center; margin: 0; }
+.cp-b { font-size: 40px; font-style: italic; color: var(--soft); margin: 0; }
+.cp-sep { display: flex; justify-content: center; padding: 14px 0; }
+
+/* ==== The six qualities as a contents page ==== */
+.toc-orn { top: 365px; }
+.toc { position: absolute; left: 300px; top: 410px; width: 1320px; }
+.toc-r { display: flex; align-items: baseline; gap: 26px; padding: 0; }
+.toc-n { font-family: 'Amiri', serif; font-weight: 700; font-size: 44px; color: var(--gold); width: 36px; margin: 0; }
+.toc-t { font-family: 'IM Fell English', 'EB Garamond', serif; font-size: 46px; color: var(--ink); margin: 0; }
+.toc-dots { flex: 1; border-bottom: 3px dotted var(--rule); }
+.toc-ar { font-size: 42px; line-height: 1.7; color: var(--green); margin: 0; }
+
+/* ==== Final thought ==== */
+.f-orn { top: 190px; }
+.f-quote { position: absolute; left: 260px; top: 250px; width: 1400px; text-align: center; font-family: 'IM Fell English', 'EB Garamond', serif; font-size: 64px; line-height: 1.25; color: var(--green); margin: 0; }
+.f-close { position: absolute; left: 360px; top: 520px; width: 1200px; text-align: center; font-size: 36px; font-style: italic; line-height: 1.4; color: var(--soft); margin: 0; }
+.f-callig { position: absolute; left: 610px; top: 720px; }
+
+/* ==== Motion: three quick steps ==== */
+.d1, .d2, .d3 { animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.d2 { animation-delay: 0.2s; }
+.d3 { animation-delay: 0.4s; }
+@keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0px); } }
