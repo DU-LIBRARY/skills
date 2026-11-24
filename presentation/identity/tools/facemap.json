@@ -1,0 +1,262 @@
+{
+ "Playfair Display|400|italic": {
+  "face": "Playfair Display",
+  "bold": false,
+  "italic": true
+ },
+ "Playfair Display|500|italic": {
+  "face": "Playfair Display Medium",
+  "bold": false,
+  "italic": true
+ },
+ "Playfair Display|700|italic": {
+  "face": "Playfair Display",
+  "bold": true,
+  "italic": true
+ },
+ "Playfair Display|400|normal": {
+  "face": "Playfair Display",
+  "bold": false,
+  "italic": false
+ },
+ "Playfair Display|500|normal": {
+  "face": "Playfair Display Medium",
+  "bold": false,
+  "italic": false
+ },
+ "Playfair Display|600|normal": {
+  "face": "Playfair Display SemiBold",
+  "bold": false,
+  "italic": false
+ },
+ "Playfair Display|700|normal": {
+  "face": "Playfair Display",
+  "bold": true,
+  "italic": false
+ },
+ "Playfair Display|800|normal": {
+  "face": "Playfair Display ExtraBold",
+  "bold": false,
+  "italic": false
+ },
+ "Playfair Display|900|normal": {
+  "face": "Playfair Display Black",
+  "bold": false,
+  "italic": false
+ },
+ "Manrope|300|normal": {
+  "face": "Manrope Light",
+  "bold": false,
+  "italic": false
+ },
+ "Manrope|400|normal": {
+  "face": "Manrope",
+  "bold": false,
+  "italic": false
+ },
+ "Manrope|500|normal": {
+  "face": "Manrope Medium",
+  "bold": false,
+  "italic": false
+ },
+ "Manrope|600|normal": {
+  "face": "Manrope SemiBold",
+  "bold": false,
+  "italic": false
+ },
+ "Manrope|700|normal": {
+  "face": "Manrope",
+  "bold": true,
+  "italic": false
+ },
+ "Manrope|800|normal": {
+  "face": "Manrope ExtraBold",
+  "bold": false,
+  "italic": false
+ },
+ "EB Garamond|400|italic": {
+  "face": "EB Garamond",
+  "bold": false,
+  "italic": true
+ },
+ "EB Garamond|500|italic": {
+  "face": "EB Garamond Medium",
+  "bold": false,
+  "italic": true
+ },
+ "EB Garamond|600|italic": {
+  "face": "EB Garamond SemiBold",
+  "bold": false,
+  "italic": true
+ },
+ "EB Garamond|400|normal": {
+  "face": "EB Garamond",
+  "bold": false,
+  "italic": false
+ },
+ "EB Garamond|500|normal": {
+  "face": "EB Garamond Medium",
+  "bold": false,
+  "italic": false
+ },
+ "EB Garamond|600|normal": {
+  "face": "EB Garamond SemiBold",
+  "bold": false,
+  "italic": false
+ },
+ "EB Garamond|700|normal": {
+  "face": "EB Garamond",
+  "bold": true,
+  "italic": false
+ },
+ "Stardos Stencil|400|normal": {
+  "face": "Stardos Stencil",
+  "bold": false,
+  "italic": false
+ },
+ "Stardos Stencil|700|normal": {
+  "face": "Stardos Stencil",
+  "bold": true,
+  "italic": false
+ },
+ "Barlow Condensed|400|italic": {
+  "face": "Barlow Condensed",
+  "bold": false,
+  "italic": true
+ },
+ "Barlow Condensed|500|italic": {
+  "face": "Barlow Condensed Medium",
+  "bold": false,
+  "italic": true
+ },
+ "Barlow Condensed|600|italic": {
+  "face": "Barlow Condensed SemiBold",
+  "bold": false,
+  "italic": true
+ },
+ "Barlow Condensed|400|normal": {
+  "face": "Barlow Condensed",
+  "bold": false,
+  "italic": false
+ },
+ "Barlow Condensed|500|normal": {
+  "face": "Barlow Condensed Medium",
+  "bold": false,
+  "italic": false
+ },
+ "Barlow Condensed|600|normal": {
+  "face": "Barlow Condensed SemiBold",
+  "bold": false,
+  "italic": false
+ },
+ "Barlow Condensed|700|normal": {
+  "face": "Barlow Condensed",
+  "bold": true,
+  "italic": false
+ },
+ "Barlow Condensed|800|normal": {
+  "face": "Barlow Condensed ExtraBold",
+  "bold": false,
+  "italic": false
+ },
+ "Noto Sans|400|italic": {
+  "face": "Noto Sans",
+  "bold": false,
+  "italic": true
+ },
+ "Noto Sans|500|italic": {
+  "face": "Noto Sans Medium",
+  "bold": false,
+  "italic": true
+ },
+ "Noto Sans|600|italic": {
+  "face": "Noto Sans SemiBold",
+  "bold": false,
+  "italic": true
+ },
+ "Noto Sans|700|italic": {
+  "face": "Noto Sans",
+  "bold": true,
+  "italic": true
+ },
+ "Noto Sans|400|normal": {
+  "face": "Noto Sans",
+  "bold": false,
+  "italic": false
+ },
+ "Noto Sans|500|normal": {
+  "face": "Noto Sans Medium",
+  "bold": false,
+  "italic": false
+ },
+ "Noto Sans|600|normal": {
+  "face": "Noto Sans SemiBold",
+  "bold": false,
+  "italic": false
+ },
+ "Noto Sans|700|normal": {
+  "face": "Noto Sans",
+  "bold": true,
+  "italic": false
+ },
+ "Noto Sans|800|normal": {
+  "face": "Noto Sans ExtraBold",
+  "bold": false,
+  "italic": false
+ },
+ "Noto Sans|900|normal": {
+  "face": "Noto Sans Black",
+  "bold": false,
+  "italic": false
+ },
+ "Anton|400|normal": {
+  "face": "Anton",
+  "bold": false,
+  "italic": false
+ },
+ "Bricolage Grotesque|400|normal": {
+  "face": "Bricolage Grotesque",
+  "bold": false,
+  "italic": false
+ },
+ "Bricolage Grotesque|500|normal": {
+  "face": "Bricolage Grotesque Medium",
+  "bold": false,
+  "italic": false
+ },
+ "Bricolage Grotesque|600|normal": {
+  "face": "Bricolage Grotesque SemiBold",
+  "bold": false,
+  "italic": false
+ },
+ "Bricolage Grotesque|700|normal": {
+  "face": "Bricolage Grotesque",
+  "bold": true,
+  "italic": false
+ },
+ "Bricolage Grotesque|800|normal": {
+  "face": "Bricolage Grotesque ExtraBold",
+  "bold": false,
+  "italic": false
+ },
+ "Amiri|400|italic": {
+  "face": "Amiri",
+  "bold": false,
+  "italic": true
+ },
+ "Amiri|700|italic": {
+  "face": "Amiri",
+  "bold": true,
+  "italic": true
+ },
+ "Amiri|400|normal": {
+  "face": "Amiri",
+  "bold": false,
+  "italic": false
+ },
+ "Amiri|700|normal": {
+  "face": "Amiri",
+  "bold": true,
+  "italic": false
+ }
+}
