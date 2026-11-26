@@ -139,6 +139,46 @@ section.pillar .folio { left: 1275px; }
 section.pillar .pd-folio { left: 860px; }
 .pd-n { color: rgba(227, 195, 126, 0.8); }
 
+/* ==== Split slides: a green panel beside the paper ==== */
+.sp-l { position: absolute; left: 84px; top: 84px; width: 820px; height: 912px; background: #17433A; }
+.sp-r { position: absolute; left: 1150px; top: 84px; width: 686px; height: 912px; background: #17433A; }
+.sp-logo-l { position: absolute; left: 150px; top: 112px; width: 130px; height: 119px; }
+.sp-in-l { position: absolute; left: 150px; top: 340px; width: 690px; }
+.sp-ar { font-size: 76px; line-height: 1.9; color: var(--gold-l); text-align: right; }
+.sp-tr { font-size: 36px; font-style: italic; line-height: 1.35; color: var(--on); margin-top: 18px; }
+.sp-ref { font-size: 24px; letter-spacing: 4px; color: var(--gold-l); margin-top: 18px; }
+.sp-k { font-size: 24px; letter-spacing: 4px; color: var(--gold-l); }
+.pu-rh { position: absolute; left: 980px; top: 126px; width: 790px; text-align: right; font-size: 24px; letter-spacing: 4px; color: var(--mute); }
+.pu-right { position: absolute; left: 990px; top: 214px; width: 780px; }
+.pu-rows { margin-top: 30px; }
+.pu-row { display: grid; grid-template-columns: 64px 1fr; align-items: baseline; padding: 12px 0; border-top: 2px solid var(--rule); }
+.pu-row.last { border-bottom: 2px solid var(--rule); }
+.pu-n { font-size: 30px; color: var(--gold); }
+.pu-v { font-size: 40px; color: var(--ink); }
+.pu-v i { color: var(--acc); }
+.pu-life { font-size: 36px; font-style: italic; line-height: 1.5; color: var(--acc); margin-top: 6px; }
+.pu-life span { color: var(--gold); font-style: normal; font-size: 26px; }
+.pu-alone { font-size: 30px; color: var(--soft); margin-top: 6px; }
+section.purpose .folio { left: 1280px; }
+/* Mus'ab */
+.mu-left { position: absolute; left: 150px; top: 230px; width: 930px; }
+.mu-sub { font-size: 32px; font-style: italic; color: var(--gold); margin-top: 8px; }
+.mu-steps { margin-top: 34px; }
+.mu-row { display: grid; grid-template-columns: 220px 1fr; align-items: baseline; padding: 14px 0; border-top: 2px solid var(--rule); }
+.mu-row.last { border-bottom: 2px solid var(--rule); }
+.mu-k { font-size: 24px; letter-spacing: 4px; color: var(--acc); }
+.mu-v { font-size: 36px; line-height: 1.25; color: var(--ink); }
+.mu-q { font-size: 38px; font-style: italic; line-height: 1.3; color: var(--acc); margin-top: 30px; }
+.mu-rh { position: absolute; left: 1210px; top: 126px; width: 560px; text-align: right; font-size: 24px; letter-spacing: 4px; color: rgba(227, 195, 126, 0.8); }
+.mu-in { position: absolute; left: 1210px; top: 230px; width: 570px; }
+.mu-t { font-size: 44px; font-weight: 500; line-height: 1.1; color: var(--paper); margin-top: 14px; }
+.mu-list { margin-top: 26px; }
+.mu-li { display: grid; grid-template-columns: 52px 1fr; align-items: baseline; padding: 10px 0; border-top: 1px solid rgba(227, 195, 126, 0.35); }
+.mu-ln { font-size: 28px; color: var(--gold-l); }
+.mu-lv { font-size: 32px; line-height: 1.25; color: var(--paper); }
+.mu-crown { font-size: 32px; font-style: italic; line-height: 1.35; color: var(--gold-l); margin-top: 28px; padding-top: 22px; border-top: 2px solid rgba(227, 195, 126, 0.6); }
+section.musab .folio { left: 515px; }
+
 /* ==== Cover ==== */
 section.cover { background: #17433A; }
 .cv-frame { position: absolute; left: 56px; top: 56px; width: 1808px; height: 968px; box-sizing: border-box; border: 2px solid #C9A85F; }
@@ -227,6 +267,61 @@ SL['questions'] = ('paper', GRAIN + '<div class="frame-o"></div><div class="fram
 </div>
 <div class="band d3"><p class="band-t">Our faith gives us our <i>purpose and direction</i></p></div>''',
  "Our Faith Gives Us Purpose\n\nIslam answers three fundamental questions that every human being must face: Where have we come from? Why are we here? And where are we going?")
+FURN0 = GRAIN + '<div class="frame-o"></div><div class="frame-i"></div>' + ''.join(f'<div class="corner c{i}">{ROS}</div>' for i in (1, 2, 3, 4))
+AY56 = 'وَمَا خَلَقْتُ ٱلْجِنَّ وَٱلْإِنسَ إِلَّا لِيَعْبُدُونِ'
+SL['purpose'] = ('paper purpose', FURN0 + f"""
+<div class="sp-l"></div>
+<img class="sp-logo-l" src="{{{{LOGOY}}}}" alt="Imam Muhammad Adam Institute logo">
+<div class="sp-in-l d1">
+<p class="sp-k">ALLAH TAʿĀLĀ SAYS</p>
+<p class="ar sp-ar">{AY56}</p>
+<p class="sp-tr">“I did not create jinn and mankind except to worship Me.”</p>
+<p class="sp-ref">SŪRAT AL-DHĀRIYĀT 51:56</p>
+</div>
+<p class="pu-rh">Strong in Faith · Our purpose</p>
+<div class="pu-right d2">
+<p class="kick">OUR PURPOSE</p>
+<h2>Far greater than wealth, status or <i>pleasure</i></h2>
+<div class="pu-rows">
+<div class="pu-row"><p class="pu-n">i</p><p class="pu-v">To <i>worship</i> Allah</p></div>
+<div class="pu-row"><p class="pu-n">ii</p><p class="pu-v">To earn His <i>pleasure</i></p></div>
+<div class="pu-row last"><p class="pu-n">iii</p><p class="pu-v">To prepare for our <i>return</i> to Him</p></div>
+</div>
+<p class="kick" style="margin-top:40px;margin-bottom:0">A COMPLETE WAY OF LIFE</p>
+<p class="pu-life">our words <span>◆</span> character <span>◆</span> friendships<br>decisions <span>◆</span> online <span>◆</span> ambitions</p>
+<p class="pu-alone">in public, or alone</p>
+</div>
+<div class="folio">{SM}<p class="num">8</p>{SM}</div>""",
+ "We were created by Allah, not without purpose, but to recognise Him as our Creator and live as His servants. Allah reminds us in the Qurʾān: “I did not create jinn and mankind except to worship Me.” (Sūrat al-Dhāriyāt, 51:56)\n\nOur purpose in life, therefore, is far greater than chasing wealth, status or worldly pleasures. We are here to worship Allah, earn His pleasure and prepare for the day we return to Him.\n\nAnd this is what makes Islam a complete way of life. Our faith is not confined to the masjid or the prayer mat. It should guide our words, shape our character, influence our friendships and govern our decisions, whether we are in public or alone.\n\nFrom how we treat our parents and teachers to how we conduct ourselves online, from the company we keep to the ambitions we pursue, our faith should be the guiding principle in everything we do.")
+SMG = '<svg aria-label="" width="22" height="22" viewBox="-50 -50 100 100"><g fill="#17433A"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g></svg>'
+SL['musab'] = ('paper musab', FURN0 + f"""
+<img class="hd-logo" src="{{{{LOGOG}}}}" alt="Imam Muhammad Adam Institute logo">
+<div class="mu-left d1">
+<p class="kick">AN EXAMPLE TO FOLLOW</p>
+<h2>Sayyidunā Muṣʿab ibn <i>ʿUmayr</i></h2>
+<p class="mu-sub">raḍiya Allāhu ʿanhu</p>
+<div class="mu-steps">
+<div class="mu-row"><p class="mu-k">IN MAKKAH</p><p class="mu-v">Among its wealthiest, most admired young men</p></div>
+<div class="mu-row"><p class="mu-k">HIS CHOICE</p><p class="mu-v">Firm upon his faith, at the cost of everything</p></div>
+<div class="mu-row last"><p class="mu-k">IN MADĪNAH</p><p class="mu-v">Entrusted by the Prophet ﷺ to teach Islam</p></div>
+</div>
+<p class="mu-q">How much do we value our own Islamic identity?</p>
+</div>
+<div class="sp-r"></div>
+<p class="mu-rh">Our responsibility</p>
+<div class="mu-in d2">
+<p class="sp-k">FOLLOWING THEIR EXAMPLE</p>
+<p class="mu-t">As young Muslims, we strive to</p>
+<div class="mu-list">
+<div class="mu-li"><p class="mu-ln">i</p><p class="mu-lv">Strengthen our bond with Allah through worship</p></div>
+<div class="mu-li"><p class="mu-ln">ii</p><p class="mu-lv">Deepen our understanding of Islam</p></div>
+<div class="mu-li"><p class="mu-ln">iii</p><p class="mu-lv">Love the Prophet ﷺ by following his Sunnah</p></div>
+<div class="mu-li"><p class="mu-ln">iv</p><p class="mu-lv">Stay firm, confident and conscious before Allah</p></div>
+</div>
+<p class="mu-crown">Our faith is a crown to cherish, understand and live by.</p>
+</div>
+<div class="folio">{SMG}<p class="num">9</p>{SMG}</div>""",
+ "Sayyidunā Muṣʿab ibn ʿUmayr (raḍiya Allāhu ʿanhu)\n\nConsider the remarkable example of Sayyidunā Muṣʿab ibn ʿUmayr. He was one of the wealthiest and most admired young men of Makkah, enjoying a life of luxury, fine clothing and comfort. Yet when he embraced Islam, he chose to remain firm upon his faith, firm upon his identity, even at the cost of everything he had known.\n\nHe refused to sacrifice his Islamic identity for the comforts of this world. His family opposed his decision, and he lost the privileges and luxuries he had once enjoyed. But what he lost in worldly wealth, he gained in faith, conviction and honour.\n\nThe Prophet ﷺ later entrusted him with teaching Islam in Madinah, where he played a remarkable role in spreading the message of Islam.\n\nMuṣʿab's life teaches us a powerful lesson: our Islamic identity is not something to compromise for wealth, popularity or acceptance. He was prepared to give up the comforts of this world rather than give up his faith. The question for us is: how much do we value our own Islamic identity?\n\nOur Responsibility as Young Muslims\n\nSo, following their example, what should we be striving for? We should strive to strengthen our relationship with Allah through worship, deepen our understanding of Islam, and develop a sincere love for the Prophet ﷺ by following his Sunnah.\n\nOur faith should guide our character, choices and everyday actions. Above all, we should remain firm in our beliefs, confident in our Islamic identity and conscious of our responsibility to ourselves and those around us before Allah.\n\nWe should never feel apologetic or embarrassed about being Muslim. Our faith is a crown to cherish, understand and live by.")
 ORDER = list(SL)
 os.makedirs('project/slides', exist_ok=True); os.makedirs('prev', exist_ok=True)
 links = ''.join(f'<link rel="stylesheet" href="{f["href"]}">' for f in FACES.values())
