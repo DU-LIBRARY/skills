@@ -196,3 +196,10 @@ section.cover { background: #17433A; }
 .mb-trio { top: 470px; }
 .mb-tx { font-size: 42px; line-height: 1.25; color: var(--ink); margin-top: 16px; }
 .mb-tx i { color: var(--acc); }
+
+/* ==== A hadith on the green field ==== */
+section.dark-v .kick { color: var(--gold-l); }
+section.dark-v .yo-ar { color: var(--gold-l); }
+section.dark-v .yo-tr { color: var(--paper); }
+section.dark-v .yo-tr b { color: var(--gold-l); }
+section.dark-v .ref { color: var(--gold-l); }
