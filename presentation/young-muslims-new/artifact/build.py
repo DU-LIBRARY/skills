@@ -119,6 +119,26 @@ section.education .folio { left: 595px; }
 .pf-v i { color: var(--acc); }
 section.pillar .folio { left: 1275px; }
 
+/* ==== Three questions ==== */
+.qs-top { top: 214px; }
+.qs-trio { top: 460px; }
+.qs-n { font-size: 30px; color: var(--gold); margin-bottom: 6px; }
+.qs-q { font-size: 56px; line-height: 1.15; color: var(--ink); margin-top: 14px; }
+.qs-q i { color: var(--acc); }
+
+/* ==== Pillar opener: the pillar's green fills the frame, all centred ==== */
+.pd-field { position: absolute; left: 84px; top: 84px; width: 1752px; height: 912px; background: #102F29; }
+.pd-rh { position: absolute; left: 980px; top: 126px; width: 790px; text-align: right; font-size: 24px; letter-spacing: 4px; color: rgba(227, 195, 126, 0.75); }
+.pd-c { position: absolute; left: 160px; top: 200px; width: 1600px; text-align: center; }
+.pd-num { font-size: 26px; letter-spacing: 8px; color: var(--gold-l); }
+.pd-ar { font-size: 190px; font-weight: 700; line-height: 1.45; color: var(--gold-l); text-align: center; }
+.pd-t { font-size: 100px; font-weight: 500; line-height: 1.05; color: var(--paper); }
+.pd-s { font-size: 42px; font-style: italic; color: var(--gold-l); margin-top: 14px; }
+.pd-rule { position: absolute; left: 900px; top: 790px; width: 120px; height: 2px; background: var(--gold-l); }
+.pd-foot { position: absolute; left: 310px; top: 816px; width: 1300px; text-align: center; font-size: 38px; font-style: italic; line-height: 1.35; color: var(--on); }
+section.pillar .pd-folio { left: 860px; }
+.pd-n { color: rgba(227, 195, 126, 0.8); }
+
 /* ==== Cover ==== */
 section.cover { background: #17433A; }
 .cv-frame { position: absolute; left: 56px; top: 56px; width: 1808px; height: 968px; box-sizing: border-box; border: 2px solid #C9A85F; }
@@ -194,29 +214,19 @@ SL['pillars'] = ('paper', furn(5, 'Six pillars') + f'''
 <p class="pl-lead">to help us answer this question, and shape the identity we strive to embody</p></div>
 <div class="tiles d2">{tiles}</div>''',
  "So, what kind of young Muslims should we aspire to become? Six foundational pillars will help us answer this question and shape the identity we strive to embody.\n\n1. Strong in Faith (al-Īmān)\n2. Seekers of Knowledge (al-ʿIlm)\n3. Noble in Character (al-Akhlāq)\n4. Confident in Society (al-Mujtamaʿ)\n5. Committed to Service (al-Khidmah)\n6. Striving for Excellence (al-Iḥsān)")
-SL['faith'] = ('paper pillar', GRAIN + '<div class="frame-o"></div><div class="frame-i"></div>' + ''.join(f'<div class="corner c{i}">{ROS}</div>' for i in (1, 2, 3, 4)) + f'''
-<div class="pf-panel"></div>
-<img class="pf-logo" src="{{{{LOGOY}}}}" alt="Imam Muhammad Adam Institute logo">
-<p class="pf-rh">Pillar one · Strong in Faith</p>
-<div class="pf-in d1">
-<p class="pf-num">PILLAR ONE</p>
-<p class="ar pf-ar">الإيمان</p>
-<p class="pf-t">Strong in Faith</p>
-<p class="pf-s">Our Islamic identity</p>
+SL['questions'] = ('paper', GRAIN + '<div class="frame-o"></div><div class="frame-i"></div>' + ''.join(f'<div class="corner c{i}">{ROS}</div>' for i in (1, 2, 3, 4)) + f'''
+<img class="hd-logo" src="{{{{LOGOG}}}}" alt="Imam Muhammad Adam Institute logo">
+<p class="rh-r">Strong in Faith · Our purpose</p>
+<div class="folio">{SM}<p class="num">7</p>{SM}</div>
+<div class="cen qs-top d1"><p class="kick">OUR FAITH GIVES US PURPOSE</p><h2>Islam answers <i>three</i> fundamental questions</h2>
+<p class="lead">that every human being must face</p></div>
+<div class="trio qs-trio d2">
+<div class="cell first"><p class="qs-n">I</p><p class="who">ORIGIN</p><p class="qs-q">Where have we<br><i>come from</i>?</p></div>
+<div class="cell"><p class="qs-n">II</p><p class="who">PURPOSE</p><p class="qs-q">Why are<br>we <i>here</i>?</p></div>
+<div class="cell"><p class="qs-n">III</p><p class="who">DESTINY</p><p class="qs-q">Where are<br>we <i>going</i>?</p></div>
 </div>
-<p class="pf-foot d3">Our background is part of who we are, but our faith gives us our true purpose and direction.</p>
-<div class="pf-right d2">
-<p class="kick">AT THE HEART OF OUR LIVES</p>
-<h2>More than an <i>inherited</i> identity</h2>
-<p class="kick" style="margin-top:30px">A FAITH WE</p>
-<div class="pf-verbs" style="margin-top:0"><p class="pf-verb">understand</p><p class="pf-dot">◆</p><p class="pf-verb">cherish</p><p class="pf-dot">◆</p><p class="pf-verb">live by</p></div>
-<p class="pf-k2">IN BRITAIN, WE GROUND OURSELVES IN</p>
-<div class="pf-row"><p class="pf-n">i</p><p class="pf-v">Sound Islamic <i>knowledge</i></p></div>
-<div class="pf-row"><p class="pf-n">ii</p><p class="pf-v">A stronger <i>īmān</i></p></div>
-<div class="pf-row last"><p class="pf-n">iii</p><p class="pf-v">Commitment to the <i>Qurʾān and Sunnah</i></p></div>
-</div>
-<div class="folio">{SM}<p class="num">6</p>{SM}</div>''',
- "1. Strong in Faith: Our Islamic Identity\n\nAs Muslims, our faith must lie at the heart of our lives. Being born into a Muslim family is a great blessing, but our Islam must be more than an inherited identity. It must be a faith we understand, cherish and strive to live by.\n\nGrowing up in Britain, we will encounter different beliefs, contrasting world views and challenges to our convictions. We must therefore ground ourselves in sound Islamic knowledge, strengthen our īmān and develop an unwavering commitment to the Qurʾān and Sunnah.\n\nOur ethnicity, nationality and background may be part of who we are, but it is our faith that gives us our true purpose and direction in life.")
+<div class="band d3"><p class="band-t">Our faith gives us our <i>purpose and direction</i></p></div>''',
+ "Our Faith Gives Us Purpose\n\nIslam answers three fundamental questions that every human being must face: Where have we come from? Why are we here? And where are we going?")
 ORDER = list(SL)
 os.makedirs('project/slides', exist_ok=True); os.makedirs('prev', exist_ok=True)
 links = ''.join(f'<link rel="stylesheet" href="{f["href"]}">' for f in FACES.values())
