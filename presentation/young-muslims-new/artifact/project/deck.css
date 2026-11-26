@@ -123,3 +123,16 @@ section.cover { background: #17433A; }
 .d2 { animation-delay: 0.2s; }
 .d3 { animation-delay: 0.4s; }
 @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0px); } }
+
+/* ==== Pillar opener: the pillar's green fills the frame, all centred ==== */
+.pd-field { position: absolute; left: 84px; top: 84px; width: 1752px; height: 912px; background: #102F29; }
+.pd-rh { position: absolute; left: 980px; top: 126px; width: 790px; text-align: right; font-size: 24px; letter-spacing: 4px; color: rgba(227, 195, 126, 0.75); }
+.pd-c { position: absolute; left: 160px; top: 200px; width: 1600px; text-align: center; }
+.pd-num { font-size: 26px; letter-spacing: 8px; color: var(--gold-l); }
+.pd-ar { font-size: 190px; font-weight: 700; line-height: 1.45; color: var(--gold-l); text-align: center; }
+.pd-t { font-size: 100px; font-weight: 500; line-height: 1.05; color: var(--paper); }
+.pd-s { font-size: 42px; font-style: italic; color: var(--gold-l); margin-top: 14px; }
+.pd-rule { position: absolute; left: 900px; top: 790px; width: 120px; height: 2px; background: var(--gold-l); }
+.pd-foot { position: absolute; left: 310px; top: 816px; width: 1300px; text-align: center; font-size: 38px; font-style: italic; line-height: 1.35; color: var(--on); }
+section.pillar .pd-folio { left: 860px; }
+.pd-n { color: rgba(227, 195, 126, 0.8); }
