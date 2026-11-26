@@ -87,6 +87,28 @@ section.education .folio { left: 595px; }
 .t-olive { background: #245B4F; }
 .t-gold { background: #2C675A; }
 
+/* ==== Pillar opener: dark green panel on the left ==== */
+.pf-panel { position: absolute; left: 84px; top: 84px; width: 800px; height: 912px; background: #102F29; }
+.pf-logo { position: absolute; left: 150px; top: 112px; width: 130px; height: 119px; }
+.pf-in { position: absolute; left: 150px; top: 270px; width: 680px; }
+.pf-num { font-size: 26px; letter-spacing: 6px; color: var(--gold-l); }
+.pf-ar { font-size: 132px; font-weight: 700; line-height: 1.5; color: var(--gold-l); text-align: left; }
+.pf-t { font-size: 84px; font-weight: 500; line-height: 1.05; color: var(--paper); }
+.pf-s { font-size: 38px; font-style: italic; color: var(--gold-l); margin-top: 12px; }
+.pf-foot { position: absolute; left: 150px; top: 830px; width: 660px; padding-top: 22px; border-top: 2px solid rgba(227, 195, 126, 0.5); font-size: 32px; font-style: italic; line-height: 1.35; color: var(--on); }
+.pf-rh { position: absolute; left: 980px; top: 126px; width: 790px; text-align: right; font-size: 24px; letter-spacing: 4px; color: var(--mute); }
+.pf-right { position: absolute; left: 980px; top: 214px; width: 790px; }
+.pf-verbs { display: flex; align-items: baseline; gap: 26px; margin-top: 26px; }
+.pf-verb { font-size: 46px; font-style: italic; color: var(--acc); }
+.pf-dot { font-size: 30px; color: var(--gold); }
+.pf-k2 { font-size: 24px; letter-spacing: 4px; color: var(--acc); margin-top: 40px; margin-bottom: 8px; }
+.pf-row { display: grid; grid-template-columns: 70px 1fr; align-items: baseline; padding: 12px 0; border-top: 2px solid var(--rule); }
+.pf-row.last { border-bottom: 2px solid var(--rule); }
+.pf-n { font-size: 30px; color: var(--gold); }
+.pf-v { font-size: 40px; color: var(--ink); }
+.pf-v i { color: var(--acc); }
+section.pillar .folio { left: 1275px; }
+
 /* ==== Cover ==== */
 section.cover { background: #17433A; }
 .cv-frame { position: absolute; left: 56px; top: 56px; width: 1808px; height: 968px; box-sizing: border-box; border: 2px solid #C9A85F; }

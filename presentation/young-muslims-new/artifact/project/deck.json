@@ -18,7 +18,8 @@
   "opening",
   "ayah",
   "youth",
-  "pillars"
+  "pillars",
+  "faith"
  ],
  "sections": {
   "s1": {
@@ -32,6 +33,10 @@
   "s3": {
    "description": "Six foundational pillars that shape the identity we strive to embody.",
    "start": "pillars"
+  },
+  "s4": {
+   "description": "Pillar one: Strong in Faith, our Islamic identity.",
+   "start": "faith"
   }
  },
  "faces": {
