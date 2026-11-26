@@ -17,7 +17,8 @@
   "cover",
   "opening",
   "ayah",
-  "youth"
+  "youth",
+  "pillars"
  ],
  "sections": {
   "s1": {
@@ -27,6 +28,10 @@
   "s2": {
    "description": "The Qurʾān and the value of our youth.",
    "start": "ayah"
+  },
+  "s3": {
+   "description": "Six foundational pillars that shape the identity we strive to embody.",
+   "start": "pillars"
   }
  },
  "faces": {

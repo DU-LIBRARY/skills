@@ -82,6 +82,23 @@ h2 i { color: var(--acc); }
 .ed-rh { position: absolute; left: 1300px; top: 126px; width: 480px; text-align: right; font-size: 24px; letter-spacing: 4px; color: var(--gold-l); }
 section.education .folio { left: 595px; }
 
+/* ==== Six pillars: a grid of tiles ==== */
+.pl-head { position: absolute; left: 150px; top: 216px; width: 1620px; }
+.pl-lead { font-size: 34px; font-style: italic; color: var(--soft); margin-top: 10px; }
+.tiles { position: absolute; left: 150px; top: 428px; width: 1620px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+.tile { position: relative; height: 240px; padding: 20px 36px 26px; box-sizing: border-box; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; }
+.t-num { position: absolute; right: 26px; top: -22px; font-size: 220px; font-weight: 500; line-height: 1; color: rgba(237, 230, 214, 0.16); }
+.t-ar { font-size: 70px; font-weight: 700; line-height: 1.55; color: var(--paper); text-align: left; }
+.t-en { font-size: 24px; letter-spacing: 4px; color: var(--paper); margin-top: 22px; }
+.t-green { background: #17433A; }
+.t-lapis { background: #1F4470; }
+.t-clay { background: #8E4A2F; }
+.t-teal { background: #2F5F57; }
+.t-olive { background: #5E5A30; }
+.t-gold { background: #C9A962; }
+.t-gold .t-ar, .t-gold .t-en { color: #17433A; }
+.t-gold .t-num { color: rgba(23, 67, 58, 0.14); }
+
 /* ==== Cover ==== */
 section.cover { background: #17433A; }
 .cv-frame { position: absolute; left: 56px; top: 56px; width: 1808px; height: 968px; box-sizing: border-box; border: 2px solid #C9A85F; }
@@ -149,16 +166,14 @@ SL['youth'] = ('paper', furn(4, 'The value of our youth') + f'''
 </div>
 <div class="band d3"><p class="band-t">The choices we make today <i>shape who we become tomorrow</i></p></div>''',
  "The Value of Our Youth\n\nThe Prophet Muhammad ﷺ gave us an important reminder about making the most of our youth: “Take advantage of five things before five: your youth before your old age.” (Reported by al-Ḥākim and al-Bayhaqī.)\n\nYouth is a precious blessing from Allah, a time of opportunity, growth and responsibility. The choices we make today will shape the individuals we become tomorrow.")
-SL['education'] = ('paper education', furn(5, '', rh=False) + '''
-<div class="ed-left d1"><p class="kick">AS STUDENTS OF THE INSTITUTE</p><h2>Our education is about <i>far more</i></h2>
-<div class="vs">
-<div class="vs-c"><p class="vs-h">MORE THAN</p><p class="vs-l">Examinations<br>Qualifications<br>Careers</p></div>
-<div class="vs-c two"><p class="vs-h">IT IS ABOUT</p><p class="vs-l">Nurturing our faith<br>Enriching our minds<br>Refining our character<br>Preparing to contribute</p></div>
-</div></div>
-<div class="pill"></div>
-<p class="ed-rh">Six pillars</p>
-<div class="pill-in d2"><p class="pill-k">SO WHAT KIND OF YOUNG MUSLIMS?</p><p class="big6">6</p><p class="pill-t">foundational pillars</p><p class="pill-s">to shape the identity we strive to embody</p></div>''',
- "As students of The Imam Muhammad Adam Institute, our education is about far more than examinations, qualifications or careers. It is about nurturing our faith, enriching our minds, refining our character and preparing ourselves to make a meaningful contribution to the world we live in.\n\nSo, what kind of young Muslims should we aspire to become? Six foundational pillars will help us answer this question and shape the identity we strive to embody.")
+PILLARS = [('الإيمان','STRONG IN FAITH','t-green'),('العلم','SEEKERS OF KNOWLEDGE','t-lapis'),('الأخلاق','NOBLE IN CHARACTER','t-clay'),
+           ('المجتمع','CONFIDENT IN SOCIETY','t-teal'),('الخدمة','COMMITTED TO SERVICE','t-olive'),('الإحسان','STRIVING FOR EXCELLENCE','t-gold')]
+tiles = ''.join(f'<div class="tile {c}"><p class="t-num">{i+1}</p><p class="ar t-ar">{ar}</p><p class="t-en">{en}</p></div>' for i,(ar,en,c) in enumerate(PILLARS))
+SL['pillars'] = ('paper', furn(5, 'Six pillars') + f'''
+<div class="pl-head d1"><p class="kick">SO, WHAT KIND OF YOUNG MUSLIMS?</p><h2>Six foundational <i>pillars</i></h2>
+<p class="pl-lead">to help us answer this question, and shape the identity we strive to embody</p></div>
+<div class="tiles d2">{tiles}</div>''',
+ "So, what kind of young Muslims should we aspire to become? Six foundational pillars will help us answer this question and shape the identity we strive to embody.\n\n1. Strong in Faith (al-Īmān)\n2. Seekers of Knowledge (al-ʿIlm)\n3. Noble in Character (al-Akhlāq)\n4. Confident in Society (al-Mujtamaʿ)\n5. Committed to Service (al-Khidmah)\n6. Striving for Excellence (al-Iḥsān)")
 ORDER = list(SL)
 os.makedirs('project/slides', exist_ok=True); os.makedirs('prev', exist_ok=True)
 links = ''.join(f'<link rel="stylesheet" href="{f["href"]}">' for f in FACES.values())
