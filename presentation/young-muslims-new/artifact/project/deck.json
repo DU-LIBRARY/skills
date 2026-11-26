@@ -1,0 +1,52 @@
+{
+ "v": 5,
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-11-26T21:34:07Z"
+ },
+ "lists": "css",
+ "format": {
+  "v": 1,
+  "shared": [
+   "project/deck.css"
+  ]
+ },
+ "title": "Our Identity as Young Muslims — Part 1",
+ "cover": "cover",
+ "order": [
+  "cover",
+  "opening",
+  "ayah",
+  "youth",
+  "education"
+ ],
+ "sections": {
+  "s1": {
+   "description": "Welcome and the question: who are we as young Muslims?",
+   "start": "cover"
+  },
+  "s2": {
+   "description": "The Qurʾān and the value of youth, leading into the six pillars.",
+   "start": "ayah"
+  }
+ },
+ "faces": {
+  "eb-garamond": {
+   "family": "EB Garamond",
+   "href": "https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
+  },
+  "amiri": {
+   "family": "Amiri",
+   "href": "https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap"
+  },
+  "cormorant-garamond": {
+   "family": "Cormorant Garamond",
+   "href": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&display=swap"
+  },
+  "manrope": {
+   "family": "Manrope",
+   "href": "https://fonts.googleapis.com/css2?family=Manrope:wght@700&display=swap"
+  }
+ },
+ "designSystems": []
+}

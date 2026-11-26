@@ -1,0 +1,88 @@
+/* ==== Letterpress on cream paper, in the Institute's green and gold ==== */
+:root { --paper: #EDE6D6; --ink: #1C1E24; --soft: #343843; --mute: #5E6170; --acc: #17433A; --gold: #A8823A; --gold-l: #E3C37E; --on: #DCE6E0; --rule: #B4AE9E; }
+body { font-family: 'EB Garamond', 'Amiri', Georgia, serif; color: var(--ink); }
+section { background: var(--paper); color: var(--ink); padding: 128px; font-family: 'EB Garamond', 'Amiri', Georgia, serif; }
+section p, section h1, section h2 { margin: 0; }
+
+/* ==== Page furniture ==== */
+.grain { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; opacity: 0.3; }
+.frame-o { position: absolute; left: 56px; top: 56px; width: 1808px; height: 968px; box-sizing: border-box; border: 5px solid var(--ink); }
+.frame-i { position: absolute; left: 70px; top: 70px; width: 1780px; height: 940px; box-sizing: border-box; border: 2px solid var(--ink); }
+.corner { position: absolute; width: 34px; height: 34px; }
+.c1 { left: 41px; top: 41px; } .c2 { left: 1845px; top: 41px; } .c3 { left: 41px; top: 1005px; } .c4 { left: 1845px; top: 1005px; }
+.hd-logo { position: absolute; left: 148px; top: 88px; width: 80px; height: 73px; }
+.rh-l { position: absolute; left: 250px; top: 108px; width: 800px; font-size: 24px; letter-spacing: 4px; color: var(--acc); }
+.rh-r { position: absolute; left: 1170px; top: 108px; width: 600px; text-align: right; font-size: 24px; letter-spacing: 4px; color: var(--mute); }
+.folio { position: absolute; left: 860px; top: 950px; width: 200px; display: flex; justify-content: center; align-items: center; gap: 16px; }
+.num { font-size: 26px; color: var(--mute); }
+
+/* ==== Shared type ==== */
+.kick { font-size: 24px; letter-spacing: 4px; color: var(--acc); margin-bottom: 16px; }
+h2 { font-size: 76px; font-weight: 500; line-height: 1.08; color: var(--ink); }
+h2 i { color: var(--acc); }
+.lead { font-size: 36px; font-style: italic; line-height: 1.35; color: var(--soft); margin-top: 22px; }
+.ar { font-family: 'Amiri', serif; direction: rtl; }
+.ref { font-size: 24px; letter-spacing: 4px; color: var(--gold); margin-top: 18px; }
+.band { position: absolute; left: 84px; top: 770px; width: 1752px; height: 150px; background: var(--acc); display: flex; align-items: center; justify-content: center; }
+.band-t { font-size: 48px; color: var(--paper); text-align: center; }
+.band-t i { color: var(--gold-l); }
+.orn { display: flex; justify-content: center; align-items: center; gap: 22px; margin: 22px 0; }
+.orn-r { width: 240px; height: 6px; border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
+
+/* ==== Three columns ==== */
+.trio { position: absolute; left: 150px; width: 1620px; display: grid; grid-template-columns: 1fr 1fr 1fr; }
+.cell { padding: 0 44px; text-align: center; border-left: 2px solid var(--rule); }
+.cell.first { border-left: none; }
+.who { font-size: 24px; letter-spacing: 4px; color: var(--acc); }
+.cell-tx { font-size: 46px; line-height: 1.25; color: var(--ink); margin-top: 14px; }
+.cell-tx i { color: var(--acc); }
+.cen { position: absolute; left: 150px; width: 1620px; text-align: center; }
+
+/* ==== Opening ==== */
+.op-top { top: 200px; }
+.op-trio { top: 500px; }
+
+/* ==== The ayah, on its own ==== */
+.ay { position: absolute; left: 210px; top: 190px; width: 1500px; height: 740px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+.ay-ar { width: 1500px; text-align: center; font-size: 92px; line-height: 1.85; color: var(--acc); }
+.ay-tr { width: 1300px; font-size: 46px; font-style: italic; line-height: 1.35; color: var(--soft); }
+
+/* ==== Youth ==== */
+.yo-top { top: 190px; }
+.yo-ar { font-size: 84px; line-height: 1.9; color: var(--acc); }
+.yo-tr { font-size: 40px; font-style: italic; color: var(--soft); }
+.yo-tr b { font-weight: 500; color: var(--acc); }
+.yo-trio { top: 590px; }
+
+/* ==== Education ==== */
+.ed-left { position: absolute; left: 150px; top: 250px; width: 1040px; }
+.vs { margin-top: 70px; display: grid; grid-template-columns: 1fr 1fr; }
+.vs-c { padding: 0 40px 0 0; }
+.vs-c.two { padding: 0 0 0 40px; border-left: 2px solid var(--rule); }
+.vs-h { font-size: 24px; letter-spacing: 4px; color: var(--mute); margin-bottom: 18px; }
+.vs-c.two .vs-h { color: var(--acc); }
+.vs-l { font-size: 46px; line-height: 1.6; color: var(--mute); }
+.vs-c.two .vs-l { color: var(--ink); }
+.pill { position: absolute; left: 1240px; top: 84px; width: 596px; height: 912px; background: var(--acc); }
+.pill-in { position: absolute; left: 1300px; top: 230px; width: 480px; }
+.pill-k { font-size: 24px; letter-spacing: 4px; color: var(--gold-l); }
+.big6 { font-size: 300px; font-weight: 500; line-height: 0.9; color: var(--gold-l); margin-top: 20px; }
+.pill-t { font-size: 56px; line-height: 1.1; color: var(--paper); margin-top: 24px; }
+.pill-s { font-size: 32px; font-style: italic; line-height: 1.35; color: var(--on); margin-top: 22px; }
+.ed-rh { position: absolute; left: 1300px; top: 108px; width: 480px; text-align: right; font-size: 24px; letter-spacing: 4px; color: var(--gold-l); }
+section.education .folio { left: 595px; }
+
+/* ==== Cover ==== */
+section.cover { background: #17433A; }
+.cv-frame { position: absolute; left: 56px; top: 56px; width: 1808px; height: 968px; box-sizing: border-box; border: 2px solid #C9A85F; }
+.cv-logo { position: absolute; left: 130px; top: 120px; width: 170px; height: 155px; }
+.cv-ttl { position: absolute; left: 140px; top: 330px; width: 1600px; font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 176px; line-height: 1; letter-spacing: -1.5px; color: #F3EDE0; }
+.cv-base { position: absolute; left: 130px; top: 838px; width: 1660px; height: 2px; background: #C9A85F; }
+.cv-cal { position: absolute; left: 140px; top: 870px; width: 440px; height: 84px; }
+.cv-slo { position: absolute; left: 1100px; top: 902px; width: 690px; text-align: right; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 26px; letter-spacing: 7px; color: #D4B26A; }
+
+/* ==== Motion: three quick steps ==== */
+.d1, .d2, .d3 { animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.d2 { animation-delay: 0.2s; }
+.d3 { animation-delay: 0.4s; }
+@keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0px); } }
