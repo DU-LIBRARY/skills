@@ -17,8 +17,7 @@
   "cover",
   "opening",
   "ayah",
-  "youth",
-  "education"
+  "youth"
  ],
  "sections": {
   "s1": {
@@ -26,7 +25,7 @@
    "start": "cover"
   },
   "s2": {
-   "description": "The Qurʾān and the value of youth, leading into the six pillars.",
+   "description": "The Qurʾān and the value of our youth.",
    "start": "ayah"
   }
  },
