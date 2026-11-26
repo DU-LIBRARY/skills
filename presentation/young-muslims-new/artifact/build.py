@@ -20,9 +20,9 @@ section p, section h1, section h2 { margin: 0; }
 .frame-i { position: absolute; left: 70px; top: 70px; width: 1780px; height: 940px; box-sizing: border-box; border: 2px solid var(--ink); }
 .corner { position: absolute; width: 34px; height: 34px; }
 .c1 { left: 41px; top: 41px; } .c2 { left: 1845px; top: 41px; } .c3 { left: 41px; top: 1005px; } .c4 { left: 1845px; top: 1005px; }
-.hd-logo { position: absolute; left: 148px; top: 88px; width: 80px; height: 73px; }
-.rh-l { position: absolute; left: 250px; top: 108px; width: 800px; font-size: 24px; letter-spacing: 4px; color: var(--acc); }
-.rh-r { position: absolute; left: 1170px; top: 108px; width: 600px; text-align: right; font-size: 24px; letter-spacing: 4px; color: var(--mute); }
+.hd-logo { position: absolute; left: 146px; top: 82px; width: 130px; height: 119px; }
+.rh-l { position: absolute; left: 300px; top: 126px; width: 800px; font-size: 24px; letter-spacing: 4px; color: var(--acc); }
+.rh-r { position: absolute; left: 1170px; top: 126px; width: 600px; text-align: right; font-size: 24px; letter-spacing: 4px; color: var(--mute); }
 .folio { position: absolute; left: 860px; top: 950px; width: 200px; display: flex; justify-content: center; align-items: center; gap: 16px; }
 .num { font-size: 26px; color: var(--mute); }
 
@@ -79,7 +79,7 @@ h2 i { color: var(--acc); }
 .big6 { font-size: 300px; font-weight: 500; line-height: 0.9; color: var(--gold-l); margin-top: 20px; }
 .pill-t { font-size: 56px; line-height: 1.1; color: var(--paper); margin-top: 24px; }
 .pill-s { font-size: 32px; font-style: italic; line-height: 1.35; color: var(--on); margin-top: 22px; }
-.ed-rh { position: absolute; left: 1300px; top: 108px; width: 480px; text-align: right; font-size: 24px; letter-spacing: 4px; color: var(--gold-l); }
+.ed-rh { position: absolute; left: 1300px; top: 126px; width: 480px; text-align: right; font-size: 24px; letter-spacing: 4px; color: var(--gold-l); }
 section.education .folio { left: 595px; }
 
 /* ==== Cover ==== */
