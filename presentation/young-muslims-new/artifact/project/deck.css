@@ -72,22 +72,16 @@ h2 i { color: var(--acc); }
 .ed-rh { position: absolute; left: 1300px; top: 126px; width: 480px; text-align: right; font-size: 24px; letter-spacing: 4px; color: var(--gold-l); }
 section.education .folio { left: 595px; }
 
-/* ==== Six pillars: a grid of tiles ==== */
+/* ==== Six pillars: a ruled letterpress grid ==== */
 .pl-head { position: absolute; left: 150px; top: 216px; width: 1620px; }
 .pl-lead { font-size: 34px; font-style: italic; color: var(--soft); margin-top: 10px; }
-.tiles { position: absolute; left: 150px; top: 428px; width: 1620px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
-.tile { position: relative; height: 240px; padding: 20px 36px 26px; box-sizing: border-box; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; }
-.t-num { position: absolute; right: 26px; top: -22px; font-size: 220px; font-weight: 500; line-height: 1; color: rgba(237, 230, 214, 0.16); }
-.t-ar { font-size: 70px; font-weight: 700; line-height: 1.55; color: var(--paper); text-align: left; }
-.t-en { font-size: 24px; letter-spacing: 4px; color: var(--paper); margin-top: 22px; }
-.t-green { background: #17433A; }
-.t-lapis { background: #1F4470; }
-.t-clay { background: #8E4A2F; }
-.t-teal { background: #2F5F57; }
-.t-olive { background: #5E5A30; }
-.t-gold { background: #C9A962; }
-.t-gold .t-ar, .t-gold .t-en { color: #17433A; }
-.t-gold .t-num { color: rgba(23, 67, 58, 0.14); }
+.tiles { position: absolute; left: 150px; top: 440px; width: 1620px; display: grid; grid-template-columns: 1fr 1fr 1fr; border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
+.tile { position: relative; padding: 18px 40px 22px; box-sizing: border-box; border-left: 2px solid var(--rule); display: flex; flex-direction: column; align-items: center; text-align: center; }
+.tile:nth-child(3n+1) { border-left: none; }
+.tile:nth-child(n+4) { border-top: 2px solid var(--rule); }
+.t-num { font-size: 30px; font-weight: 500; letter-spacing: 4px; color: var(--gold); }
+.t-ar { font-size: 72px; font-weight: 700; line-height: 1.5; color: var(--acc); text-align: center; }
+.t-en { font-size: 24px; letter-spacing: 4px; color: var(--ink); margin-top: 16px; }
 
 /* ==== Cover ==== */
 section.cover { background: #17433A; }
