@@ -27,7 +27,8 @@
   "iqra",
   "scholars",
   "heritage",
-  "classrooms"
+  "classrooms",
+  "character"
  ],
  "sections": {
   "s1": {
@@ -49,6 +50,10 @@
   "s5": {
    "description": "Pillar two: Seekers of Knowledge, our scholarly identity.",
    "start": "knowledge"
+  },
+  "s6": {
+   "description": "Pillar three: Noble in Character, our identity of adab and akhlāq.",
+   "start": "character"
   }
  },
  "faces": {
