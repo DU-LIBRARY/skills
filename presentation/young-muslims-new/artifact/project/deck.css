@@ -218,3 +218,11 @@ section.dark-v .ref { color: var(--gold-l); }
 .sc-k { font-size: 24px; letter-spacing: 4px; color: var(--acc); }
 .sc-v { font-size: 32px; line-height: 1.25; color: var(--ink); }
 .sc-v i { color: var(--acc); }
+
+/* ==== Two scholars, simplified ==== */
+.ss-duo { top: 330px; }
+.ss-duo .sc-col { text-align: center; padding: 0 50px; }
+.ss-duo .sc-col.first { padding: 0 50px; }
+.ss-story { font-size: 38px; font-style: italic; line-height: 1.3; color: var(--soft); margin-top: 34px; }
+.ss-arrow { font-size: 26px; color: var(--gold); margin-top: 22px; }
+.ss-became { font-size: 60px; font-style: italic; color: var(--acc); margin-top: 14px; }
