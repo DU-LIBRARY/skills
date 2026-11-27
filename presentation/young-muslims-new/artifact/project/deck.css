@@ -341,3 +341,11 @@ section#classrooms .band-t { font-size: 60px; }
 .bs-b { font-size: 76px; font-weight: 500; color: var(--ink); }
 .bs-b i { color: var(--acc); }
 .bs-ref { margin-top: 26px; }
+
+/* ==== Six questions to ask ourselves ==== */
+.ak-head { position: absolute; left: 150px; top: 236px; width: 1620px; }
+.ak { position: absolute; left: 150px; top: 400px; width: 1620px; display: grid; grid-template-columns: 1fr 1fr; column-gap: 80px; border-top: 2px solid var(--ink); }
+.ak-i { display: grid; grid-template-columns: 60px 1fr; align-items: baseline; padding: 34px 0; border-bottom: 2px solid var(--rule); }
+.ak-n { font-size: 30px; color: var(--gold); }
+.ak-q { font-size: 38px; line-height: 1.25; color: var(--ink); }
+.ak-q i { color: var(--acc); }
