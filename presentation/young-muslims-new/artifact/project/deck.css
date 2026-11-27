@@ -312,3 +312,21 @@ section#classrooms .band-t { font-size: 60px; }
 .cl-rule { width: 110px; height: 2px; background: var(--gold-l); margin: 40px 0 34px; }
 .cl-p3 { font-size: 42px; font-style: italic; line-height: 1.3; color: var(--on); }
 .cl-p3 b { font-weight: 600; color: var(--gold-l); }
+
+/* ==== Two ahadith side by side on the green field ==== */
+.sn-k { position: absolute; left: 0; width: 1920px; top: 230px; text-align: center; font-size: 30px; }
+.sn { position: absolute; left: 150px; top: 330px; width: 1620px; display: grid; grid-template-columns: 1fr 1fr; }
+.sn-c { padding: 10px 0 10px 64px; border-left: 1px solid rgba(227, 195, 126, 0.5); text-align: center; }
+.sn-c.first { padding: 10px 64px 10px 0; border-left: none; }
+.sn-ar { font-size: 72px; line-height: 1.75; color: var(--gold-l); text-align: center; }
+.sn-tr { font-size: 40px; font-style: italic; line-height: 1.3; color: var(--paper); margin-top: 26px; }
+.sn-ref { font-size: 24px; letter-spacing: 5px; color: var(--gold-l); margin-top: 24px; }
+
+/* ==== Two ahadith stacked ==== */
+.sn-k.svk { top: 214px; }
+.sn.sv { top: 290px; grid-template-columns: 1fr; width: 1620px; }
+.sn.sv .sn-c, .sn.sv .sn-c.first { padding: 18px 0; border-left: none; }
+.sn.sv .sn-c + .sn-c { border-top: 1px solid rgba(227, 195, 126, 0.5); margin-top: 34px; padding-top: 44px; }
+.sn.sv .sn-ar { font-size: 72px; line-height: 1.6; }
+.sn.sv .sn-tr { font-size: 40px; margin-top: 12px; }
+.sn.sv .sn-ref { margin-top: 12px; }
