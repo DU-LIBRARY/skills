@@ -231,7 +231,7 @@ section.dark-v .ref { color: var(--gold-l); }
 .ht-head { position: absolute; left: 150px; top: 232px; width: 1620px; }
 .ht-h { font-size: 64px; margin-top: 4px; }
 .ht-grid { position: absolute; left: 150px; top: 378px; width: 1620px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; }
-.ht { height: 176px; padding: 18px 30px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; box-shadow: inset 0 0 0 1px rgba(227, 195, 126, 0.35); }
+.ht { height: 162px; padding: 16px 30px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; box-shadow: inset 0 0 0 1px rgba(227, 195, 126, 0.35); }
 .ht-f { font-size: 24px; letter-spacing: 5px; color: var(--gold-l); }
 .ht-n { font-size: 44px; font-weight: 500; line-height: 1.05; color: var(--paper); }
 .ht-d { font-size: 27px; font-style: italic; color: var(--on); }
@@ -245,3 +245,14 @@ section.dark-v .ref { color: var(--gold-l); }
 .hq-a { font-size: 44px; color: var(--paper); text-align: center; }
 .hq-a i { color: var(--gold-l); }
 .hq-a span { font-size: 26px; color: var(--gold-l); }
+
+/* ==== Heritage: the question, then four qualities in ruled columns ==== */
+.hx { position: absolute; left: 150px; top: 742px; width: 1620px; height: 176px; padding-top: 14px; box-sizing: border-box; display: grid; grid-template-columns: 500px 1fr; align-items: center; border-top: 2px solid var(--ink); }
+.hx::before { content: ""; position: absolute; left: 0; top: 4px; width: 1620px; height: 0; border-top: 1px solid var(--ink); }
+.hx-k { font-size: 24px; letter-spacing: 5px; color: var(--gold); }
+.hx-t { font-size: 44px; line-height: 1.1; color: var(--ink); margin-top: 8px; }
+.hx-t i { color: var(--acc); }
+.hx-a { display: grid; grid-template-columns: repeat(4, 1fr); height: 130px; }
+.hx-c { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 12px; text-align: center; border-left: 2px solid var(--rule); }
+.hx-d { font-size: 22px; color: var(--gold); }
+.hx-w { font-size: 38px; font-style: italic; line-height: 1.1; color: var(--acc); margin-top: 6px; }
