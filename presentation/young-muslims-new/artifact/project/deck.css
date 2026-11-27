@@ -332,3 +332,12 @@ section#classrooms .band-t { font-size: 60px; }
 .sn.sv .sn-ref { margin-top: 12px; }
 
 .bd-ref { position: absolute; left: 0; width: 1920px; top: 676px; text-align: center; }
+
+/* ==== Bedouin, simplified ==== */
+.bs { position: absolute; left: 160px; top: 400px; width: 1600px; text-align: center; }
+.bs-a { font-size: 46px; font-style: italic; color: var(--soft); }
+.bs-a i { color: var(--acc); }
+.bs-d { font-size: 28px; color: var(--gold); margin: 22px 0; }
+.bs-b { font-size: 76px; font-weight: 500; color: var(--ink); }
+.bs-b i { color: var(--acc); }
+.bs-ref { margin-top: 26px; }
