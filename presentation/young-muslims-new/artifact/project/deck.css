@@ -282,3 +282,13 @@ section.herit .folio { left: 580px; }
 .cq-dot { font-style: normal; font-size: 30px; vertical-align: middle; }
 .cq-b { font-size: 84px; font-weight: 500; line-height: 1.1; color: var(--paper); }
 .cq-b i { color: var(--gold-l); }
+
+/* ==== Classrooms: the five roles in a ruled row, the question finished on the band ==== */
+.cr-top { top: 258px; }
+.cr-h { font-size: 96px; }
+.cr-row { position: absolute; left: 150px; top: 500px; width: 1620px; display: grid; grid-template-columns: repeat(5, 1fr); border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
+.cr-c { padding: 34px 10px 38px; text-align: center; border-left: 2px solid var(--rule); }
+.cr-c.first { border-left: none; }
+.cr-n { font-size: 28px; color: var(--gold); }
+.cr-w { font-size: 48px; font-style: italic; color: var(--acc); margin-top: 8px; }
+section#classrooms .band-t { font-size: 60px; }
