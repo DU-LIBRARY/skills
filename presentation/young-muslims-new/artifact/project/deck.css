@@ -330,3 +330,5 @@ section#classrooms .band-t { font-size: 60px; }
 .sn.sv .sn-ar { font-size: 72px; line-height: 1.6; }
 .sn.sv .sn-tr { font-size: 40px; margin-top: 12px; }
 .sn.sv .sn-ref { margin-top: 12px; }
+
+.bd-ref { position: absolute; left: 0; width: 1920px; top: 676px; text-align: center; }
