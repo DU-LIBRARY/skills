@@ -22,7 +22,9 @@
   "faith",
   "questions",
   "purpose",
-  "musab"
+  "musab",
+  "knowledge",
+  "iqra"
  ],
  "sections": {
   "s1": {
@@ -40,6 +42,10 @@
   "s4": {
    "description": "Pillar one: Strong in Faith, our Islamic identity.",
    "start": "faith"
+  },
+  "s5": {
+   "description": "Pillar two: Seekers of Knowledge, our scholarly identity.",
+   "start": "knowledge"
   }
  },
  "faces": {
