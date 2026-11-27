@@ -226,3 +226,15 @@ section.dark-v .ref { color: var(--gold-l); }
 .ss-story { font-size: 38px; font-style: italic; line-height: 1.3; color: var(--soft); margin-top: 34px; }
 .ss-arrow { font-size: 26px; color: var(--gold); margin-top: 22px; }
 .ss-became { font-size: 60px; font-style: italic; color: var(--acc); margin-top: 14px; }
+
+/* ==== Intellectual heritage: tiles in the pillars' greens ==== */
+.ht-head { position: absolute; left: 150px; top: 232px; width: 1620px; }
+.ht-h { font-size: 64px; margin-top: 4px; }
+.ht-grid { position: absolute; left: 150px; top: 378px; width: 1620px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; }
+.ht { height: 190px; padding: 22px 30px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; box-shadow: inset 0 0 0 1px rgba(227, 195, 126, 0.35); }
+.ht-f { font-size: 24px; letter-spacing: 5px; color: var(--gold-l); }
+.ht-n { font-size: 44px; font-weight: 500; line-height: 1.05; color: var(--paper); }
+.ht-d { font-size: 27px; font-style: italic; color: var(--on); }
+.ht-strip { position: absolute; left: 150px; top: 792px; width: 1620px; height: 104px; display: flex; align-items: center; justify-content: center; border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
+.ht-s { font-size: 36px; color: var(--ink); text-align: center; }
+.ht-s i { color: var(--acc); }
