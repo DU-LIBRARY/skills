@@ -304,3 +304,11 @@ section#classrooms .band-t { font-size: 60px; }
 .cl-pan { position: absolute; left: 1340px; top: 84px; width: 440px; height: 912px; display: flex; flex-direction: column; justify-content: center; }
 .cl-p1 { font-size: 50px; line-height: 1.15; color: var(--paper); }
 .cl-p2 { font-size: 104px; font-style: italic; line-height: 1.1; color: var(--gold-l); margin-top: 14px; }
+
+/* ==== Classrooms panel, rephrased ==== */
+.cl-k { font-size: 24px; letter-spacing: 5px; color: var(--gold-l); }
+.cl-big { font-size: 118px; line-height: 1; font-weight: 500; color: var(--paper); margin-top: 18px; }
+.cl-big i { color: var(--gold-l); }
+.cl-rule { width: 110px; height: 2px; background: var(--gold-l); margin: 40px 0 34px; }
+.cl-p3 { font-size: 42px; font-style: italic; line-height: 1.3; color: var(--on); }
+.cl-p3 b { font-weight: 600; color: var(--gold-l); }
