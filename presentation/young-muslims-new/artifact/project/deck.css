@@ -170,7 +170,7 @@ section.purpose .folio { left: 1280px; }
 section.musab .folio { left: 515px; }
 
 /* ==== Cover ==== */
-section.cover { background: #17433A; }
+section.cover { background: #102F29; }
 .cv-frame { position: absolute; left: 56px; top: 56px; width: 1808px; height: 968px; box-sizing: border-box; border: 2px solid #C9A85F; }
 .cv-logo { position: absolute; left: 130px; top: 120px; width: 170px; height: 155px; }
 .cv-ttl { position: absolute; left: 140px; top: 330px; width: 1600px; font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 176px; line-height: 1; letter-spacing: -1.5px; color: #F3EDE0; }
