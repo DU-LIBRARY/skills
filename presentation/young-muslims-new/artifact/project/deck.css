@@ -370,3 +370,18 @@ section#classrooms .band-t { font-size: 60px; }
 .bp-q b { font-weight: 600; color: var(--paper); }
 section.bedo .folio { left: 470px; }
 .bp-foot { position: absolute; left: 0; top: 590px; width: 640px; padding-top: 26px; border-top: 1px solid rgba(227, 195, 126, 0.5); font-size: 34px; font-style: italic; line-height: 1.3; color: var(--gold-l); }
+
+/* ==== Ask ourselves: a deep panel on the left, the questions in a numbered ruled list ==== */
+.ax-p { position: absolute; left: 84px; top: 84px; width: 640px; height: 912px; background: #102F29; }
+.ax-in { position: absolute; left: 150px; top: 300px; width: 520px; }
+.ax-h { font-size: 120px; font-weight: 500; line-height: 1; color: var(--paper); margin-top: 18px; }
+.ax-h i { color: var(--gold-l); }
+.ax-rule { width: 110px; height: 2px; background: var(--gold-l); margin: 44px 0 32px; }
+.ax-f { font-size: 36px; font-style: italic; line-height: 1.35; color: var(--on); }
+.ax-rh { position: absolute; left: 800px; top: 126px; width: 970px; text-align: right; font-size: 24px; letter-spacing: 4px; color: var(--mute); }
+.ax-list { position: absolute; left: 800px; top: 214px; width: 970px; border-top: 2px solid var(--ink); }
+.ax-r { display: grid; grid-template-columns: 96px 1fr; align-items: center; height: 112px; border-bottom: 2px solid var(--rule); }
+.ax-n { font-size: 52px; font-style: italic; color: var(--gold); }
+.ax-q { font-size: 36px; line-height: 1.2; color: var(--ink); }
+.ax-q i { color: var(--acc); }
+section.askx .folio { left: 1185px; }
