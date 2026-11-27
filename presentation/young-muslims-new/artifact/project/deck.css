@@ -203,3 +203,18 @@ section.dark-v .yo-ar { color: var(--gold-l); }
 section.dark-v .yo-tr { color: var(--paper); }
 section.dark-v .yo-tr b { color: var(--gold-l); }
 section.dark-v .ref { color: var(--gold-l); }
+
+/* ==== Two scholars side by side ==== */
+.sc-k0 { position: absolute; left: 0; width: 1920px; top: 214px; text-align: center; }
+.sc-duo { position: absolute; left: 150px; top: 276px; width: 1620px; display: grid; grid-template-columns: 1fr 1fr; }
+.sc-col { padding: 0 0 0 56px; border-left: 2px solid var(--rule); }
+.sc-col.first { padding: 0 56px 0 0; border-left: none; }
+.sc-name { font-size: 56px; font-weight: 500; line-height: 1.1; color: var(--ink); }
+.sc-name i { color: var(--acc); }
+.sc-hon { font-size: 30px; font-style: italic; color: var(--gold); margin-top: 4px; }
+.sc-rows { margin-top: 24px; }
+.sc-row { display: grid; grid-template-columns: 220px 1fr; align-items: baseline; padding: 14px 0; border-top: 2px solid var(--rule); }
+.sc-row.last { border-bottom: 2px solid var(--rule); }
+.sc-k { font-size: 24px; letter-spacing: 4px; color: var(--acc); }
+.sc-v { font-size: 32px; line-height: 1.25; color: var(--ink); }
+.sc-v i { color: var(--acc); }
