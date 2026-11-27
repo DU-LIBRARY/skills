@@ -292,3 +292,15 @@ section.herit .folio { left: 580px; }
 .cr-n { font-size: 28px; color: var(--gold); }
 .cr-w { font-size: 48px; font-style: italic; color: var(--acc); margin-top: 8px; }
 section#classrooms .band-t { font-size: 60px; }
+
+/* ==== Classrooms, split: the roles on the paper, the turn on the green panel ==== */
+.cl-left { position: absolute; left: 150px; top: 232px; width: 1060px; }
+.cl-h { font-size: 76px; }
+.cl-list { margin-top: 30px; }
+.cl-r { display: grid; grid-template-columns: 70px 1fr; align-items: baseline; padding: 10px 0; border-top: 2px solid var(--rule); }
+.cl-r:last-child { border-bottom: 2px solid var(--rule); }
+.cl-n { font-size: 28px; color: var(--gold); }
+.cl-w { font-size: 50px; font-style: italic; color: var(--acc); }
+.cl-pan { position: absolute; left: 1340px; top: 84px; width: 440px; height: 912px; display: flex; flex-direction: column; justify-content: center; }
+.cl-p1 { font-size: 50px; line-height: 1.15; color: var(--paper); }
+.cl-p2 { font-size: 104px; font-style: italic; line-height: 1.1; color: var(--gold-l); margin-top: 14px; }
